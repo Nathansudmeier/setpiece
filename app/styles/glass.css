@@ -1,0 +1,293 @@
+/* Setpiece — liquid glass laag. Bewuste afwijking van het "geen blur"-uitgangspunt
+   op verzoek: glas en beweging blijven binnen het merkpalet (nacht/perkament/indigo,
+   amber alleen als accent) en het cirkelmotief. */
+
+/* ===== Glazen navigatiebalken ===== */
+.sp-nav {
+  background: linear-gradient(180deg, rgba(245, 242, 236, 0.6), rgba(245, 242, 236, 0.42));
+  -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.05);
+  backdrop-filter: blur(28px) saturate(1.9) brightness(1.05);
+  border-bottom-color: rgba(15, 42, 82, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.xp-nav.is-scrolled {
+  background: linear-gradient(180deg, rgba(15, 42, 82, 0.5), rgba(15, 42, 82, 0.34));
+  -webkit-backdrop-filter: blur(28px) saturate(1.9) brightness(1.08);
+  backdrop-filter: blur(28px) saturate(1.9) brightness(1.08);
+  box-shadow: inset 0 1px 0 rgba(245, 242, 236, 0.14);
+}
+
+/* ===== Menuknop (altijd zichtbaar) ===== */
+.gl-menubtn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 9px 16px; border-radius: var(--radius-pill); cursor: pointer;
+  font-family: var(--font-display); font-weight: 700; font-size: 13px; letter-spacing: 0.02em;
+  transition: background-color var(--duration-standard) var(--ease-standard),
+              transform var(--duration-standard) var(--ease-standard);
+}
+.gl-menubtn:active { transform: scale(0.97); }
+.gl-menubtn svg { display: block; }
+.gl-menubtn .l2 { transition: transform 0.25s var(--ease-snap); }
+.gl-menubtn:hover .l2 { transform: translateX(3px); }
+.gl-menubtn--light {
+  border: 1px solid rgba(15, 42, 82, 0.14); background: rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  backdrop-filter: blur(12px) saturate(1.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+  color: var(--color-nacht);
+}
+.gl-menubtn--light:hover { background: rgba(15, 42, 82, 0.08); }
+.gl-menubtn--dark {
+  border: 1px solid rgba(245, 242, 236, 0.22); background: rgba(245, 242, 236, 0.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  backdrop-filter: blur(12px) saturate(1.6);
+  box-shadow: inset 0 1px 0 rgba(245, 242, 236, 0.28), inset 0 -1px 0 rgba(245, 242, 236, 0.08);
+  color: var(--color-perkament);
+}
+.gl-menubtn--dark:hover { background: rgba(245, 242, 236, 0.18); }
+
+/* ===== Fullscreen liquid-glass menu ===== */
+.gl-menu {
+  position: fixed; inset: 0; z-index: 120; overflow: hidden;
+  display: flex; flex-direction: column;
+  padding: 16px clamp(20px, 5vw, 56px) 32px;
+  background: linear-gradient(160deg, rgba(15, 42, 82, 0.6) 0%, rgba(15, 42, 82, 0.72) 55%, rgba(10, 30, 60, 0.78) 100%);
+  -webkit-backdrop-filter: blur(48px) saturate(2) brightness(1.1);
+  backdrop-filter: blur(48px) saturate(2) brightness(1.1);
+}
+.gl-menu::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 22%, transparent 42%),
+    radial-gradient(120% 60% at 85% -10%, rgba(245, 242, 236, 0.12), transparent 60%);
+}
+.gl-menu::after {
+  content: ''; position: absolute; inset: 10px; pointer-events: none; z-index: 1;
+  border-radius: var(--radius-xl); border: 1px solid rgba(245, 242, 236, 0.14);
+  box-shadow: inset 0 1px 0 rgba(245, 242, 236, 0.18), inset 0 -18px 40px rgba(10, 30, 60, 0.35);
+}
+.gl-menu__top, .gl-menu__links, .gl-menu__foot { z-index: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .gl-menu {
+    clip-path: circle(0px at calc(100% - 60px) 44px);
+    animation: gl-open 0.65s var(--ease-standard) forwards;
+  }
+}
+@keyframes gl-open { to { clip-path: circle(142% at calc(100% - 60px) 44px); } }
+
+.gl-menu__bg { position: absolute; inset: 0; pointer-events: none; }
+.gl-menu__blob {
+  position: absolute; display: block; filter: blur(52px); will-change: border-radius, transform;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gl-menu__blob { animation: gl-drift 13s ease-in-out infinite alternate; }
+  .gl-menu__blob--2 { animation-duration: 17s; animation-delay: -6s; }
+  .gl-menu__blob--3 { animation-duration: 11s; animation-delay: -3s; }
+}
+.gl-menu__blob--1 {
+  width: 72vmin; height: 72vmin; top: -20vmin; left: -14vmin;
+  background: var(--color-indigo); opacity: 0.55;
+  border-radius: 58% 42% 55% 45% / 48% 60% 40% 52%;
+}
+.gl-menu__blob--2 {
+  width: 54vmin; height: 54vmin; bottom: -16vmin; right: 2vmin;
+  background: var(--color-perkament); opacity: 0.2;
+  border-radius: 45% 55% 48% 52% / 55% 43% 57% 45%;
+}
+.gl-menu__blob--3 {
+  width: 32vmin; height: 32vmin; top: 30%; right: 24%;
+  background: var(--color-amber); opacity: 0.3;
+  border-radius: 52% 48% 60% 40% / 45% 55% 45% 55%;
+}
+@keyframes gl-drift {
+  0%   { transform: translate(0, 0) scale(1); border-radius: 58% 42% 55% 45% / 48% 60% 40% 52%; }
+  50%  { transform: translate(4vmin, -3vmin) scale(1.08); border-radius: 45% 55% 42% 58% / 60% 42% 58% 40%; }
+  100% { transform: translate(-3vmin, 4vmin) scale(0.96); border-radius: 52% 48% 60% 40% / 42% 58% 44% 56%; }
+}
+.gl-menu__ring { position: absolute; left: -70px; bottom: -70px; opacity: 0.35; }
+
+.gl-menu__top {
+  position: relative; display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 16px;
+}
+.gl-menu__top img { height: 24px; }
+.gl-menu__close {
+  width: 44px; height: 44px; border-radius: 50%; padding: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(245, 242, 236, 0.24); background: rgba(245, 242, 236, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(245, 242, 236, 0.3);
+  color: var(--color-perkament);
+  transition: background-color var(--duration-standard) var(--ease-standard),
+              transform 0.3s var(--ease-snap);
+}
+.gl-menu__close:hover { background: rgba(245, 242, 236, 0.16); transform: rotate(90deg); }
+
+.gl-menu__links {
+  position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center;
+  gap: clamp(2px, 1vh, 10px);
+}
+.gl-menu__links a {
+  position: relative; display: flex; align-items: baseline; gap: 18px;
+  width: fit-content; max-width: 100%;
+  padding: 2px 0 2px 40px; text-decoration: none;
+  transition: transform 0.35s var(--ease-snap);
+}
+.gl-menu__links a::before {
+  content: ''; position: absolute; left: 0; top: 50%; width: 15px; height: 15px;
+  margin-top: -7px; border-radius: 50%; background: var(--color-amber);
+  transform: scale(0); transition: transform 0.35s var(--ease-snap);
+}
+.gl-menu__links a:hover, .gl-menu__links a:focus-visible { transform: translateX(16px); outline: none; }
+.gl-menu__links a:hover::before, .gl-menu__links a:focus-visible::before,
+.gl-menu__links a.is-active::before { transform: scale(1); }
+.gl-menu__num {
+  font-family: var(--font-body); font-weight: 500; font-size: 13px;
+  letter-spacing: var(--tracking-tag); color: var(--color-amber); flex: none;
+}
+.gl-menu__word {
+  font-family: var(--font-display); font-weight: 800; letter-spacing: var(--tracking-display);
+  font-size: clamp(2.4rem, 8vh, 5.25rem); line-height: 1.06;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(245, 242, 236, 0.55);
+  transition: color 0.3s var(--ease-standard), -webkit-text-stroke-color 0.3s var(--ease-standard);
+}
+.gl-menu__links a:hover .gl-menu__word,
+.gl-menu__links a:focus-visible .gl-menu__word,
+.gl-menu__links a.is-active .gl-menu__word {
+  color: var(--color-perkament); -webkit-text-stroke-color: transparent;
+}
+@supports not (-webkit-text-stroke: 1px black) {
+  .gl-menu__word { color: rgba(245, 242, 236, 0.6); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gl-menu__links a {
+    opacity: 0; transform: translateY(56px) rotate(1.5deg); transform-origin: 0 100%;
+    animation: gl-link-in 0.6s var(--ease-standard) forwards;
+    animation-delay: calc(0.22s + var(--i, 0) * 0.07s);
+  }
+  .gl-menu__links a:hover, .gl-menu__links a:focus-visible {
+    transform: translateX(16px);
+  }
+}
+@keyframes gl-link-in { to { opacity: 1; transform: translateY(0) rotate(0deg); } }
+
+.gl-menu__foot {
+  position: relative; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding-top: 20px; border-top: 1px solid var(--border-on-dark);
+  font-family: var(--font-body); font-size: 14px; color: var(--text-secondary-on-dark);
+}
+.gl-menu__foot a { color: var(--color-perkament); text-decoration: none; margin-left: auto; }
+.gl-menu__foot a:hover { color: var(--color-amber); }
+.gl-menu__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--color-amber); flex: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .gl-menu__dot { animation: gl-pulse 2.2s ease-in-out infinite; }
+  .gl-menu__foot { opacity: 0; animation: gl-link-in 0.5s 0.55s var(--ease-standard) forwards; }
+}
+@keyframes gl-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-amber-a20, rgba(232, 160, 32, 0.2)); }
+  50% { box-shadow: 0 0 0 7px rgba(232, 160, 32, 0.18); }
+}
+
+/* ===== Vloeibare cirkels (hero's) ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .gl-liquid { animation: gl-morph 12s ease-in-out infinite alternate; }
+  .gl-liquid--b { animation-duration: 16s; animation-delay: -5s; }
+  .gl-liquid--c { animation-duration: 9s; animation-delay: -2s; }
+}
+@keyframes gl-morph {
+  0%   { border-radius: 50%; }
+  35%  { border-radius: 56% 44% 52% 48% / 46% 58% 42% 54%; }
+  70%  { border-radius: 44% 56% 46% 54% / 56% 44% 58% 42%; }
+  100% { border-radius: 52% 48% 58% 42% / 44% 56% 44% 56%; }
+}
+.gl-heroblobs { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.gl-heroblob { position: absolute; display: block; filter: blur(56px); }
+@media (prefers-reduced-motion: no-preference) {
+  .gl-heroblob { animation: gl-drift 15s ease-in-out infinite alternate; }
+  .gl-heroblob--2 { animation-duration: 19s; animation-delay: -7s; }
+}
+.gl-heroblob--1 {
+  width: 46vmin; height: 46vmin; top: -12vmin; right: -8vmin;
+  background: var(--color-indigo); opacity: 0.3;
+  border-radius: 58% 42% 55% 45% / 48% 60% 40% 52%;
+}
+.gl-heroblob--2 {
+  width: 30vmin; height: 30vmin; bottom: -10vmin; left: 8vmin;
+  background: var(--color-perkament); opacity: 0.08;
+  border-radius: 45% 55% 48% 52% / 55% 43% 57% 45%;
+}
+
+/* ===== Glazen panelen ===== */
+.xp-play__panel {
+  background: linear-gradient(150deg, rgba(245, 242, 236, 0.16), rgba(245, 242, 236, 0.06));
+  -webkit-backdrop-filter: blur(30px) saturate(1.8) brightness(1.15);
+  backdrop-filter: blur(30px) saturate(1.8) brightness(1.15);
+  border: 1px solid rgba(245, 242, 236, 0.26);
+  box-shadow: inset 0 1px 0 rgba(245, 242, 236, 0.32), inset 0 -14px 28px rgba(10, 30, 60, 0.25), var(--shadow-lg);
+  position: absolute; overflow: hidden;
+}
+.xp-play__panel::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 30%, transparent 55%);
+}
+.xp-play__panel > * { position: relative; }
+.xp-play__panel-title { color: var(--color-perkament); }
+.xp-play__panel-body { color: var(--text-secondary-on-dark); }
+.xp-plan__detail-card {
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.32));
+  -webkit-backdrop-filter: blur(24px) saturate(1.6) brightness(1.04);
+  backdrop-filter: blur(24px) saturate(1.6) brightness(1.04);
+  border-color: rgba(15, 42, 82, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), inset 0 -12px 26px rgba(15, 42, 82, 0.05), var(--shadow-sm);
+  position: relative; overflow: hidden;
+}
+.xp-plan__detail-card::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 32%, transparent 55%);
+}
+.xp-plan__detail-card > * { position: relative; }
+.sp-contact-card::before, .sp-contact-card::after {
+  content: ''; position: absolute; filter: blur(56px); pointer-events: none;
+}
+.sp-contact-card::before {
+  width: 460px; height: 460px; top: -180px; left: -140px;
+  background: var(--color-indigo); opacity: 0.5;
+  border-radius: 58% 42% 55% 45% / 48% 60% 40% 52%;
+}
+.sp-contact-card::after {
+  width: 320px; height: 320px; bottom: -140px; right: -100px;
+  background: var(--color-perkament); opacity: 0.14;
+  border-radius: 45% 55% 48% 52% / 55% 43% 57% 45%;
+}
+.sp-contact-glass {
+  position: absolute; inset: 18px; z-index: 0; pointer-events: none;
+  border-radius: calc(var(--radius-xl) - 8px);
+  background: linear-gradient(160deg, rgba(245, 242, 236, 0.1), rgba(245, 242, 236, 0.03));
+  -webkit-backdrop-filter: blur(22px) saturate(1.7) brightness(1.1);
+  backdrop-filter: blur(22px) saturate(1.7) brightness(1.1);
+  border: 1px solid rgba(245, 242, 236, 0.18);
+  box-shadow: inset 0 1px 0 rgba(245, 242, 236, 0.24), inset 0 -16px 32px rgba(10, 30, 60, 0.3);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sp-contact-card::before { animation: gl-drift 14s ease-in-out infinite alternate; }
+  .sp-contact-card::after { animation: gl-drift 18s ease-in-out infinite alternate; animation-delay: -6s; }
+}
+.sp-contact-card > * { position: relative; z-index: 1; }
+
+/* ===== Extravagantere reveals ===== */
+[data-reveal] {
+  opacity: 0; transform: translateY(42px) scale(0.985); filter: blur(10px);
+  transition: opacity 0.8s var(--ease-standard), transform 0.8s var(--ease-standard),
+              filter 0.8s var(--ease-standard);
+}
+[data-reveal].is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+}
+
+/* Hero-regels: rijzen met lichte rotatie */
+@media (prefers-reduced-motion: no-preference) {
+  .xp-hero__line span { transform: translateY(115%) rotate(2.5deg); transform-origin: 0 100%; }
+}
+@keyframes xp-rise { to { transform: translateY(0) rotate(0deg); } }

@@ -1,0 +1,169 @@
+/* Setpiece — Color tokens
+   Base palette from Setpiece_Brand_Guidelines.pdf (02 Kleurpalet), plus
+   semantic aliases derived for UI use. Amber is an accent — spaarzaam
+   (sparingly): CTAs, highlights, standout numbers. Never a large background. */
+
+:root {
+  /* ---- Base palette (verbatim from brand guide) ---- */
+  --color-nacht: #0f2a52;       /* Nacht — primary navy, hero/header bg, text-on-light */
+  --color-indigo: #1a5cad;      /* Indigo — secondary blue, links, card accents */
+  --color-perkament: #f5f2ec;   /* Perkament — warm off-white, primary light surface */
+  --color-ijsblauw: #f0f4fb;    /* IJsblauw — pale blue, card/UI surface */
+  --color-amber: #e8a020;       /* Amber — accent only: CTAs, highlights, standout numbers */
+
+  /* ---- Tints & shades (derived, for states) ---- */
+  --color-nacht-700: #16386e;   /* nacht, one step lighter — hover on navy */
+  --color-nacht-900: #0a1c38;   /* nacht, one step darker — press on navy */
+  --color-nacht-a08: rgba(15, 42, 82, 0.08);   /* navy wash — subtle borders/dividers on light */
+  --color-nacht-a16: rgba(15, 42, 82, 0.16);
+  --color-nacht-a45: rgba(15, 42, 82, 0.45);   /* scrim / overlay */
+
+  --color-indigo-600: #164e93;  /* indigo — hover */
+  --color-indigo-a12: rgba(26, 92, 173, 0.12);
+
+  --color-amber-600: #cf8d16;  /* amber — hover (darker) */
+  --color-amber-700: #b57a10;  /* amber — press */
+  --color-amber-a20: rgba(232, 160, 32, 0.2);
+
+  --color-perkament-a70: rgba(245, 242, 236, 0.7);
+
+  --color-white: #ffffff;
+
+  /* ---- Semantic surfaces ---- */
+  --surface-page: var(--color-perkament);         /* default light page bg */
+  --surface-page-dark: var(--color-nacht);        /* dark hero / footer bg */
+  --surface-card: var(--color-white);             /* neutral card on light page */
+  --surface-card-tint: var(--color-ijsblauw);     /* tinted card — indigo+ijsblauw combo */
+  --surface-sunken: var(--color-ijsblauw);        /* inset panels, code blocks, quote blocks */
+  --surface-overlay: var(--color-nacht-a45);      /* modal/dialog scrim */
+
+  /* ---- Semantic text ---- */
+  --text-on-light: var(--color-nacht);            /* body/headline text on light surfaces */
+  --text-on-dark: var(--color-perkament);         /* body/headline text on nacht surfaces */
+  --text-secondary-on-light: var(--color-indigo); /* de-emphasized / label text on light */
+  --text-secondary-on-dark: #a9c2e6;              /* de-emphasized text on nacht (tinted perkament) */
+  --text-muted: #5b6b85;                          /* captions, metadata, placeholders */
+  --text-link: var(--color-indigo);
+  --text-link-hover: var(--color-indigo-600);
+
+  /* ---- Semantic borders ---- */
+  --border-subtle: var(--color-nacht-a08);
+  --border-default: var(--color-nacht-a16);
+  --border-on-dark: rgba(245, 242, 236, 0.18);
+
+  /* ---- Accent / interactive ---- */
+  --accent: var(--color-amber);
+  --accent-hover: var(--color-amber-600);
+  --accent-press: var(--color-amber-700);
+  --accent-soft: var(--color-amber-a20);
+
+  --focus-ring: var(--color-indigo);
+}
+/* Setpiece — Type tokens
+   Bricolage Grotesque = display/UI (headlines, wordmark, buttons, subheads).
+   DM Sans = body (paragraphs, labels, nav, forms) — only weights 400/500,
+   the brand guide explicitly calls out "geen 600 of 700" for DM Sans. */
+
+:root {
+  --font-display: var(--font-bricolage), 'Bricolage Grotesque', 'Arial Black', sans-serif;
+  --font-body: var(--font-dm), 'DM Sans', -apple-system, sans-serif;
+
+  /* Weights */
+  --weight-display-regular: 400;
+  --weight-display-semibold: 600;
+  --weight-display-bold: 700;
+  --weight-display-extrabold: 800;
+  --weight-body-regular: 400;
+  --weight-body-medium: 500;
+
+  /* Type scale — sizes verbatim from brand guide (03 Typografie).
+     Fixed at the top of each range; use a smaller override on narrow viewports. */
+  --text-hero: 4.5rem;      /* 60–72px — Bricolage 800 */
+  --text-section: 3rem;      /* 36–48px — Bricolage 800 */
+  --text-subhead: 2rem;      /* 24–32px — Bricolage 700 */
+  --text-body-lg: 1.125rem;   /* 18px */
+  --text-body: 1rem;          /* 16px — DM Sans 400, line-height 1.7 */
+  --text-label: 0.8125rem;    /* 13px */
+  --text-caption: 0.8125rem;  /* 13–14px */
+  --text-tag: 0.6875rem;      /* 11px — DM Sans 700 caps */
+
+  /* Line-heights */
+  --leading-display: 1.08;
+  --leading-body: 1.7;        /* brand guide: DM Sans body regelafstand 1.7 */
+  --leading-label: 1.4;
+
+  /* Letter-spacing */
+  --tracking-display: -0.02em;   /* tight tracking on Bricolage headlines, per wordmark */
+  --tracking-tag: 0.06em;        /* wide tracking on caps tags/badges */
+  --tracking-body: 0;
+}
+/* Setpiece — Spacing, radius, shadow & motion tokens
+   Not specified numerically in the brand guide — derived to fit its flat,
+   confident, moderately-rounded visual language (see readme Visual Foundations). */
+
+:root {
+  /* Spacing — 4px base scale */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-7: 3rem;      /* 48px */
+  --space-8: 4rem;      /* 64px */
+  --space-9: 6rem;      /* 96px */
+  --space-10: 8rem;     /* 128px */
+
+  /* Radius — favicon uses rx=7 on a 32px tile (~22%); UI scale below */
+  --radius-sm: 4px;     /* small buttons, chips — matches email-signature CTA */
+  --radius-md: 8px;     /* inputs, buttons */
+  --radius-lg: 14px;    /* cards */
+  --radius-xl: 22px;    /* hero panels, large media */
+  --radius-pill: 999px; /* badges, tags, the "NIEUW" pill */
+  --radius-icon-tile: 22%; /* favicon/app-icon proportion */
+
+  /* Shadow — flat brand; shadows stay soft and used sparingly, only for
+     truly elevated surfaces (dropdowns, dialogs, popovers) */
+  --shadow-sm: 0 1px 2px rgba(15, 42, 82, 0.06), 0 1px 1px rgba(15, 42, 82, 0.04);
+  --shadow-md: 0 4px 12px rgba(15, 42, 82, 0.10), 0 1px 3px rgba(15, 42, 82, 0.06);
+  --shadow-lg: 0 16px 40px rgba(15, 42, 82, 0.16), 0 4px 12px rgba(15, 42, 82, 0.08);
+
+  /* Motion — two registers.
+     Standard = quick, confident, no bounce (default UI: forms, toggles).
+     Snap = a tactile overshoot for the "set piece" marketing direction —
+     buttons, hero reveals, hover states that should feel like a ball
+     curling into the net rather than a corporate fade. Use snap sparingly,
+     on the moment that matters, not on every hover. */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --ease-snap: cubic-bezier(0.32, 1.56, 0.56, 1); /* @kind other */
+  --duration-fast: 120ms; /* @kind other */
+  --duration-standard: 200ms; /* @kind other */
+  --duration-snap: 420ms; /* @kind other */
+}
+/* Setpiece — minimal, safe base reset/defaults for consumers.
+   Kept intentionally light: this is a brand toolkit, not a full reset lib. */
+
+body {
+  background: var(--surface-page);
+  color: var(--text-on-light);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-weight: var(--weight-body-regular);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+  font-weight: var(--weight-display-extrabold);
+  margin: 0;
+}
+
+a {
+  color: var(--text-link);
+}
+a:hover {
+  color: var(--text-link-hover);
+}
