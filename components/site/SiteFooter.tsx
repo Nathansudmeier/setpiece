@@ -45,7 +45,7 @@ export default function SiteFooter({ mode = "page" }: SiteFooterProps) {
         </div>
         <div className="sp-footer__bottom">
           <span>© 2026 Setpiece — Almere, Nederland — KVK 99116111</span>
-          <a href="mailto:hello@setpiece.nl">hello@setpiece.nl</a>
+          <a href="mailto:hallo@setpiece.nl">hallo@setpiece.nl</a>
         </div>
       </div>
     </footer>

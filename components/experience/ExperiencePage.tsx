@@ -12,14 +12,14 @@ import SiteFooter from "@/components/site/SiteFooter";
 type Audience = "onderneming" | "vereniging";
 
 export default function ExperiencePage() {
-  const [audience, setAudience] = useState<Audience>('onderneming');
-
-  useEffect(() => {
+  const [audience, setAudience] = useState<Audience>(() => {
+    if (typeof window === "undefined") return "onderneming";
     try {
       const stored = localStorage.getItem('sp-audience');
-      if (stored === 'vereniging' || stored === 'onderneming') setAudience(stored);
+      if (stored === 'vereniging' || stored === 'onderneming') return stored;
     } catch { /* geen opslag */ }
-  }, []);
+    return "onderneming";
+  });
 
   useEffect(() => {
     const prev = document.body.style.background;

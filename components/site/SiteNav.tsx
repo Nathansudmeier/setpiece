@@ -25,12 +25,7 @@ type SiteNavProps = {
 export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
-  const [mounted, setMounted] = useState(false);
   const progressRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -80,11 +75,10 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
   }, [open]);
 
   const mailHref =
-    "mailto:hello@setpiece.nl?subject=" + encodeURIComponent("Nieuw project via setpiece.nl");
+    "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Kennismaking via setpiece.nl");
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     setOpen(false);
-    document.body.style.overflow = "";
     if (mode === "home") {
       e.preventDefault();
       onNavigate?.(id);
@@ -105,7 +99,7 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
               window.location.href = mailHref;
             }}
           >
-            Trap af →
+            Plan een kennismaking
           </Button>
           <button
             type="button"
@@ -123,7 +117,7 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
         </div>
       </div>
       <div className="sp-nav__progress" ref={progressRef} aria-hidden="true"></div>
-      {mounted && open &&
+      {open &&
         createPortal(
           <div className="gl-menu" role="dialog" aria-modal="true" aria-label="Menu">
             <div className="gl-menu__bg" aria-hidden="true">
@@ -177,7 +171,7 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
                     key={l.href}
                     href={l.href}
                     style={{ "--i": idx } as React.CSSProperties}
-                    onClick={() => { setOpen(false); document.body.style.overflow = ""; }}
+                    onClick={() => setOpen(false)}
                   >
                     <span className="gl-menu__num">{"0" + (idx + 1)}</span>
                     <span className="gl-menu__word">{l.label}</span>
@@ -188,7 +182,7 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
             <div className="gl-menu__foot">
               <span className="gl-menu__dot" aria-hidden="true"></span>
               <span>Beschikbaar voor nieuwe projecten</span>
-              <a href={mailHref}>hello@setpiece.nl</a>
+              <a href={mailHref}>hallo@setpiece.nl</a>
             </div>
           </div>,
           document.body

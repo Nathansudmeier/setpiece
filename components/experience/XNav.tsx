@@ -16,12 +16,7 @@ export default function XNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
-  const [mounted, setMounted] = useState(false);
   const progressRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -69,12 +64,11 @@ export default function XNav() {
   const go = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     setOpen(false);
-    document.body.style.overflow = "";
     const el = document.getElementById(id);
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" });
   };
 
-  const mailHref = "mailto:hello@setpiece.nl?subject=" + encodeURIComponent("Nieuw project via setpiece.nl");
+  const mailHref = "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Kennismaking via setpiece.nl");
 
   return (
     <header className={`xp-nav ${scrolled || open ? "is-scrolled" : ""}`}>
@@ -84,7 +78,7 @@ export default function XNav() {
         </Link>
         <div className="xp-nav__actions">
           <Button variant="primary" size="sm" onClick={() => { window.location.href = mailHref; }}>
-            Trap af →
+            Plan een kennismaking
           </Button>
           <button
             type="button"
@@ -102,7 +96,7 @@ export default function XNav() {
         </div>
       </div>
       <div className="xp-nav__progress" ref={progressRef} aria-hidden="true"></div>
-      {open && mounted && createPortal(
+      {open && createPortal(
         <div className="gl-menu" role="dialog" aria-modal="true" aria-label="Menu">
           <div className="gl-menu__bg" aria-hidden="true">
             <span className="gl-menu__blob gl-menu__blob--1"></span>
@@ -143,7 +137,7 @@ export default function XNav() {
           <div className="gl-menu__foot">
             <span className="gl-menu__dot" aria-hidden="true"></span>
             <span>Beschikbaar voor nieuwe projecten</span>
-            <a href={mailHref}>hello@setpiece.nl</a>
+            <a href={mailHref}>hallo@setpiece.nl</a>
           </div>
         </div>,
         document.body

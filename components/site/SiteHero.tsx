@@ -96,6 +96,9 @@ type SiteHeroProps = {
 };
 
 export default function SiteHero({ onNavigate }: SiteHeroProps) {
+  const mailHref =
+    "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Kennismaking via setpiece.nl");
+
   return (
     <section className="sp-hero" id="top">
       <div className="gl-heroblobs" aria-hidden="true">
@@ -111,13 +114,17 @@ export default function SiteHero({ onNavigate }: SiteHeroProps) {
           Elke kans voorbereid.<br /><span className="accent">Elke campagne raak.</span>
         </h1>
         <p className="lead" data-reveal style={{ transitionDelay: '120ms' }}>
-          Strategie en digitale identiteit voor ondernemingen en verenigingen. Een goed voorbereide fase wint het duel — daar draait het om.
+          Strategie, campagnes en digitale identiteit voor organisaties die willen groeien zonder losse flodders. Setpiece brengt merk, marketing en uitvoering samen in een helder spelplan.
         </p>
         <div className="sp-hero__ctas" data-reveal style={{ transitionDelay: '180ms' }}>
-          <Button variant="primary" size="lg" onClick={() => { window.location.href = 'mailto:hello@setpiece.nl?subject=' + encodeURIComponent('Nieuw project via setpiece.nl'); }}>
-            Trap af →
+          <Button variant="primary" size="lg" onClick={() => { window.location.href = mailHref; }}>
+            Plan een kennismaking
           </Button>
           <Button variant="on-dark" size="lg" onClick={() => onNavigate?.('cases')}>Bekijk het werk</Button>
+        </div>
+        <div className="sp-trustbar" data-reveal style={{ transitionDelay: '240ms' }}>
+          <span className="sp-trustbar__line" aria-hidden="true"></span>
+          <p>Vertrouwd door organisaties in sport, onderwijs, retail en zakelijke dienstverlening.</p>
         </div>
       </div>
     </section>

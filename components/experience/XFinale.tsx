@@ -15,8 +15,8 @@ export default function XFinale({ audience = 'onderneming' }: { audience: Audien
   const [toastVisible, setToastVisible] = useState(false);
   const [shots, setShots] = useState(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const email = 'hello@setpiece.nl';
-  const mailHref = 'mailto:' + email + '?subject=' + encodeURIComponent(`Nieuw project via setpiece.nl (${audience})`);
+  const email = 'hallo@setpiece.nl';
+  const mailHref = 'mailto:' + email + '?subject=' + encodeURIComponent(`Kennismaking via setpiece.nl (${audience})`);
 
   useEffect(() => {
     return () => {
@@ -54,7 +54,7 @@ export default function XFinale({ audience = 'onderneming' }: { audience: Audien
         </p>
         <div className="xp-finale__ctas">
           <XMagnetic>
-            <Button variant="primary" size="lg" onClick={() => { window.location.href = mailHref; }}>Trap af →</Button>
+            <Button variant="primary" size="lg" onClick={() => { window.location.href = mailHref; }}>Plan een kennismaking</Button>
           </XMagnetic>
           <Button variant="on-dark" size="lg" onClick={copyEmail}>Kopieer e-mailadres</Button>
         </div>

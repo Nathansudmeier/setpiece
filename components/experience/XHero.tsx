@@ -47,11 +47,9 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
   const c1 = useRef<HTMLDivElement | null>(null);
   const c2 = useRef<HTMLDivElement | null>(null);
   const c3 = useRef<HTMLDivElement | null>(null);
-  const [motionOk, setMotionOk] = useState(false);
-
-  useEffect(() => {
-    setMotionOk(!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  }, []);
+  const [motionOk] = useState(() => (
+    typeof window !== "undefined" && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ));
 
   useEffect(() => {
     if (!motionOk) return;
@@ -85,7 +83,7 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
     const el = document.getElementById('spelplan');
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
   };
-  const mailHref = 'mailto:hello@setpiece.nl?subject=' + encodeURIComponent(`Nieuw project via setpiece.nl (${audience})`);
+  const mailHref = 'mailto:hallo@setpiece.nl?subject=' + encodeURIComponent(`Kennismaking via setpiece.nl (${audience})`);
   const shotD = 'M 600 620 C 760 470, 840 260, 640 110';
 
   return (
@@ -158,7 +156,7 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
         </p>
         <div className="xp-hero__ctas xp-enter xp-enter--3">
           <XMagnetic>
-            <Button variant="primary" size="lg" onClick={() => { window.location.href = mailHref; }}>Trap af →</Button>
+            <Button variant="primary" size="lg" onClick={() => { window.location.href = mailHref; }}>Plan een kennismaking</Button>
           </XMagnetic>
           <Button variant="on-dark" size="lg" onClick={goPlan}>Bekijk het spelplan</Button>
         </div>

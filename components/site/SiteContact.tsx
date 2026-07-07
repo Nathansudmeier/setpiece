@@ -20,8 +20,8 @@ export default function SiteContact() {
     };
   }, []);
 
-  const email = "hello@setpiece.nl";
-  const mailHref = "mailto:" + email + "?subject=" + encodeURIComponent("Nieuw project via setpiece.nl");
+  const email = "hallo@setpiece.nl";
+  const mailHref = "mailto:" + email + "?subject=" + encodeURIComponent("Kennismaking via setpiece.nl");
 
   const update = (field: keyof typeof emptyForm) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -65,7 +65,7 @@ export default function SiteContact() {
         <div className="sp-contact-card" data-reveal>
           <span className="sp-contact-glass" aria-hidden="true"></span>
 
-          <p className="sp-eyebrow sp-eyebrow--on-dark" style={{ textAlign: "center" }}>Trap af</p>
+          <p className="sp-eyebrow sp-eyebrow--on-dark" style={{ textAlign: "center" }}>Kennismaking</p>
           <h2 className="sp-h2" style={{ textAlign: "center" }}>Laten we praten over jouw volgende kans.</h2>
 
           {status === "success" ? (
@@ -73,14 +73,14 @@ export default function SiteContact() {
               <span className="sp-form-success__mark" aria-hidden="true">✓</span>
               <p className="sp-form-success__title">Bericht binnen. Bedankt.</p>
               <p className="sp-form-success__msg">
-                We reageren binnen 1 werkdag op {email ? "je aanvraag" : ""}. Liever direct schakelen?{" "}
+                We reageren binnen 1 werkdag op je bericht. Liever direct schakelen?{" "}
                 <a href={mailHref}>Mail ons.</a>
               </p>
             </div>
           ) : (
             <>
               <p className="body">
-                Vertel kort waar je mee bezig bent. We reageren binnen 1 werkdag.
+                Vertel kort waar je staat, waar het schuurt en wat je wilt bereiken. Dan kijken we samen wat de slimste volgende zet is.
               </p>
 
               <form className="sp-contact-form" onSubmit={handleSubmit} noValidate={false}>
@@ -156,10 +156,10 @@ export default function SiteContact() {
 
                 <div className="sp-form-actions">
                   <Button variant="primary" size="lg" type="submit" disabled={submitting}>
-                    {submitting ? "Versturen…" : "Verstuur bericht →"}
+                    {submitting ? "Versturen..." : "Verstuur bericht"}
                   </Button>
                   <span className="email-line">
-                    of mail <a href={mailHref}>{email}</a>
+                    Liever direct mailen? <a href={mailHref}>{email}</a>
                   </span>
                 </div>
               </form>

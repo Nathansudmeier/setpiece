@@ -81,7 +81,7 @@ const PACKAGES = [
 export default function NankaroPage() {
   const nankaroUrl = "https://nankaro.app";
   const mail =
-    "mailto:hello@setpiece.nl?subject=" + encodeURIComponent("Vraag over Nankaro via setpiece.nl");
+    "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Vraag over Nankaro via setpiece.nl");
 
   return (
     <div>
