@@ -13,6 +13,7 @@ export default function SiteFooter({ mode = "page" }: SiteFooterProps) {
     { id: "diensten", label: "Diensten" },
     { id: "werkwijze", label: "Werkwijze" },
     { id: "cases", label: "Cases" },
+    { href: "/nankaro", label: "Nankaro" },
     { href: "/over", label: "Over" },
   ];
   return (

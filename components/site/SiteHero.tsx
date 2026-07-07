@@ -48,22 +48,44 @@ function PitchMotif() {
   return (
     <div className="sp-hero__motif" ref={wrapRef}>
       <svg
-        viewBox="0 0 1200 640" preserveAspectRatio="xMidYMid slice"
+        viewBox="0 0 1200 750" preserveAspectRatio="xMidYMid slice"
         style={{ width: '100%', height: '100%' }}
         aria-hidden="true"
       >
-        <path d="M 0 60 A 60 60 0 0 1 60 0" fill="none" stroke="var(--color-perkament)" strokeOpacity="0.22" strokeWidth="2" />
-        <path d="M 1140 640 A 60 60 0 0 0 1200 580" fill="none" stroke="var(--color-perkament)" strokeOpacity="0.16" strokeWidth="2" />
-        <circle cx="1180" cy="220" r="230" fill="none" stroke="var(--color-perkament)" strokeOpacity="0.14" strokeWidth="1.5" strokeDasharray="3 7" />
-        <circle cx="1180" cy="220" r="230" fill="none" stroke="var(--color-perkament)" strokeOpacity="0.1" strokeWidth="1.5" />
+        {/* Voetbalveld-markeringen (perkament, subtiel). Middencirkel en
+            middellijn staan centraal zodat ze bij elk formaat zichtbaar
+            blijven; de strafschopgebieden mogen op smalle schermen weglopen. */}
+        <g fill="none" stroke="var(--color-perkament)" strokeOpacity="0.16" strokeWidth="2">
+          <rect x="60" y="70" width="1080" height="610" />
+          <line x1="600" y1="70" x2="600" y2="680" />
+          <circle cx="600" cy="375" r="90" />
+          {/* Linker strafschop- en doelgebied */}
+          <rect x="60" y="230" width="150" height="290" />
+          <rect x="60" y="305" width="60" height="140" />
+          <path d="M 210 303 A 90 90 0 0 1 210 447" />
+          {/* Rechter strafschop- en doelgebied */}
+          <rect x="930" y="230" width="150" height="290" />
+          <rect x="1080" y="305" width="60" height="140" />
+          <path d="M 990 303 A 90 90 0 0 0 990 447" />
+          {/* Hoekbogen */}
+          <path d="M 60 88 A 18 18 0 0 1 78 70" />
+          <path d="M 1122 70 A 18 18 0 0 1 1140 88" />
+          <path d="M 60 662 A 18 18 0 0 0 78 680" />
+          <path d="M 1122 680 A 18 18 0 0 0 1140 662" />
+        </g>
+        <circle cx="600" cy="375" r="3.5" fill="var(--color-perkament)" fillOpacity="0.22" />
+        <circle cx="160" cy="375" r="3" fill="var(--color-perkament)" fillOpacity="0.2" />
+        <circle cx="1040" cy="375" r="3" fill="var(--color-perkament)" fillOpacity="0.2" />
+
+        {/* Set piece: het schot dat zichzelf tekent en op de ring landt */}
         <path
           ref={pathRef}
           className="sp-trajectory"
-          d="M 40 520 C 260 560, 420 420, 560 300"
+          d="M 360 560 C 520 540, 660 452, 748 322"
           fill="none" stroke="var(--color-amber)" strokeOpacity="0.85" strokeWidth="2.5" strokeLinecap="round"
         />
-        <circle cx="560" cy="300" r="16" fill="none" stroke="var(--color-amber)" strokeWidth="2" opacity="0.9" />
-        <circle cx="560" cy="300" r="4" fill="var(--color-amber)" />
+        <circle cx="748" cy="316" r="17" fill="none" stroke="var(--color-amber)" strokeWidth="2" opacity="0.9" />
+        <circle cx="748" cy="316" r="4" fill="var(--color-amber)" />
       </svg>
     </div>
   );

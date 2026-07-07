@@ -12,6 +12,11 @@ const SITENAV_LINKS = [
   { id: "contact", label: "Contact" },
 ];
 
+const PAGE_LINKS = [
+  { href: "/nankaro", label: "Nankaro" },
+  { href: "/over", label: "Over" },
+];
+
 type SiteNavProps = {
   mode?: "home" | "page";
   onNavigate?: (id: string) => void;
@@ -165,10 +170,20 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
                   </Link>
                 )
               )}
-              <Link href="/over" style={{ "--i": SITENAV_LINKS.length } as React.CSSProperties}>
-                <span className="gl-menu__num">{"0" + (SITENAV_LINKS.length + 1)}</span>
-                <span className="gl-menu__word">Over</span>
-              </Link>
+              {PAGE_LINKS.map((l, j) => {
+                const idx = SITENAV_LINKS.length + j;
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    style={{ "--i": idx } as React.CSSProperties}
+                    onClick={() => { setOpen(false); document.body.style.overflow = ""; }}
+                  >
+                    <span className="gl-menu__num">{"0" + (idx + 1)}</span>
+                    <span className="gl-menu__word">{l.label}</span>
+                  </Link>
+                );
+              })}
             </nav>
             <div className="gl-menu__foot">
               <span className="gl-menu__dot" aria-hidden="true"></span>

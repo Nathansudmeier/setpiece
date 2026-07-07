@@ -1,0 +1,90 @@
+/* Nankaro-showcasepagina — bouwt voort op de site-tokens en -klassen.
+   Alleen wat de standaardsite nog niet had; kleuren/tracking via tokens. */
+
+.nk-stats {
+  display: flex; flex-wrap: wrap; gap: 40px; margin-top: 40px;
+}
+.nk-stat__num {
+  font-family: var(--font-display); font-weight: 800; font-size: 2.25rem;
+  color: var(--color-amber); line-height: 1;
+}
+.nk-stat__label {
+  font-family: var(--font-body); font-size: 13px; color: var(--text-secondary-on-dark);
+  margin-top: 6px; max-width: 160px;
+}
+
+.nk-hero__ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 40px; }
+
+.nk-intro {
+  font-family: var(--font-body); font-size: 18px; line-height: 1.7;
+  color: var(--text-muted); max-width: 680px; margin: 0 0 8px;
+}
+
+/* Kaartraster: 2 kolommen (doelgroepen), valt terug naar 1 op smal */
+.nk-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 700px) { .nk-grid-2 { grid-template-columns: 1fr; } }
+
+/* Featureclusters: 4 kolommen breed, netjes terugvallend */
+.nk-cluster-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+@media (max-width: 1000px) { .nk-cluster-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .nk-cluster-grid { grid-template-columns: 1fr; } }
+
+.nk-card-title {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
+  color: var(--color-nacht); margin: 0 0 10px;
+}
+.nk-card-sub {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.6;
+  color: var(--text-muted); margin: 0;
+}
+
+/* Lijst met amber punt */
+.nk-list { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.nk-list li {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--text-muted);
+  position: relative; padding-left: 18px;
+}
+.nk-list li::before {
+  content: ''; position: absolute; left: 0; top: 8px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--color-amber);
+}
+
+/* Pakketten */
+.nk-pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 860px) { .nk-pkg-grid { grid-template-columns: 1fr; } }
+.nk-pkg__name {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
+  color: var(--color-nacht); margin: 0;
+}
+.nk-pkg__tagline {
+  font-family: var(--font-body); font-size: 14px; color: var(--color-indigo);
+  margin: 4px 0 0; font-weight: 500;
+}
+.nk-pkg--featured { border-color: var(--color-amber); position: relative; }
+.nk-pkg__flag {
+  position: absolute; top: -11px; left: var(--space-6);
+  background: var(--color-amber); color: var(--color-nacht);
+  font-family: var(--font-body); font-weight: 700; font-size: 11px;
+  letter-spacing: var(--tracking-tag); text-transform: uppercase;
+  padding: 3px 10px; border-radius: var(--radius-pill);
+}
+.nk-pkg__advice {
+  font-family: var(--font-body); font-size: 14px; line-height: 1.7; color: var(--text-muted);
+  max-width: 720px; margin: 28px 0 0;
+}
+
+/* Afsluitende CTA op navy */
+.nk-cta {
+  background: var(--color-nacht); border-radius: var(--radius-xl);
+  padding: 72px 40px; text-align: center; position: relative; overflow: hidden;
+}
+@media (max-width: 760px) { .nk-cta { padding: 56px 24px; } }
+.nk-cta h2 {
+  font-family: var(--font-display); font-weight: 800; font-size: var(--text-section);
+  color: var(--color-perkament); margin: 0 0 16px; line-height: 1.1;
+}
+.nk-cta p {
+  font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  color: var(--text-secondary-on-dark); max-width: 520px; margin: 0 auto 32px;
+}
+.nk-cta__ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }

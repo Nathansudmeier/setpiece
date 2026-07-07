@@ -6,6 +6,7 @@ import "./styles/ds.css";
 import "./styles/site.css";
 import "./styles/experience.css";
 import "./styles/glass.css";
+import "./styles/nankaro.css";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
