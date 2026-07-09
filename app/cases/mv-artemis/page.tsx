@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import { Button, Badge, BigQuote, Card } from "@/components/ds";
+
+const SITE_URL = "https://mv-artemis.nl/";
 
 export const metadata: Metadata = {
   title: "MV Artemis — clubidentiteit door Setpiece",
@@ -96,7 +99,7 @@ export default function MVArtemisPage() {
           </div>
           <div className="nk-hero__ctas" data-reveal style={{ transitionDelay: "240ms" }}>
             <Button variant="primary" size="lg" href="/#contact">Plan een kennismaking</Button>
-            <Button variant="on-dark" size="lg" href="#aanpak">Bekijk de aanpak</Button>
+            <Button variant="on-dark" size="lg" href={SITE_URL}>Bekijk de website →</Button>
           </div>
         </div>
       </section>
@@ -151,8 +154,69 @@ export default function MVArtemisPage() {
         </div>
       </section>
 
-      {/* Waarde per doelgroep */}
+      {/* De clubwebsite */}
       <section className="sp-section">
+        <div className="sp-container">
+          <p className="sp-eyebrow" data-reveal>De clubwebsite</p>
+          <h2 className="sp-h2" data-reveal style={{ transitionDelay: "60ms" }}>
+            De identiteit staat live op mv-artemis.nl.
+          </h2>
+          <p className="nk-intro" data-reveal style={{ transitionDelay: "100ms", maxWidth: 640, marginBottom: 44 }}>
+            Een snelle, herkenbare clubsite met wedstrijden, teams, nieuws en sponsors. Dezelfde
+            ambitieuze toon, van de eerste kop tot de laatste voetnoot.
+          </p>
+
+          <div className="nk-browser" data-reveal>
+            <div className="nk-browser__bar">
+              <span className="nk-browser__dots" aria-hidden="true">
+                <span className="nk-browser__dot" />
+                <span className="nk-browser__dot" />
+                <span className="nk-browser__dot" />
+              </span>
+              <span className="nk-browser__url">mv-artemis.nl</span>
+            </div>
+            <Image
+              className="nk-browser__shot"
+              src="/cases/mv-artemis/hero.jpg"
+              alt="Homepage van mv-artemis.nl met de kop Jouw ambitie, ons doel"
+              width={1600}
+              height={911}
+              sizes="(max-width: 760px) 100vw, 960px"
+              priority
+            />
+          </div>
+
+          <div className="nk-site-grid">
+            <div data-reveal>
+              <Image
+                className="nk-shot"
+                src="/cases/mv-artemis/ambitie.jpg"
+                alt="Sectie Niet als bijzaak, als hoofdzaak op de clubwebsite"
+                width={1600}
+                height={994}
+                sizes="(max-width: 760px) 100vw, 480px"
+              />
+            </div>
+            <div data-reveal style={{ transitionDelay: "80ms" }}>
+              <Image
+                className="nk-shot"
+                src="/cases/mv-artemis/teams.jpg"
+                alt="Teamsectie met MO17, MO20 en Vrouwen 1 op de clubwebsite"
+                width={1600}
+                height={724}
+                sizes="(max-width: 760px) 100vw, 480px"
+              />
+            </div>
+          </div>
+
+          <div data-reveal style={{ marginTop: 36 }}>
+            <Button variant="primary" size="lg" href={SITE_URL}>Bekijk mv-artemis.nl →</Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Waarde per doelgroep */}
+      <section className="sp-section" style={{ background: "var(--surface-card-tint)" }}>
         <div className="sp-container">
           <p className="sp-eyebrow" data-reveal>Waarde</p>
           <h2 className="sp-h2" data-reveal style={{ transitionDelay: "60ms" }}>

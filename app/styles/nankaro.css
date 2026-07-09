@@ -88,3 +88,40 @@
   color: var(--text-secondary-on-dark); max-width: 520px; margin: 0 auto 32px;
 }
 .nk-cta__ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+/* Website-showcase (o.a. MV Artemis): browser-frame en screenshotgrid */
+.nk-browser {
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-lg);
+  background: var(--color-white);
+}
+.nk-browser__bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 16px;
+  background: var(--surface-sunken);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.nk-browser__dots { display: flex; gap: 6px; flex: 0 0 auto; }
+.nk-browser__dot { width: 11px; height: 11px; border-radius: 50%; background: var(--color-nacht-a16); }
+.nk-browser__url {
+  margin: 0 auto; font-family: var(--font-body); font-size: 13px;
+  color: var(--text-muted); background: var(--color-white);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+  padding: 5px 18px; max-width: 60%;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nk-browser__shot { display: block; width: 100%; height: auto; }
+
+.nk-site-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--space-5); margin-top: var(--space-5);
+}
+.nk-shot {
+  display: block; width: 100%; height: auto;
+  border-radius: 14px; border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-md);
+}
+@media (max-width: 760px) {
+  .nk-site-grid { grid-template-columns: 1fr; }
+}
