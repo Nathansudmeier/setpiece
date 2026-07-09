@@ -20,6 +20,18 @@ export default function SiteContact() {
     };
   }, []);
 
+  // De AI-intake kan het formulier voorvullen met de gegeven antwoorden.
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      const detail = (e as CustomEvent<{ message?: string }>).detail;
+      if (!detail?.message) return;
+      setForm((prev) => ({ ...prev, message: detail.message as string }));
+      setStatus("idle");
+    };
+    window.addEventListener("setpiece:prefill-contact", onPrefill);
+    return () => window.removeEventListener("setpiece:prefill-contact", onPrefill);
+  }, []);
+
   const email = "hallo@setpiece.nl";
   const mailHref = "mailto:" + email + "?subject=" + encodeURIComponent("Kennismaking via setpiece.nl");
 
@@ -80,7 +92,7 @@ export default function SiteContact() {
           ) : (
             <>
               <p className="body">
-                Vertel kort waar je staat, waar het schuurt en wat je wilt bereiken. Dan kijken we samen wat de slimste volgende zet is.
+                Vertel kort waar je staat, waar het schuurt en wat je wilt bereiken. Dan kijken we samen wat de slimste volgende zet is. Het eerste gesprek is gratis en vrijblijvend.
               </p>
 
               <form className="sp-contact-form" onSubmit={handleSubmit} noValidate={false}>
@@ -162,6 +174,11 @@ export default function SiteContact() {
                     Liever direct mailen? <a href={mailHref}>{email}</a>
                   </span>
                 </div>
+
+                <p className="sp-form-reassure">
+                  <span className="sp-form-reassure__dot" aria-hidden="true" />
+                  Gratis en vrijblijvend. We reageren binnen 1 werkdag.
+                </p>
               </form>
             </>
           )}

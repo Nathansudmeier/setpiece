@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { Button, Badge } from "@/components/ds";
+
+const HERO_WORK = [
+  { label: "MV Artemis", href: "/cases/mv-artemis" },
+  { label: "Nankaro", href: "/nankaro" },
+  { label: "Set In", href: "/cases/set-in" },
+];
 
 function PitchMotif() {
   const pathRef = useRef<SVGPathElement>(null);
@@ -121,7 +128,14 @@ export default function SiteHero({ onNavigate }: SiteHeroProps) {
         </div>
         <div className="sp-trustbar" data-reveal style={{ transitionDelay: '240ms' }}>
           <span className="sp-trustbar__line" aria-hidden="true"></span>
-          <p>Vertrouwd door organisaties in sport, onderwijs, retail en zakelijke dienstverlening.</p>
+          <p className="sp-trustbar__label">Recent werk</p>
+          <div className="sp-trustbar__work">
+            {HERO_WORK.map((w) => (
+              <Link key={w.label} href={w.href} className="sp-trustbar__client">
+                {w.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>

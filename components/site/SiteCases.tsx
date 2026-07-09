@@ -11,7 +11,7 @@ export default function SiteCases() {
       title: "Set In: een AI-werkomgeving die hun taal spreekt",
       problem: "Waardevolle kennis, maar te veel tijd kwijt aan presentaties, offertes en content.",
       approach: "Een AI-werkomgeving op maat, met training en doorlopende begeleiding.",
-      output: "Routinewerk dat naar de achtergrond verdwijnt, met de mens aan het stuur.",
+      output: "AI-werkomgeving voor 5 soorten output, in 3 fasen ingericht.",
       cta: "Lees case",
     },
     {
@@ -20,7 +20,7 @@ export default function SiteCases() {
       title: "MV Artemis: van ambitie naar herkenbare clubidentiteit",
       problem: "Een jonge vrouwenvoetbalclub met groeiplannen had een herkenbaar verhaal nodig.",
       approach: "Merkverhaal, visuele stijl en communicatiebasis voor bestuur, team en achterban.",
-      output: "Een identiteit die ambitie professioneel en menselijk zichtbaar maakt.",
+      output: "Nieuwe naam, huisstijl, clubsite en app voor 3 teams.",
       cta: "Lees case",
     },
     {
@@ -29,7 +29,7 @@ export default function SiteCases() {
       title: "Nankaro: van idee naar digitaal clubplatform",
       problem: "Een productidee in de sportwereld vroeg om scherpere keuzes en een geloofwaardige basis.",
       approach: "Productstrategie, UX-denken en merkontwikkeling voor een SaaS-platform.",
-      output: "Een digitaal platformconcept met richting, structuur en merkgevoel.",
+      output: "Eén clubplatform met 8 featureclusters en 3 pakketten.",
       cta: "Lees case",
     },
   ];
