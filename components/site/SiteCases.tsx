@@ -6,22 +6,22 @@ import { Badge, Card } from "@/components/ds";
 export default function SiteCases() {
   const cases = [
     {
-      href: "/#contact",
-      tag: "Positionering en content",
-      title: "Setin: van losse content naar commerciële motor",
-      problem: "Veel ideeën, maar te weinig ritme, richting en opvolging.",
-      approach: "Positionering, campagne-aanpak en een AI-ondersteunde contentstructuur.",
-      output: "Een heldere commerciële lijn voor content, campagnes en opvolging.",
-      cta: "Bekijk aanpak",
+      href: "/cases/set-in",
+      tag: "AI-werkomgeving",
+      title: "Set In: een AI-werkomgeving die hun taal spreekt",
+      problem: "Waardevolle kennis, maar te veel tijd kwijt aan presentaties, offertes en content.",
+      approach: "Een AI-werkomgeving op maat, met training en doorlopende begeleiding.",
+      output: "Routinewerk dat naar de achtergrond verdwijnt, met de mens aan het stuur.",
+      cta: "Lees case",
     },
     {
-      href: "/#contact",
+      href: "/cases/mv-artemis",
       tag: "Clubidentiteit",
       title: "MV Artemis: van ambitie naar herkenbare clubidentiteit",
       problem: "Een jonge vrouwenvoetbalclub met groeiplannen had een herkenbaar verhaal nodig.",
       approach: "Merkverhaal, visuele stijl en communicatiebasis voor bestuur, team en achterban.",
       output: "Een identiteit die ambitie professioneel en menselijk zichtbaar maakt.",
-      cta: "Bekijk aanpak",
+      cta: "Lees case",
     },
     {
       href: "/nankaro",
