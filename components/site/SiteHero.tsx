@@ -96,9 +96,6 @@ type SiteHeroProps = {
 };
 
 export default function SiteHero({ onNavigate }: SiteHeroProps) {
-  const mailHref =
-    "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Kennismaking via setpiece.nl");
-
   return (
     <section className="sp-hero" id="top">
       <div className="gl-heroblobs" aria-hidden="true">
@@ -117,7 +114,7 @@ export default function SiteHero({ onNavigate }: SiteHeroProps) {
           Strategie, campagnes en digitale identiteit voor organisaties die willen groeien zonder losse flodders. Setpiece brengt merk, marketing en uitvoering samen in een helder spelplan.
         </p>
         <div className="sp-hero__ctas" data-reveal style={{ transitionDelay: '180ms' }}>
-          <Button variant="primary" size="lg" onClick={() => { window.location.href = mailHref; }}>
+          <Button variant="primary" size="lg" onClick={() => onNavigate?.('contact')}>
             Plan een kennismaking
           </Button>
           <Button variant="on-dark" size="lg" onClick={() => onNavigate?.('cases')}>Bekijk het werk</Button>

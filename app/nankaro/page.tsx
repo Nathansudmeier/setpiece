@@ -80,8 +80,6 @@ const PACKAGES = [
 
 export default function NankaroPage() {
   const nankaroUrl = "https://nankaro.app";
-  const mail =
-    "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Vraag over Nankaro via setpiece.nl");
 
   return (
     <div>
@@ -115,7 +113,7 @@ export default function NankaroPage() {
           </div>
           <div className="nk-hero__ctas" data-reveal style={{ transitionDelay: "240ms" }}>
             <Button variant="primary" size="lg" href={nankaroUrl}>Bekijk nankaro.app →</Button>
-            <Button variant="on-dark" size="lg" href={mail}>Praat over jouw club</Button>
+            <Button variant="on-dark" size="lg" href="/#contact">Praat over jouw club</Button>
           </div>
         </div>
       </section>
@@ -239,7 +237,7 @@ export default function NankaroPage() {
             </p>
             <div className="nk-cta__ctas">
               <Button variant="primary" size="lg" href={nankaroUrl}>Bekijk nankaro.app →</Button>
-              <Button variant="on-dark" size="lg" href={mail}>Mail Setpiece</Button>
+              <Button variant="on-dark" size="lg" href="/#contact">Neem contact op</Button>
             </div>
           </div>
         </div>

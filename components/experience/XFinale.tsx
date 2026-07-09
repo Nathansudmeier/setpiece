@@ -7,8 +7,8 @@ import { XMagnetic } from "./XHero";
 type Audience = "onderneming" | "vereniging";
 
 const XFINALE_SUBS: Record<Audience, string> = {
-  onderneming: 'Elke kans voorbereid. Nu die van jouw onderneming. Mail rechtstreeks, je krijgt binnen één werkdag antwoord.',
-  vereniging: 'Elke kans voorbereid. Nu die van jouw vereniging. Mail rechtstreeks, je krijgt binnen één werkdag antwoord.',
+  onderneming: 'Elke kans voorbereid. Nu die van jouw onderneming. Stuur je aanvraag, je krijgt binnen één werkdag antwoord.',
+  vereniging: 'Elke kans voorbereid. Nu die van jouw vereniging. Stuur je aanvraag, je krijgt binnen één werkdag antwoord.',
 };
 
 export default function XFinale({ audience = 'onderneming' }: { audience: Audience }) {
@@ -54,7 +54,7 @@ export default function XFinale({ audience = 'onderneming' }: { audience: Audien
         </p>
         <div className="xp-finale__ctas">
           <XMagnetic>
-            <Button variant="primary" size="lg" onClick={() => { window.location.href = mailHref; }}>Plan een kennismaking</Button>
+            <Button variant="primary" size="lg" href="/#contact">Plan een kennismaking</Button>
           </XMagnetic>
           <Button variant="on-dark" size="lg" onClick={copyEmail}>Kopieer e-mailadres</Button>
         </div>

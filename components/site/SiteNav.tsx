@@ -92,15 +92,15 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
           <img src="/logos/setpiece-logo-horizontaal.svg" alt="Setpiece" />
         </Link>
         <div className="sp-nav__actions">
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => {
-              window.location.href = mailHref;
-            }}
-          >
-            Plan een kennismaking
-          </Button>
+          {mode === "home" ? (
+            <Button variant="primary" size="sm" onClick={() => onNavigate?.("contact")}>
+              Plan een kennismaking
+            </Button>
+          ) : (
+            <Button variant="primary" size="sm" href="/#contact">
+              Plan een kennismaking
+            </Button>
+          )}
           <button
             type="button"
             className="gl-menubtn gl-menubtn--light"

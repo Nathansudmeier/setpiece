@@ -27,8 +27,6 @@ export default function SiteCaseDetail({
   sections,
   ctaNote,
 }: SiteCaseDetailProps) {
-  const mailHref =
-    "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Vraag over " + title);
   return (
     <>
       <section className="sp-case-hero">
@@ -61,13 +59,7 @@ export default function SiteCaseDetail({
       </section>
       <section className="sp-case-cta">
         <p>{ctaNote}</p>
-        <Button
-          variant="primary"
-          size="lg"
-          onClick={() => {
-            window.location.href = mailHref;
-          }}
-        >
+        <Button variant="primary" size="lg" href="/#contact">
           Plan een kennismaking
         </Button>
       </section>

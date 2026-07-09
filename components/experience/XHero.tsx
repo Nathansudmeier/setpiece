@@ -83,7 +83,6 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
     const el = document.getElementById('spelplan');
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
   };
-  const mailHref = 'mailto:hallo@setpiece.nl?subject=' + encodeURIComponent(`Kennismaking via setpiece.nl (${audience})`);
   const shotD = 'M 600 620 C 760 470, 840 260, 640 110';
 
   return (
@@ -156,7 +155,7 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
         </p>
         <div className="xp-hero__ctas xp-enter xp-enter--3">
           <XMagnetic>
-            <Button variant="primary" size="lg" onClick={() => { window.location.href = mailHref; }}>Plan een kennismaking</Button>
+            <Button variant="primary" size="lg" href="/#contact">Plan een kennismaking</Button>
           </XMagnetic>
           <Button variant="on-dark" size="lg" onClick={goPlan}>Bekijk het spelplan</Button>
         </div>

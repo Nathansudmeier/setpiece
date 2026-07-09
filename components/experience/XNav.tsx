@@ -77,7 +77,7 @@ export default function XNav() {
           <img src="/logos/setpiece-logo-wit.png" alt="Setpiece" />
         </Link>
         <div className="xp-nav__actions">
-          <Button variant="primary" size="sm" onClick={() => { window.location.href = mailHref; }}>
+          <Button variant="primary" size="sm" href="/#contact">
             Plan een kennismaking
           </Button>
           <button
