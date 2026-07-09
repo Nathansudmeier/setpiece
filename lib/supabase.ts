@@ -1,8 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
-// Browser client voor de Setpiece marketing site. De site is statisch;
-// Supabase staat klaar voor toekomstige features (intake, formulieren).
-export const supabase = createClient(
+// Browserclient (singleton) voor client components, zoals het
+// contactformulier. Deelt de cookie-sessie met de serverkant (/beheer).
+export const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 );
