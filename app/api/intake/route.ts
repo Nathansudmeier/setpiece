@@ -1,30 +1,19 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { cleanText, getClientIp, hasValidOrigin, logPublicEndpoint, requestIsTooLarge } from "@/lib/security/request";
+import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { verifyTurnstile } from "@/lib/security/turnstile";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// Model gecentraliseerd: één regel om te wisselen. Opus 4.8 is de kwaliteits-
-// default; wil je goedkoper/sneller op dit publieke eindpunt, zet dan bijv.
-// "claude-haiku-4-5" of "claude-sonnet-5".
-const MODEL = "claude-opus-4-8";
+const MODEL = process.env.ANTHROPIC_INTAKE_MODEL ?? "claude-haiku-4-5";
+const FALLBACK_MODEL = process.env.ANTHROPIC_INTAKE_FALLBACK_MODEL ?? "claude-sonnet-5";
+const DAILY_LIMIT = Math.max(1, Math.min(500, Number(process.env.INTAKE_DAILY_LIMIT) || 80));
 
 // Invoerlimieten (harde grens tegen misbruik en te grote requests).
-const LIMITS = { type: 80, challenge: 700, goal: 700 };
-
-// Lichte in-memory ratelimiter. Best effort: serverless instances delen dit
-// geheugen niet, dus dit is een eerste drempel, geen sluitende bescherming.
-const HITS = new Map<string, number[]>();
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_PER_WINDOW = 6;
-
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (HITS.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  HITS.set(ip, recent);
-  return recent.length > MAX_PER_WINDOW;
-}
+const LIMITS = { type: 80, challenge: 600, goal: 600 };
 
 const SYSTEM = `Je bent de strateeg van Setpiece, een freelance bureau voor strategie en digitale identiteit uit Almere. Iemand vult op de website drie velden in: wat voor organisatie ze zijn, waar het schuurt en wat ze willen bereiken.
 
@@ -42,18 +31,35 @@ Regels:
 - Samen maximaal ongeveer 130 woorden.
 - Geef alleen het spelplan terug. Geen inleiding, geen meta-uitleg, geen aanhef.`;
 
-function clean(value: unknown, max: number): string {
-  if (typeof value !== "string") return "";
-  return value.replace(/\s+/g, " ").trim().slice(0, max);
+async function generateBriefing(
+  anthropic: Anthropic,
+  model: string,
+  userContent: string,
+  signal: AbortSignal,
+): Promise<string> {
+  const message = await anthropic.messages.create(
+    {
+      model,
+      max_tokens: 240,
+      thinking: { type: "disabled" },
+      system: SYSTEM,
+      messages: [{ role: "user", content: userContent }],
+    },
+    { signal },
+  );
+
+  return message.content
+    .filter((block): block is Anthropic.TextBlock => block.type === "text")
+    .map((block) => block.text)
+    .join("\n")
+    .trim();
 }
 
 export async function POST(request: NextRequest) {
-  const ip = (request.headers.get("x-forwarded-for") ?? "onbekend").split(",")[0].trim();
-  if (rateLimited(ip)) {
-    return NextResponse.json(
-      { error: "Even rustig aan. Probeer het over een paar minuten opnieuw." },
-      { status: 429 },
-    );
+  const startedAt = Date.now();
+  if (!hasValidOrigin(request) || requestIsTooLarge(request)) {
+    logPublicEndpoint("intake", "rejected", startedAt, "invalid_request");
+    return NextResponse.json({ error: "Ongeldige aanvraag." }, { status: 400 });
   }
 
   let body: unknown;
@@ -65,13 +71,15 @@ export async function POST(request: NextRequest) {
 
   const data = body as Record<string, unknown>;
   // Honeypot: bots vullen dit verborgen veld vaak in.
-  if (clean(data.website, 200)) {
+  if (cleanText(data.website, 200)) {
+    logPublicEndpoint("intake", "rejected", startedAt, "honeypot");
     return NextResponse.json({ error: "Aanvraag geweigerd." }, { status: 400 });
   }
 
-  const type = clean(data.type, LIMITS.type);
-  const challenge = clean(data.challenge, LIMITS.challenge);
-  const goal = clean(data.goal, LIMITS.goal);
+  const type = cleanText(data.type, LIMITS.type).replace(/\s+/g, " ");
+  const challenge = cleanText(data.challenge, LIMITS.challenge).replace(/\s+/g, " ");
+  const goal = cleanText(data.goal, LIMITS.goal).replace(/\s+/g, " ");
+  const turnstileToken = cleanText(data.turnstileToken, 2_048);
 
   if (challenge.length < 3 || goal.length < 3) {
     return NextResponse.json(
@@ -88,22 +96,50 @@ export async function POST(request: NextRequest) {
   }
 
   const userContent = `Organisatie: ${type || "niet ingevuld"}\nWaar het schuurt: ${challenge}\nWat ze willen bereiken: ${goal}`;
+  const ip = getClientIp(request);
 
   try {
-    const anthropic = new Anthropic();
-    const message = await anthropic.messages.create({
-      model: MODEL,
-      max_tokens: 700,
-      thinking: { type: "disabled" },
-      system: SYSTEM,
-      messages: [{ role: "user", content: userContent }],
-    });
+    const [ipAllowed, budgetAllowed] = await Promise.all([
+      consumeRateLimit({
+        identifier: `intake:${ip}`,
+        action: "intake_generate",
+        limit: 4,
+        windowSeconds: 15 * 60,
+      }),
+      consumeRateLimit({
+        identifier: "intake:global",
+        action: "intake_daily_budget",
+        limit: DAILY_LIMIT,
+        windowSeconds: 24 * 60 * 60,
+      }),
+    ]);
 
-    const briefing = message.content
-      .filter((block): block is Anthropic.TextBlock => block.type === "text")
-      .map((block) => block.text)
-      .join("\n")
-      .trim();
+    if (!ipAllowed || !budgetAllowed) {
+      logPublicEndpoint("intake", "rejected", startedAt, ipAllowed ? "daily_budget" : "rate_limited");
+      return NextResponse.json(
+        { error: "De intake heeft zijn limiet bereikt. Probeer het later opnieuw of neem contact op." },
+        { status: 429 },
+      );
+    }
+
+    if (!(await verifyTurnstile(turnstileToken, ip, "intake"))) {
+      logPublicEndpoint("intake", "rejected", startedAt, "bot_check");
+      return NextResponse.json(
+        { error: "De beveiligingscontrole lukte niet. Vernieuw de pagina en probeer opnieuw." },
+        { status: 400 },
+      );
+    }
+
+    const anthropic = new Anthropic();
+    const signal = AbortSignal.timeout(15_000);
+    let briefing: string;
+
+    try {
+      briefing = await generateBriefing(anthropic, MODEL, userContent, signal);
+    } catch (error) {
+      if (signal.aborted || !FALLBACK_MODEL || FALLBACK_MODEL === MODEL) throw error;
+      briefing = await generateBriefing(anthropic, FALLBACK_MODEL, userContent, signal);
+    }
 
     if (!briefing) {
       return NextResponse.json(
@@ -112,8 +148,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    logPublicEndpoint("intake", "accepted", startedAt);
     return NextResponse.json({ briefing });
   } catch {
+    logPublicEndpoint("intake", "failed", startedAt, "server_error");
     return NextResponse.json(
       { error: "Het genereren lukte niet. Probeer het opnieuw of mail ons." },
       { status: 502 },

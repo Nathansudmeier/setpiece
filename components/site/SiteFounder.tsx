@@ -1,16 +1,10 @@
-"use client";
-
 import Image from "next/image";
 
 import { Button } from "@/components/ds";
 
-type SiteFounderProps = {
-  onNavigate?: (id: string) => void;
-};
-
 const CREDENTIALS = ["Eén aanspreekpunt", "Senior strateeg", "UEFA B-coach", "Almere"];
 
-export default function SiteFounder({ onNavigate }: SiteFounderProps) {
+export default function SiteFounder() {
   return (
     <section id="mens" className="sp-section sp-founder">
       <div className="sp-container">
@@ -48,15 +42,9 @@ export default function SiteFounder({ onNavigate }: SiteFounderProps) {
             </ul>
 
             <div data-reveal style={{ transitionDelay: "200ms", marginTop: 28 }}>
-              {onNavigate ? (
-                <Button variant="primary" size="md" onClick={() => onNavigate("contact")}>
-                  Plan een kennismaking
-                </Button>
-              ) : (
-                <Button variant="primary" size="md" href="/#contact">
-                  Plan een kennismaking
-                </Button>
-              )}
+              <Button variant="primary" size="md" href="#contact">
+                Plan een kennismaking
+              </Button>
             </div>
           </div>
         </div>

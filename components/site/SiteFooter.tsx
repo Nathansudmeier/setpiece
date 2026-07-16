@@ -1,5 +1,4 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
 
 type SiteFooterProps = {
@@ -21,7 +20,14 @@ export default function SiteFooter({ mode = "page" }: SiteFooterProps) {
       <div className="sp-container">
         <div className="sp-footer__top">
           <div>
-            <img src="/logos/setpiece-logo-wit.png" alt="Setpiece" style={{ height: 24, marginBottom: 12 }} />
+            <Image
+              src="/logos/setpiece-logo-wit.png"
+              alt="Setpiece"
+              width={120}
+              height={24}
+              sizes="120px"
+              className="sp-footer__logo"
+            />
             <p className="sp-footer__desc">Strategie &amp; digitale identiteit voor ondernemingen en verenigingen.</p>
           </div>
           <nav className="sp-footer__links">

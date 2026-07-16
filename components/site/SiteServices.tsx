@@ -1,5 +1,3 @@
-"use client";
-
 import { Card } from "@/components/ds";
 
 export default function SiteServices() {
@@ -84,27 +82,30 @@ export default function SiteServices() {
           <h2 className="sp-h2 sp-h2--compact" data-reveal style={{ transitionDelay: '40ms' }}>
           Zes disciplines, onder één dak.
           </h2>
-          <div className="sp-services-grid">
-            {items.map((it, i) => (
-              <div key={it.title} data-reveal style={{ transitionDelay: `${(i % 3) * 60}ms` }}>
-                <Card variant={i % 2 === 0 ? 'surface' : 'tint'} style={{ height: '100%' }}>
-                  <span className="sp-service-num">{it.n}</span>
-                  <h3 style={{
-                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 22,
-                    color: i % 2 === 0 ? 'var(--color-nacht)' : 'var(--color-indigo)', margin: '0 0 10px',
-                  }}>
-                    {it.title}
-                  </h3>
-                  <p style={{
-                    fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.7,
-                    color: i % 2 === 0 ? 'var(--text-muted)' : 'var(--color-indigo)', margin: 0,
-                  }}>
-                    {it.body}
-                  </p>
-                </Card>
-              </div>
-            ))}
-          </div>
+          <details className="sp-services-details">
+            <summary>Bekijk de zes bouwstenen</summary>
+            <div className="sp-services-grid">
+              {items.map((it, i) => (
+                <div key={it.title} data-reveal style={{ transitionDelay: `${(i % 3) * 60}ms` }}>
+                  <Card variant={i % 2 === 0 ? 'surface' : 'tint'} style={{ height: '100%' }}>
+                    <span className="sp-service-num">{it.n}</span>
+                    <h3 style={{
+                      fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 22,
+                      color: i % 2 === 0 ? 'var(--color-nacht)' : 'var(--color-indigo)', margin: '0 0 10px',
+                    }}>
+                      {it.title}
+                    </h3>
+                    <p style={{
+                      fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.7,
+                      color: i % 2 === 0 ? 'var(--text-muted)' : 'var(--color-indigo)', margin: 0,
+                    }}>
+                      {it.body}
+                    </p>
+                  </Card>
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
 
         <div className="sp-audience" data-reveal>

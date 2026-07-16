@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ds";
@@ -27,7 +28,7 @@ export default async function LoginPage() {
     return (
       <main className="bh-login">
         <div className="bh-login__card">
-          <img
+          <Image
             className="bh-login__logo"
             src="/logos/setpiece-logo-wit.png"
             alt="Setpiece"
@@ -51,7 +52,7 @@ export default async function LoginPage() {
   return (
     <main className="bh-login">
       <div className="bh-login__card">
-        <img
+        <Image
           className="bh-login__logo"
           src="/logos/setpiece-logo-wit.png"
           alt="Setpiece"

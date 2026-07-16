@@ -38,6 +38,18 @@ export default function XPlan({ audience = 'onderneming' }: { audience: Audience
   }, [interacted]);
 
   const pick = (i: number) => { setInteracted(true); setActive(i); };
+  const onTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let next = index;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % XPLAN_ITEMS.length;
+    else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (index - 1 + XPLAN_ITEMS.length) % XPLAN_ITEMS.length;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = XPLAN_ITEMS.length - 1;
+    else return;
+
+    event.preventDefault();
+    pick(next);
+    document.getElementById(`plan-tab-${next}`)?.focus();
+  };
   const item = XPLAN_ITEMS[active];
 
   return (
@@ -89,7 +101,13 @@ export default function XPlan({ audience = 'onderneming' }: { audience: Audience
           </div>
         </div>
         <div className="xp-plan__detail" data-reveal style={{ transitionDelay: '80ms' }}>
-          <div className="xp-plan__detail-card xp-plan__detail-anim" key={item.n}>
+          <div
+            id="plan-panel"
+            className="xp-plan__detail-card xp-plan__detail-anim"
+            key={item.n}
+            role="tabpanel"
+            aria-labelledby={`plan-tab-${active}`}
+          >
             <span className="xp-plan__detail-num">{item.n} / 06</span>
             <h3 className="xp-plan__detail-title">{item.title}</h3>
             <p className="xp-plan__detail-body">{item.body}</p>
@@ -99,11 +117,15 @@ export default function XPlan({ audience = 'onderneming' }: { audience: Audience
               <button
                 key={it.n}
                 type="button"
+                id={`plan-tab-${i}`}
                 role="tab"
                 aria-selected={active === i}
+                aria-controls="plan-panel"
                 aria-label={it.title}
+                tabIndex={active === i ? 0 : -1}
                 className={active === i ? 'is-active' : ''}
                 onClick={() => pick(i)}
+                onKeyDown={(event) => onTabKeyDown(event, i)}
               ></button>
             ))}
           </div>

@@ -12,14 +12,18 @@ import SiteFooter from "@/components/site/SiteFooter";
 type Audience = "onderneming" | "vereniging";
 
 export default function ExperiencePage() {
-  const [audience, setAudience] = useState<Audience>(() => {
-    if (typeof window === "undefined") return "onderneming";
+  const [audience, setAudience] = useState<Audience>("onderneming");
+
+  useEffect(() => {
+    let frame = 0;
     try {
       const stored = localStorage.getItem('sp-audience');
-      if (stored === 'vereniging' || stored === 'onderneming') return stored;
+      if (stored === 'vereniging' || stored === 'onderneming') {
+        frame = requestAnimationFrame(() => setAudience(stored));
+      }
     } catch { /* geen opslag */ }
-    return "onderneming";
-  });
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     const prev = document.body.style.background;
@@ -37,11 +41,13 @@ export default function ExperiencePage() {
   return (
     <div data-screen-label="Setpiece Experience" style={{ background: '#0f2a52' }}>
       <XNav />
-      <XHero audience={audience} onAudience={pickAudience} />
-      <XPlan audience={audience} />
-      <XPlay />
-      <XCases audience={audience} />
-      <XFinale audience={audience} />
+      <main id="main-content">
+        <XHero audience={audience} onAudience={pickAudience} />
+        <XPlan audience={audience} />
+        <XPlay />
+        <XCases audience={audience} />
+        <XFinale audience={audience} />
+      </main>
       <SiteFooter mode="page" />
     </div>
   );

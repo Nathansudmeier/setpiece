@@ -48,7 +48,7 @@
 
 /* ===== Fullscreen liquid-glass menu ===== */
 .gl-menu {
-  position: fixed; inset: 0; z-index: 120; overflow: hidden;
+  position: fixed; inset: 0; z-index: 120; overflow-x: hidden; overflow-y: auto;
   display: flex; flex-direction: column;
   padding: 16px clamp(20px, 5vw, 56px) 32px;
   background: linear-gradient(160deg, rgba(15, 42, 82, 0.6) 0%, rgba(15, 42, 82, 0.72) 55%, rgba(10, 30, 60, 0.78) 100%);
@@ -139,7 +139,8 @@
   margin-top: -7px; border-radius: 50%; background: var(--color-amber);
   transform: scale(0); transition: transform 0.35s var(--ease-snap);
 }
-.gl-menu__links a:hover, .gl-menu__links a:focus-visible { transform: translateX(16px); outline: none; }
+.gl-menu__links a:hover, .gl-menu__links a:focus-visible { transform: translateX(16px); }
+.gl-menu__links a:focus-visible { outline: 2px solid var(--color-perkament); outline-offset: 6px; border-radius: 2px; }
 .gl-menu__links a:hover::before, .gl-menu__links a:focus-visible::before,
 .gl-menu__links a.is-active::before { transform: scale(1); }
 .gl-menu__num {
@@ -148,7 +149,7 @@
 }
 .gl-menu__word {
   font-family: var(--font-display); font-weight: 800; letter-spacing: var(--tracking-display);
-  font-size: clamp(2.4rem, 8vh, 5.25rem); line-height: 1.06;
+  font-size: clamp(2rem, 11vw, 5.25rem); line-height: 1.06;
   color: transparent; -webkit-text-stroke: 1.5px rgba(245, 242, 236, 0.55);
   transition: color 0.3s var(--ease-standard), -webkit-text-stroke-color 0.3s var(--ease-standard);
 }
@@ -277,10 +278,11 @@
 
 /* ===== Extravagantere reveals ===== */
 [data-reveal] {
-  opacity: 0; transform: translateY(42px) scale(0.985); filter: blur(10px);
+  opacity: 1; transform: none; filter: none;
   transition: opacity 0.8s var(--ease-standard), transform 0.8s var(--ease-standard),
               filter 0.8s var(--ease-standard);
 }
+[data-reveal].is-pending { opacity: 0; transform: translateY(42px) scale(0.985); filter: blur(10px); }
 [data-reveal].is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
@@ -291,3 +293,8 @@
   .xp-hero__line span { transform: translateY(115%) rotate(2.5deg); transform-origin: 0 100%; }
 }
 @keyframes xp-rise { to { transform: translateY(0) rotate(0deg); } }
+
+@media (forced-colors: active) {
+  .gl-menu__word { color: CanvasText; -webkit-text-stroke: 0; }
+  .gl-menu__links a:focus-visible, .gl-menu__close:focus-visible { outline: 3px solid Highlight; }
+}

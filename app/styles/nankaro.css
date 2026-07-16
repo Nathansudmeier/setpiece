@@ -64,7 +64,7 @@
 .nk-pkg__flag {
   position: absolute; top: -11px; left: var(--space-6);
   background: var(--color-amber); color: var(--color-nacht);
-  font-family: var(--font-body); font-weight: 700; font-size: 11px;
+  font-family: var(--font-body); font-weight: 500; font-size: 11px;
   letter-spacing: var(--tracking-tag); text-transform: uppercase;
   padding: 3px 10px; border-radius: var(--radius-pill);
 }

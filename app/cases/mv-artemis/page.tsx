@@ -1,16 +1,19 @@
-import type { Metadata } from "next";
 import Image from "next/image";
+import JsonLd from "@/components/JsonLd";
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import { Button, Badge, BigQuote, Card } from "@/components/ds";
+import { createPageMetadata, SITE_URL as SETPIECE_URL } from "@/lib/seo";
+import "../../styles/nankaro.css";
 
 const SITE_URL = "https://mv-artemis.nl/";
 
-export const metadata: Metadata = {
-  title: "MV Artemis — clubidentiteit door Setpiece",
+export const metadata = createPageMetadata({
+  title: "MV Artemis, clubidentiteit met BVO-ambitie",
   description:
     "Voor MV Artemis, de enige zelfstandige vrouwenvoetbalclub in Noord-Nederland met BVO-ambitie, bouwde Setpiece een herkenbare clubidentiteit: naam, merkverhaal, visuele stijl en communicatiebasis.",
-};
+  path: "/cases/mv-artemis",
+});
 
 // Wat Setpiece bouwde voor MV Artemis.
 const DELIVERABLES = [
@@ -70,6 +73,16 @@ export default function MVArtemisPage() {
   return (
     <div data-screen-label="Case — MV Artemis">
       <SiteNav mode="page" />
+      <main id="main-content">
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        headline: "MV Artemis: van ambitie naar een herkenbare clubidentiteit",
+        description: metadata.description,
+        url: new URL("/cases/mv-artemis", SETPIECE_URL).toString(),
+        inLanguage: "nl-NL",
+        provider: { "@id": `${SETPIECE_URL}#organization` },
+      }} />
 
       {/* Hero */}
       <section className="sp-case-hero" id="top">
@@ -258,6 +271,7 @@ export default function MVArtemisPage() {
         </div>
       </section>
 
+      </main>
       <SiteFooter mode="page" />
     </div>
   );

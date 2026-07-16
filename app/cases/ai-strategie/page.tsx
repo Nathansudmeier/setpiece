@@ -1,18 +1,21 @@
-import type { Metadata } from "next";
-
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import SiteCaseDetail from "@/components/site/SiteCaseDetail";
+import { createPageMetadata } from "@/lib/seo";
+import "../../styles/nankaro.css";
 
-export const metadata: Metadata = {
-  title: "Case: AI-strategie voor een mkb-dienstverlener — Setpiece",
-};
+export const metadata = createPageMetadata({
+  title: "AI-strategie voor een mkb-dienstverlener",
+  description: "Een geanonimiseerde Setpiece-case over een praktisch AI-stappenplan dat twaalf uur per week terugwon in de dagelijkse operatie.",
+  path: "/cases/ai-strategie",
+});
 
 export default function Page() {
   return (
     <div data-screen-label="Case — AI-strategie">
       <SiteNav mode="page" />
-      <SiteCaseDetail
+      <main id="main-content">
+        <SiteCaseDetail
         eyebrow="AI-strategie & advies"
         title="AI-strategie voor een mkb-dienstverlener"
         lead="Niet meer experimenteren met AI, maar gericht inzetten waar het verschil maakt."
@@ -33,7 +36,9 @@ export default function Page() {
           },
         ]}
         ctaNote="Wil je weten waar AI voor jouw organisatie verschil maakt?"
-      />
+        path="/cases/ai-strategie"
+        />
+      </main>
       <SiteFooter mode="page" />
     </div>
   );

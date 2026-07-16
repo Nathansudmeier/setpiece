@@ -40,6 +40,7 @@ function XTiltCard({ href, tag, title }: XTiltCardProps) {
       <span className="xp-case__arc" aria-hidden="true"></span>
       <div>
         <Badge variant="tint">{tag}</Badge>
+        <span className="xp-case__context">Geanonimiseerde klantcase</span>
         <h3 className="xp-case__title">{title}</h3>
       </div>
       <span className="xp-case__cta">Bekijk case →</span>

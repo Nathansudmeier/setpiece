@@ -1,13 +1,16 @@
-import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import { Button, Badge, BigQuote, Card } from "@/components/ds";
+import { createPageMetadata, SITE_URL } from "@/lib/seo";
+import "../../styles/nankaro.css";
 
-export const metadata: Metadata = {
-  title: "Set In — een AI-werkomgeving op maat, door Setpiece",
+export const metadata = createPageMetadata({
+  title: "Set In, een AI-werkomgeving op maat",
   description:
     "Voor Set In richtte Setpiece een AI-werkomgeving in die hun taal spreekt: presentaties, offertes, productbeschrijvingen, social en interne communicatie. Van verkenning tot doorlopende begeleiding.",
-};
+  path: "/cases/set-in",
+});
 
 // Use cases die we inrichten. Bron: voorstel AI-werkomgeving Set In.
 const USECASES = [
@@ -76,6 +79,16 @@ export default function SetInPage() {
   return (
     <div data-screen-label="Case — Set In">
       <SiteNav mode="page" />
+      <main id="main-content">
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        headline: "Set In: een AI-werkomgeving die hun taal spreekt",
+        description: metadata.description,
+        url: new URL("/cases/set-in", SITE_URL).toString(),
+        inLanguage: "nl-NL",
+        provider: { "@id": `${SITE_URL}#organization` },
+      }} />
 
       {/* Hero */}
       <section className="sp-case-hero" id="top">
@@ -208,6 +221,7 @@ export default function SetInPage() {
         </div>
       </section>
 
+      </main>
       <SiteFooter mode="page" />
     </div>
   );

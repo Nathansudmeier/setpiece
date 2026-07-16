@@ -1,13 +1,16 @@
-import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import { Button, Badge, BigQuote, Card } from "@/components/ds";
+import { createPageMetadata, SITE_URL } from "@/lib/seo";
+import "../styles/nankaro.css";
 
-export const metadata: Metadata = {
-  title: "Nankaro — het clubplatform van Setpiece",
+export const metadata = createPageMetadata({
+  title: "Nankaro, het complete clubplatform",
   description:
     "Nankaro is een compleet digitaal clubplatform, gebouwd door Setpiece. Planning, spelersontwikkeling, wedstrijden, scouting, taken en de clubwebsite in één omgeving.",
-};
+  path: "/nankaro",
+});
 
 const AUDIENCES = [
   {
@@ -84,6 +87,19 @@ export default function NankaroPage() {
   return (
     <div>
       <SiteNav mode="page" />
+      <main id="main-content">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Nankaro",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          description: metadata.description,
+          url: "https://nankaro.app",
+          creator: { "@id": `${SITE_URL}#organization` },
+        }}
+      />
 
       {/* Hero */}
       <section className="sp-case-hero" id="top">
@@ -243,6 +259,7 @@ export default function NankaroPage() {
         </div>
       </section>
 
+      </main>
       <SiteFooter mode="page" />
     </div>
   );

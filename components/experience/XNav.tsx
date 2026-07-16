@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ds";
+import { useModalDialog } from "@/components/useModalDialog";
 
 const XNAV_LINKS = [
   { id: "spelplan", label: "Spelplan" },
@@ -17,6 +19,7 @@ export default function XNav() {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
   const progressRef = useRef<HTMLDivElement>(null);
+  const { triggerRef, dialogRef, closeRef } = useModalDialog(open, setOpen);
 
   useEffect(() => {
     const onScroll = () => {
@@ -50,41 +53,31 @@ export default function XNav() {
     return () => io.disconnect();
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
-  const go = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
+  const closeMenu = () => {
     setOpen(false);
-    const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: "smooth" });
   };
 
   const mailHref = "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Kennismaking via setpiece.nl");
 
   return (
-    <header className={`xp-nav ${scrolled || open ? "is-scrolled" : ""}`}>
+    <>
+      <a className="sp-skip-link" href="#main-content">Ga naar de inhoud</a>
+      <header className={`xp-nav ${scrolled || open ? "is-scrolled" : ""}`}>
       <div className="xp-nav__inner">
         <Link href="/" className="xp-nav__logo" aria-label="Setpiece — home">
-          <img src="/logos/setpiece-logo-wit.png" alt="Setpiece" />
+          <Image src="/logos/setpiece-logo-wit.png" alt="Setpiece" width={120} height={24} sizes="120px" />
         </Link>
         <div className="xp-nav__actions">
           <Button variant="primary" size="sm" href="/#contact">
             Plan een kennismaking
           </Button>
           <button
+            ref={triggerRef}
             type="button"
             className="gl-menubtn gl-menubtn--dark"
             aria-label="Open menu"
             aria-expanded={open}
+            aria-controls="experience-menu"
             onClick={() => setOpen(true)}
           >
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
@@ -97,7 +90,15 @@ export default function XNav() {
       </div>
       <div className="xp-nav__progress" ref={progressRef} aria-hidden="true"></div>
       {open && createPortal(
-        <div className="gl-menu" role="dialog" aria-modal="true" aria-label="Menu">
+        <div
+          ref={dialogRef}
+          id="experience-menu"
+          className="gl-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+          tabIndex={-1}
+        >
           <div className="gl-menu__bg" aria-hidden="true">
             <span className="gl-menu__blob gl-menu__blob--1"></span>
             <span className="gl-menu__blob gl-menu__blob--2"></span>
@@ -108,8 +109,8 @@ export default function XNav() {
             </svg>
           </div>
           <div className="gl-menu__top">
-            <img src="/logos/setpiece-logo-wit.png" alt="Setpiece" />
-            <button type="button" className="gl-menu__close" aria-label="Sluit menu" onClick={() => setOpen(false)}>
+            <Image src="/logos/setpiece-logo-wit.png" alt="Setpiece" width={120} height={24} sizes="120px" />
+            <button ref={closeRef} type="button" className="gl-menu__close" aria-label="Sluit menu" onClick={() => setOpen(false)}>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <line x1="1.5" y1="1.5" x2="12.5" y2="12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></line>
                 <line x1="12.5" y1="1.5" x2="1.5" y2="12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></line>
@@ -123,13 +124,13 @@ export default function XNav() {
                 href={"#" + l.id}
                 className={activeId === l.id ? "is-active" : ""}
                 style={{ "--i": i } as React.CSSProperties}
-                onClick={(e) => go(e, l.id)}
+                onClick={closeMenu}
               >
                 <span className="gl-menu__num">{"0" + (i + 1)}</span>
                 <span className="gl-menu__word">{l.label}</span>
               </a>
             ))}
-            <Link href="/over" style={{ "--i": XNAV_LINKS.length } as React.CSSProperties}>
+            <Link href="/over" style={{ "--i": XNAV_LINKS.length } as React.CSSProperties} onClick={closeMenu}>
               <span className="gl-menu__num">{"0" + (XNAV_LINKS.length + 1)}</span>
               <span className="gl-menu__word">Over</span>
             </Link>
@@ -142,6 +143,7 @@ export default function XNav() {
         </div>,
         document.body
       )}
-    </header>
+      </header>
+    </>
   );
 }

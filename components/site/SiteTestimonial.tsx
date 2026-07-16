@@ -1,5 +1,3 @@
-"use client";
-
 import { BigQuote } from "@/components/ds";
 
 export default function SiteTestimonial() {

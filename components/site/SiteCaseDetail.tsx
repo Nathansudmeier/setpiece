@@ -1,7 +1,7 @@
-"use client";
-
 import Link from "next/link";
+import JsonLd from "@/components/JsonLd";
 import { Button } from "@/components/ds";
+import { SITE_URL } from "@/lib/seo";
 
 type CaseSection = {
   heading: string;
@@ -16,6 +16,7 @@ type SiteCaseDetailProps = {
   statLabel: string;
   sections: CaseSection[];
   ctaNote: string;
+  path: string;
 };
 
 export default function SiteCaseDetail({
@@ -26,9 +27,22 @@ export default function SiteCaseDetail({
   statLabel,
   sections,
   ctaNote,
+  path,
 }: SiteCaseDetailProps) {
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          headline: title,
+          description: lead,
+          url: new URL(path, SITE_URL).toString(),
+          inLanguage: "nl-NL",
+          provider: { "@id": `${SITE_URL}#organization` },
+          isBasedOn: "Geanonimiseerde klantcase",
+        }}
+      />
       <section className="sp-case-hero">
         <div className="sp-container">
           <Link href="/#cases" className="sp-back-link">
@@ -37,6 +51,7 @@ export default function SiteCaseDetail({
           <p className="sp-eyebrow sp-eyebrow--on-dark" data-reveal>
             {eyebrow}
           </p>
+          <p className="sp-case-anonymous">Geanonimiseerde klantcase</p>
           <h1 data-reveal style={{ transitionDelay: "60ms" }}>
             {title}
           </h1>

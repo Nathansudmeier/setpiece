@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ds";
+import { useModalDialog } from "@/components/useModalDialog";
 
 const SITENAV_LINKS = [
   { id: "diensten", label: "Diensten" },
@@ -19,13 +21,13 @@ const PAGE_LINKS = [
 
 type SiteNavProps = {
   mode?: "home" | "page";
-  onNavigate?: (id: string) => void;
 };
 
-export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
+export default function SiteNav({ mode = "page" }: SiteNavProps) {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
   const progressRef = useRef<HTMLDivElement>(null);
+  const { triggerRef, dialogRef, closeRef } = useModalDialog(open, setOpen);
 
   useEffect(() => {
     const onScroll = () => {
@@ -61,39 +63,24 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
     return () => io.disconnect();
   }, [mode]);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
   const mailHref =
     "mailto:hallo@setpiece.nl?subject=" + encodeURIComponent("Kennismaking via setpiece.nl");
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleClick = () => {
     setOpen(false);
-    if (mode === "home") {
-      e.preventDefault();
-      onNavigate?.(id);
-    }
   };
 
   return (
-    <header className="sp-nav">
+    <>
+      <a className="sp-skip-link" href="#main-content">Ga naar de inhoud</a>
+      <header className="sp-nav">
       <div className="sp-nav__inner">
         <Link href="/" className="sp-nav__logo" aria-label="Setpiece — home">
-          <img src="/logos/setpiece-logo-horizontaal.svg" alt="Setpiece" />
+          <Image src="/logos/setpiece-logo-horizontaal.svg" alt="Setpiece" width={130} height={26} priority />
         </Link>
         <div className="sp-nav__actions">
           {mode === "home" ? (
-            <Button variant="primary" size="sm" onClick={() => onNavigate?.("contact")}>
+            <Button variant="primary" size="sm" href="#contact">
               Plan een kennismaking
             </Button>
           ) : (
@@ -102,10 +89,12 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
             </Button>
           )}
           <button
+            ref={triggerRef}
             type="button"
             className="gl-menubtn gl-menubtn--light"
             aria-label="Open menu"
             aria-expanded={open}
+            aria-controls="site-menu"
             onClick={() => setOpen(true)}
           >
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
@@ -119,7 +108,15 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
       <div className="sp-nav__progress" ref={progressRef} aria-hidden="true"></div>
       {open &&
         createPortal(
-          <div className="gl-menu" role="dialog" aria-modal="true" aria-label="Menu">
+          <div
+            ref={dialogRef}
+            id="site-menu"
+            className="gl-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            tabIndex={-1}
+          >
             <div className="gl-menu__bg" aria-hidden="true">
               <span className="gl-menu__blob gl-menu__blob--1"></span>
               <span className="gl-menu__blob gl-menu__blob--2"></span>
@@ -130,8 +127,8 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
               </svg>
             </div>
             <div className="gl-menu__top">
-              <img src="/logos/setpiece-logo-wit.png" alt="Setpiece" />
-              <button type="button" className="gl-menu__close" aria-label="Sluit menu" onClick={() => setOpen(false)}>
+              <Image src="/logos/setpiece-logo-wit.png" alt="Setpiece" width={120} height={24} sizes="120px" />
+              <button ref={closeRef} type="button" className="gl-menu__close" aria-label="Sluit menu" onClick={() => setOpen(false)}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <line x1="1.5" y1="1.5" x2="12.5" y2="12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></line>
                   <line x1="12.5" y1="1.5" x2="1.5" y2="12.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></line>
@@ -146,7 +143,7 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
                     href={`#${l.id}`}
                     className={activeId === l.id ? "is-active" : ""}
                     style={{ "--i": i } as React.CSSProperties}
-                    onClick={(e) => handleClick(e, l.id)}
+                    onClick={handleClick}
                   >
                     <span className="gl-menu__num">{"0" + (i + 1)}</span>
                     <span className="gl-menu__word">{l.label}</span>
@@ -157,7 +154,7 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
                     href={`/#${l.id}`}
                     className={activeId === l.id ? "is-active" : ""}
                     style={{ "--i": i } as React.CSSProperties}
-                    onClick={(e) => handleClick(e, l.id)}
+                    onClick={handleClick}
                   >
                     <span className="gl-menu__num">{"0" + (i + 1)}</span>
                     <span className="gl-menu__word">{l.label}</span>
@@ -187,6 +184,7 @@ export default function SiteNav({ mode = "page", onNavigate }: SiteNavProps) {
           </div>,
           document.body
         )}
-    </header>
+      </header>
+    </>
   );
 }

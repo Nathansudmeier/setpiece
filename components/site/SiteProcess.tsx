@@ -41,10 +41,11 @@ export default function SiteProcess() {
           Van voorbereiding naar doelpunt.
         </h2>
         <div className="sp-process-grid" ref={gridRef} onMouseLeave={() => setActive(0)}>
-          <div className="sp-process-line" />
+          <div className="sp-process-line" aria-hidden="true" />
           <div
             className={`sp-process-ball ${ballLeft !== null ? 'is-active' : ''}`}
             style={ballLeft !== null ? { left: `${ballLeft}px` } : undefined}
+            aria-hidden="true"
           />
           {steps.map((s, i) => (
             <div
@@ -54,8 +55,6 @@ export default function SiteProcess() {
               data-reveal
               style={{ transitionDelay: `${i * 70}ms` }}
               onMouseEnter={() => setActive(i)}
-              onFocus={() => setActive(i)}
-              tabIndex={0}
             >
               <PlayMarker n={s.n} title={s.title}>{s.body}</PlayMarker>
             </div>

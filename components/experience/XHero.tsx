@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import { Button, Badge } from "@/components/ds";
 
@@ -47,12 +47,8 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
   const c1 = useRef<HTMLDivElement | null>(null);
   const c2 = useRef<HTMLDivElement | null>(null);
   const c3 = useRef<HTMLDivElement | null>(null);
-  const [motionOk] = useState(() => (
-    typeof window !== "undefined" && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  ));
-
   useEffect(() => {
-    if (!motionOk) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const section = sectionRef.current;
     if (!section) return;
     const onMove = (e: MouseEvent) => {
@@ -76,13 +72,7 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
       section.removeEventListener('mousemove', onMove);
       section.removeEventListener('mouseleave', onLeave);
     };
-  }, [motionOk]);
-
-  const goPlan = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    const el = document.getElementById('spelplan');
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
-  };
+  }, []);
   const shotD = 'M 600 620 C 760 470, 840 260, 640 110';
 
   return (
@@ -117,12 +107,10 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
             <circle className="xp-shot-ring" cx="640" cy="110" r="26" fill="none" stroke="var(--color-amber)" strokeWidth="2" strokeDasharray="4 7"></circle>
             <circle cx="600" cy="620" r="10" fill="var(--color-amber)"></circle>
             <circle cx="600" cy="620" r="26" fill="none" stroke="var(--color-amber)" strokeWidth="2" strokeDasharray="4 7" opacity="0.7"></circle>
-            {motionOk && (
-              <circle r="9" fill="var(--color-amber)" opacity="0">
-                <set attributeName="opacity" to="1" begin="0.95s" fill="freeze"></set>
-                <animateMotion begin="0.95s" dur="1.05s" fill="freeze" path={shotD}></animateMotion>
-              </circle>
-            )}
+            <circle className="xp-shot-ball" r="9" fill="var(--color-amber)" opacity="0">
+              <set attributeName="opacity" to="1" begin="0.95s" fill="freeze"></set>
+              <animateMotion begin="0.95s" dur="1.05s" fill="freeze" path={shotD}></animateMotion>
+            </circle>
           </svg>
         </div>
       </div>
@@ -157,10 +145,10 @@ export default function XHero({ audience = 'onderneming', onAudience = () => {} 
           <XMagnetic>
             <Button variant="primary" size="lg" href="/#contact">Plan een kennismaking</Button>
           </XMagnetic>
-          <Button variant="on-dark" size="lg" onClick={goPlan}>Bekijk het spelplan</Button>
+          <Button variant="on-dark" size="lg" href="#spelplan">Bekijk het spelplan</Button>
         </div>
       </div>
-      <a href="#spelplan" className="xp-scrollcue" onClick={goPlan}>
+      <a href="#spelplan" className="xp-scrollcue">
         <span className="xp-scrollcue__dot"></span>
         Scroll voor de aftrap
       </a>

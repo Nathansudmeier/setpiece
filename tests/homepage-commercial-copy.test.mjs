@@ -12,10 +12,10 @@ test("homepage hero and CTAs use concrete commercial copy", () => {
   assert.match(hero, /Setpiece brengt merk, marketing en uitvoering samen in een helder spelplan/);
   assert.match(hero, /Plan een kennismaking/);
   assert.match(hero, /Bekijk het werk/);
-  assert.match(hero, /Vertrouwd door organisaties in sport, onderwijs, retail en zakelijke dienstverlening/);
+  assert.match(hero, /Recent werk/);
   assert.match(nav, /Plan een kennismaking/);
   assert.doesNotMatch(hero + nav + contact, /Trap af →/);
-  assert.match(contact, /Vertel kort waar je staat, waar het schuurt en wat je wilt bereiken/);
+  assert.match(contact, /Vertel waar het schuurt en wat je wilt bereiken/);
   assert.match(contact, /Verstuur bericht/);
   assert.match(contact, /Liever direct mailen\?/);
 });
@@ -35,13 +35,37 @@ test("homepage services include buyable propositions and audience qualification"
 test("homepage cases read as concrete mini stories", () => {
   const cases = read("components/site/SiteCases.tsx");
 
-  assert.match(cases, /Setin: van losse content naar commerciële motor/);
+  assert.match(cases, /Set In: een AI-werkomgeving die hun taal spreekt/);
   assert.match(cases, /MV Artemis: van ambitie naar herkenbare clubidentiteit/);
   assert.match(cases, /Nankaro: van idee naar digitaal clubplatform/);
   assert.match(cases, /Probleem/);
   assert.match(cases, /Aanpak/);
   assert.match(cases, /Output/);
   assert.match(cases, /Lees case/);
+});
+
+test("publieke formulieren blijven achter servergrenzen", () => {
+  const contact = read("components/site/SiteContact.tsx");
+  const contactRoute = read("app/api/contact/route.ts");
+  const intakeRoute = read("app/api/intake/route.ts");
+
+  assert.match(contact, /fetch\("\/api\/contact"/);
+  assert.doesNotMatch(contact, /createBrowserClient|\.from\("contact_submissions"\)/);
+  assert.match(contactRoute, /consumeRateLimit/);
+  assert.match(contactRoute, /verifyTurnstile/);
+  assert.match(intakeRoute, /intake_daily_budget/);
+  assert.match(intakeRoute, /AbortSignal\.timeout/);
+});
+
+test("technische SEO-basis is onderdeel van de App Router", () => {
+  const layout = read("app/layout.tsx");
+  const robots = read("app/robots.ts");
+  const sitemap = read("app/sitemap.ts");
+
+  assert.match(layout, /metadataBase/);
+  assert.match(layout, /ProfessionalService/);
+  assert.match(robots, /\/beheer\//);
+  assert.match(sitemap, /\/cases\/mv-artemis/);
 });
 
 test("homepage testimonial has credible role context", () => {

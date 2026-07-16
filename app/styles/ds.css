@@ -85,10 +85,10 @@
         line-height: 1;
         white-space: nowrap;
       }
-      .sp-badge--amber { background: var(--accent); color: var(--color-nacht); font-weight: 700; }
-      .sp-badge--nacht { background: var(--color-nacht); color: var(--color-perkament); font-weight: 700; }
-      .sp-badge--tint { background: var(--surface-card-tint); color: var(--color-indigo); font-weight: 700; }
-      .sp-badge--outline { background: transparent; color: var(--color-nacht); border: 1px solid var(--border-default); font-weight: 700; }
+      .sp-badge--amber { background: var(--accent); color: var(--color-nacht); font-weight: 500; }
+      .sp-badge--nacht { background: var(--color-nacht); color: var(--color-perkament); font-weight: 500; }
+      .sp-badge--tint { background: var(--surface-card-tint); color: var(--color-indigo); font-weight: 500; }
+      .sp-badge--outline { background: transparent; color: var(--color-nacht); border: 1px solid var(--border-default); font-weight: 500; }
       .sp-badge--dot::before {
         content: '';
         width: 0.4em;
@@ -220,7 +220,7 @@
       .sp-toast--info .sp-toast__accent { background: var(--color-indigo); }
       .sp-toast--highlight .sp-toast__accent { background: var(--accent); }
       .sp-toast__body { display: flex; flex-direction: column; gap: 0.15rem; }
-      .sp-toast__title { font-weight: 700; color: var(--color-nacht); font-size: 0.9rem; }
+      .sp-toast__title { font-weight: 500; color: var(--color-nacht); font-size: 0.9rem; }
       .sp-toast__msg { font-size: 0.825rem; color: var(--text-muted); line-height: 1.5; }
     
 
@@ -368,4 +368,3 @@
       .sp-tab:hover { color: var(--color-nacht); }
       .sp-tab--active { color: var(--color-nacht); border-bottom-color: var(--accent); }
       .sp-tab:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
-    

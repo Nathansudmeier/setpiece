@@ -1,18 +1,21 @@
-import type { Metadata } from "next";
-
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import SiteCaseDetail from "@/components/site/SiteCaseDetail";
+import { createPageMetadata } from "@/lib/seo";
+import "../../styles/nankaro.css";
 
-export const metadata: Metadata = {
-  title: "Case: merkstrategie voor een brancheorganisatie — Setpiece",
-};
+export const metadata = createPageMetadata({
+  title: "Merkstrategie voor een brancheorganisatie",
+  description: "Een geanonimiseerde Setpiece-case over een merkstrategie die bestuur en leden in zes weken in dezelfde heldere taal liet spreken.",
+  path: "/cases/merkstrategie",
+});
 
 export default function Page() {
   return (
     <div data-screen-label="Case — Merkstrategie">
       <SiteNav mode="page" />
-      <SiteCaseDetail
+      <main id="main-content">
+        <SiteCaseDetail
         eyebrow="Merkstrategie"
         title="Merkstrategie voor een brancheorganisatie"
         lead="Van bestuurstaal naar een koers die leden meteen begrijpen."
@@ -33,7 +36,9 @@ export default function Page() {
           },
         ]}
         ctaNote="Herkenbaar? Praat met ons over jouw positionering."
-      />
+        path="/cases/merkstrategie"
+        />
+      </main>
       <SiteFooter mode="page" />
     </div>
   );

@@ -2,44 +2,49 @@
 
 import { useEffect } from "react";
 
-// Reveal-on-scroll: voegt .is-visible toe aan [data-reveal] elementen zodra ze
-// in beeld komen (drempel 0.12, zelfde gedrag als site.js in het prototype).
+// Progressive enhancement: content is zichtbaar zonder JavaScript. Alleen
+// elementen onder de vouw krijgen na hydration tijdelijk een pending-state.
 export default function RevealInit() {
   useEffect(() => {
-    const timer = window.setTimeout(() => {
+    let observer: IntersectionObserver | null = null;
+    const frame = requestAnimationFrame(() => {
       const els = document.querySelectorAll<HTMLElement>(
         "[data-reveal]:not(.sp-reveal-bound)"
       );
-      if (!("IntersectionObserver" in window)) {
-        els.forEach((el) => {
-          el.classList.add("is-visible");
-          el.style.opacity = "1";
-          el.style.transform = "none";
-          el.style.filter = "none";
-        });
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!("IntersectionObserver" in window) || reduced) {
+        els.forEach((el) => el.classList.add("is-visible", "sp-reveal-bound"));
         return;
       }
+
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const el = entry.target as HTMLElement;
+              el.classList.remove("is-pending");
               el.classList.add("is-visible");
-              el.style.opacity = "1";
-              el.style.transform = "none";
-              el.style.filter = "none";
               io.unobserve(el);
             }
           });
         },
         { threshold: 0.12 }
       );
+      observer = io;
       els.forEach((el) => {
         el.classList.add("sp-reveal-bound");
-        io.observe(el);
+        if (el.getBoundingClientRect().top <= window.innerHeight * 1.1) {
+          el.classList.add("is-visible");
+        } else {
+          el.classList.add("is-pending");
+          io.observe(el);
+        }
       });
-    }, 60);
-    return () => window.clearTimeout(timer);
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+      observer?.disconnect();
+    };
   }, []);
   return null;
 }

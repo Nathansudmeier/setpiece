@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { track } from "@vercel/analytics";
 import { Button, Toast } from "@/components/ds";
+import Turnstile from "@/components/site/Turnstile";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -11,6 +12,10 @@ const emptyForm = { name: "", email: "", company: "", message: "" };
 export default function SiteContact() {
   const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [website, setWebsite] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const [toastVisible, setToastVisible] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -39,7 +44,10 @@ export default function SiteContact() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
-    if (status === "error") setStatus("idle");
+    if (status === "error") {
+      setStatus("idle");
+      setErrorMessage("");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,21 +55,31 @@ export default function SiteContact() {
     if (status === "submitting") return;
     setStatus("submitting");
 
-    const { error } = await supabase.from("contact_submissions").insert({
-      name: form.name.trim(),
-      email: form.email.trim(),
-      company: form.company.trim() || null,
-      message: form.message.trim(),
-      source: "homepage",
-    });
-
-    if (error) {
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, website, turnstileToken }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        setErrorMessage(result.error ?? "Het versturen lukte niet. Probeer het opnieuw.");
+        setTurnstileReset((value) => value + 1);
+        setStatus("error");
+        return;
+      }
+    } catch {
+      setErrorMessage("Het versturen lukte niet. Probeer het opnieuw of mail ons.");
+      setTurnstileReset((value) => value + 1);
       setStatus("error");
       return;
     }
 
     setForm(emptyForm);
+    setWebsite("");
+    setTurnstileToken("");
     setStatus("success");
+    track("contact_submitted", { source: "homepage" });
 
     // toon een bevestiging in de toast
     setToastVisible(true);
@@ -92,7 +110,7 @@ export default function SiteContact() {
           ) : (
             <>
               <p className="body">
-                Vertel kort waar je staat, waar het schuurt en wat je wilt bereiken. Dan kijken we samen wat de slimste volgende zet is. Het eerste gesprek is gratis en vrijblijvend.
+                Vertel waar het schuurt en wat je wilt bereiken. Dan kijken we samen naar de slimste volgende zet.
               </p>
 
               <form className="sp-contact-form" onSubmit={handleSubmit} noValidate={false}>
@@ -159,10 +177,29 @@ export default function SiteContact() {
                   />
                 </div>
 
+                <div className="sp-intake__hp" aria-hidden="true" hidden>
+                  <label htmlFor="contact-website">Website</label>
+                  <input
+                    id="contact-website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(event) => setWebsite(event.target.value)}
+                  />
+                </div>
+
+                <Turnstile
+                  action="contact"
+                  onToken={setTurnstileToken}
+                  resetKey={turnstileReset}
+                />
+
                 {status === "error" && (
                   <p className="sp-form-error" role="alert">
-                    Het versturen lukte niet. Probeer het opnieuw of mail rechtstreeks naar{" "}
-                    <a href={mailHref}>{email}</a>.
+                    {errorMessage}{" "}
+                    <a href={mailHref}>Mail rechtstreeks naar {email}.</a>
                   </p>
                 )}
 

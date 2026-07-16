@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 import { Button } from "@/components/ds";
-
-type SiteIntakeProps = {
-  onNavigate?: (id: string) => void;
-};
+import Turnstile from "@/components/site/Turnstile";
 
 type Status = "idle" | "loading" | "done" | "error";
 
@@ -16,7 +14,7 @@ const TYPES = [
   "Anders",
 ];
 
-export default function SiteIntake({ onNavigate }: SiteIntakeProps) {
+export default function SiteIntake() {
   const [type, setType] = useState(TYPES[0]);
   const [challenge, setChallenge] = useState("");
   const [goal, setGoal] = useState("");
@@ -24,6 +22,8 @@ export default function SiteIntake({ onNavigate }: SiteIntakeProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [briefing, setBriefing] = useState("");
   const [error, setError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileReset, setTurnstileReset] = useState(0);
 
   const submitting = status === "loading";
 
@@ -42,18 +42,21 @@ export default function SiteIntake({ onNavigate }: SiteIntakeProps) {
       const res = await fetch("/api/intake", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, challenge, goal, website }),
+        body: JSON.stringify({ type, challenge, goal, website, turnstileToken }),
       });
       const data = await res.json();
       if (!res.ok) {
         setError(data?.error || "Er ging iets mis. Probeer het opnieuw.");
+        setTurnstileReset((value) => value + 1);
         setStatus("error");
         return;
       }
       setBriefing(data.briefing);
       setStatus("done");
+      track("intake_completed", { organizationType: type });
     } catch {
       setError("Er ging iets mis. Probeer het opnieuw.");
+      setTurnstileReset((value) => value + 1);
       setStatus("error");
     }
   };
@@ -67,13 +70,15 @@ export default function SiteIntake({ onNavigate }: SiteIntakeProps) {
     window.dispatchEvent(
       new CustomEvent("setpiece:prefill-contact", { detail: { message: summary } }),
     );
-    onNavigate?.("contact");
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const reset = () => {
     setStatus("idle");
     setBriefing("");
     setError("");
+    setTurnstileToken("");
+    setTurnstileReset((value) => value + 1);
   };
 
   return (
@@ -138,7 +143,7 @@ export default function SiteIntake({ onNavigate }: SiteIntakeProps) {
                 <textarea
                   id="intake-challenge"
                   rows={3}
-                  maxLength={700}
+                  maxLength={600}
                   placeholder="Bijvoorbeeld: ons verhaal is vaag, onze site is verouderd, marketing is losse acties."
                   value={challenge}
                   onChange={(e) => setChallenge(e.target.value)}
@@ -152,7 +157,7 @@ export default function SiteIntake({ onNavigate }: SiteIntakeProps) {
                 <textarea
                   id="intake-goal"
                   rows={3}
-                  maxLength={700}
+                  maxLength={600}
                   placeholder="Bijvoorbeeld: meer aanvragen, een herkenbaar merk, slimmer werken met AI."
                   value={goal}
                   onChange={(e) => setGoal(e.target.value)}
@@ -162,7 +167,7 @@ export default function SiteIntake({ onNavigate }: SiteIntakeProps) {
               </div>
 
               {/* Honeypot: verborgen voor mensen, ingevuld door bots */}
-              <div className="sp-intake__hp" aria-hidden="true">
+              <div className="sp-intake__hp" aria-hidden="true" hidden>
                 <label htmlFor="intake-website">Website</label>
                 <input
                   id="intake-website"
@@ -174,6 +179,12 @@ export default function SiteIntake({ onNavigate }: SiteIntakeProps) {
                   onChange={(e) => setWebsite(e.target.value)}
                 />
               </div>
+
+              <Turnstile
+                action="intake"
+                onToken={setTurnstileToken}
+                resetKey={turnstileReset}
+              />
 
               {status === "error" && (
                 <p className="sp-form-error" role="alert">{error}</p>

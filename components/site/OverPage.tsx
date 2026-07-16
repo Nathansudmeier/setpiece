@@ -1,5 +1,3 @@
-"use client";
-
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import SiteContact from "@/components/site/SiteContact";
@@ -18,6 +16,7 @@ export default function OverPage() {
   return (
     <div data-screen-label="Over">
       <SiteNav mode="page" />
+      <main id="main-content">
       <section className="sp-about-hero">
         <div className="sp-container">
           <p className="sp-eyebrow sp-eyebrow--on-dark" data-reveal>
@@ -70,6 +69,7 @@ export default function OverPage() {
       </section>
 
       <SiteContact />
+      </main>
       <SiteFooter mode="page" />
     </div>
   );

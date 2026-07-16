@@ -59,12 +59,8 @@
 .xp-hero__line { display: block; overflow: hidden; }
 .xp-hero__line span { display: inline-block; }
 @media (prefers-reduced-motion: no-preference) {
-  .xp-hero__line span { transform: translateY(110%); animation: xp-rise 0.7s var(--ease-standard) forwards; }
-  .xp-hero__line:nth-child(2) span { animation-delay: 0.12s; }
-  .xp-enter { opacity: 0; transform: translateY(20px); animation: xp-fade 0.6s var(--ease-standard) forwards; }
-  .xp-enter--1 { animation-delay: 0.3s; }
-  .xp-enter--2 { animation-delay: 0.45s; }
-  .xp-enter--3 { animation-delay: 0.6s; }
+  .xp-hero__line span { transform: none; }
+  .xp-enter { opacity: 1; transform: none; }
 }
 @keyframes xp-rise { to { transform: translateY(0); } }
 @keyframes xp-fade { to { opacity: 1; transform: translateY(0); } }
@@ -90,7 +86,7 @@
 .xp-section { padding: 140px 32px; position: relative; }
 @media (max-width: 760px) { .xp-section { padding: 88px 20px; } }
 .xp-kicker {
-  font-family: var(--font-body); font-weight: 700; font-size: 13px;
+  font-family: var(--font-body); font-weight: 500; font-size: 13px;
   letter-spacing: var(--tracking-tag); text-transform: uppercase;
   color: var(--color-indigo); margin: 0 0 16px; display: flex; align-items: center; gap: 12px;
 }
@@ -136,7 +132,7 @@
   color: var(--color-nacht); transform: translateZ(34px) scale(1.12);
 }
 .xp-marker:focus-visible { outline: 2px solid var(--color-perkament); outline-offset: 3px; }
-@media (max-width: 760px) { .xp-marker { width: 42px; height: 42px; margin: -21px 0 0 -21px; font-size: 13px; } }
+@media (max-width: 760px) { .xp-marker { width: 44px; height: 44px; margin: -22px 0 0 -22px; font-size: 13px; } }
 .xp-plan__detail { min-height: 280px; }
 .xp-plan__detail-card {
   background: var(--color-white); border: 1px solid var(--border-subtle);
@@ -147,16 +143,23 @@
 .xp-plan__detail-body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--text-muted); margin: 0; }
 .xp-plan__detail-anim { animation: xp-fade 0.35s var(--ease-standard); }
 @media (prefers-reduced-motion: reduce) { .xp-plan__detail-anim { animation: none; } }
-.xp-plan__dots { display: flex; gap: 8px; margin-top: 24px; }
+.xp-plan__dots { display: flex; gap: 2px; margin-top: 16px; }
 .xp-plan__dots button {
-  width: 10px; height: 10px; border-radius: 50%; border: none; padding: 0; cursor: pointer;
-  background: var(--color-nacht-a16); transition: background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+  position: relative; width: 44px; height: 44px; border: none; padding: 0; cursor: pointer;
+  background: transparent; border-radius: 50%;
 }
-.xp-plan__dots button.is-active { background: var(--color-amber); transform: scale(1.25); }
+.xp-plan__dots button::after {
+  content: ''; position: absolute; inset: 17px; border-radius: 50%; background: var(--color-nacht-a16);
+  transition: background-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+}
+.xp-plan__dots button.is-active::after { background: var(--color-amber); transform: scale(1.25); }
+.xp-plan__dots button:focus-visible { outline: 2px solid var(--color-indigo); outline-offset: -4px; }
 
 /* ---- Werkwijze (scroll-driven set piece) ---- */
 .xp-play { background: var(--color-nacht); }
 .xp-play__track { position: relative; height: 340vh; }
+@media (max-width: 900px) { .xp-play__track { height: 260vh; } }
+@media (max-width: 600px) { .xp-play__track { height: 220vh; } }
 .xp-play__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .xp-play__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .xp-play__head { position: absolute; top: 96px; left: 32px; right: 32px; max-width: 1280px; margin: 0 auto; pointer-events: none; }
@@ -193,6 +196,7 @@
   will-change: transform; transition: box-shadow var(--duration-standard) var(--ease-standard);
   overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 24px;
 }
+.xp-case__context { display: block; margin-top: 14px; color: var(--text-muted); font-family: var(--font-body); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
 .xp-case:hover { box-shadow: var(--shadow-md); }
 .xp-case__arc {
   position: absolute; top: -1px; right: -1px; width: 64px; height: 64px;
@@ -241,6 +245,10 @@
 }
 .xp-nav__links a.is-active { opacity: 1; color: var(--color-amber); }
 .xp-nav__actions { display: flex; align-items: center; gap: 12px; }
+@media (max-width: 560px) {
+  .xp-nav__inner { padding-inline: 20px; gap: 16px; }
+  .xp-nav__actions .sp-btn { display: none; }
+}
 .xp-nav__burger {
   display: none; background: none; border: 1px solid var(--border-on-dark); border-radius: 8px;
   width: 38px; height: 38px; align-items: center; justify-content: center;
@@ -318,7 +326,7 @@
 @keyframes xp-appear { from { opacity: 0; } to { opacity: 1; } }
 
 /* ===== v2: werkwijze-stappen klikbaar ===== */
-.xp-play__step { cursor: pointer; outline: none; }
+.xp-play__step { cursor: pointer; outline: 2px solid transparent; }
 .xp-play__step:focus-visible circle:first-of-type { stroke: var(--color-perkament); }
 .xp-play__step:hover circle:first-of-type { stroke-width: 3; }
 
@@ -329,6 +337,12 @@
   opacity: 0; transition: opacity var(--duration-standard) var(--ease-standard);
 }
 .xp-case:hover::after { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-shot-ball { display: none; }
+  .xp-play__track { height: auto; }
+  .xp-play__sticky { position: relative; min-height: 760px; }
+}
 
 /* ===== v2: finale — schietbaar doel ===== */
 .xp-finale__targetbtn {
