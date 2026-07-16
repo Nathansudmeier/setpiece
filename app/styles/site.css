@@ -481,17 +481,10 @@ img { max-width: 100%; display: block; }
   display: grid; grid-template-columns: 300px 1fr; gap: 56px; align-items: center;
 }
 .sp-founder__portrait {
-  position: relative; aspect-ratio: 1 / 1; border-radius: var(--radius-xl);
-  background:
-    radial-gradient(120% 120% at 20% 0%, var(--color-nacht-700), var(--color-nacht) 60%);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+  position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius-xl);
   overflow: hidden; border: 1px solid var(--border-on-dark);
 }
-.sp-founder__portrait img { width: 92px; height: 92px; opacity: 0.96; }
-.sp-founder__sign {
-  font-family: var(--font-display); font-weight: 700; font-size: 20px;
-  color: var(--color-perkament); letter-spacing: -0.01em;
-}
+.sp-founder__image { object-fit: cover; object-position: center; }
 .sp-founder__body { min-width: 0; }
 .sp-founder__lead {
   margin: 0 0 16px; font-family: var(--font-body); font-size: 17px; line-height: 1.7;

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { Button } from "@/components/ds";
 
 type SiteFounderProps = {
@@ -13,14 +15,14 @@ export default function SiteFounder({ onNavigate }: SiteFounderProps) {
     <section id="mens" className="sp-section sp-founder">
       <div className="sp-container">
         <div className="sp-founder__grid">
-          <div className="sp-founder__portrait" data-reveal aria-hidden="true">
-            <img
-              src="/logos/setpiece-beeldmerk.svg"
-              alt=""
-              width={92}
-              height={92}
+          <div className="sp-founder__portrait" data-reveal>
+            <Image
+              className="sp-founder__image"
+              src="/people/nathan-sudmeier.jpg"
+              alt="Portret van Nathan Sudmeier"
+              fill
+              sizes="(max-width: 820px) 260px, 300px"
             />
-            <span className="sp-founder__sign">Nathan Sudmeier</span>
           </div>
 
           <div className="sp-founder__body">
