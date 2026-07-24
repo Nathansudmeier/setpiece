@@ -1,17 +1,17 @@
+import WorkspoorHome from "@/components/workspoor/WorkspoorHome";
 import { createPageMetadata, DEFAULT_DESCRIPTION } from "@/lib/seo";
-import HomePage from "@/components/site/HomePage";
 
 const homeMetadata = createPageMetadata({
-  title: "Strategie & digitale identiteit",
+  title: "AI Consultancy voor beter dagelijks werk",
   description: DEFAULT_DESCRIPTION,
   path: "/",
 });
 
 export const metadata = {
   ...homeMetadata,
-  title: { absolute: "Setpiece — Strategie & digitale identiteit" },
+  title: { absolute: "Setpiece | AI Consultancy voor beter dagelijks werk" },
 };
 
 export default function Home() {
-  return <HomePage />;
+  return <WorkspoorHome />;
 }

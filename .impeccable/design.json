@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-24T17:58:07+02:00",
+  "title": "Design System: Setpiece",
+  "extensions": {
+    "colorMeta": {
+      "signal-rose": {
+        "role": "primary",
+        "displayName": "Signal Rose",
+        "canonical": "#E8558A",
+        "tonalRamp": ["#35101E", "#67213A", "#8F294F", "#9D345B", "#B72D62", "#D6477B", "#E8558A", "#F184AB", "#F8B7CE", "#FDEBF2"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#17141F",
+        "tonalRamp": ["#17141F", "#2A2536", "#40394E", "#5D556B", "#7E768B", "#A49EAE", "#CBC7D1", "#F2F0F4"]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#FAF9FB",
+        "tonalRamp": ["#26232B", "#45414B", "#68636F", "#8E8995", "#B5B1BA", "#D5D2D9", "#E2DFE6", "#ECEAF2", "#FAF9FB"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Merkbelofte en beslissende uitspraken."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Werkgerichte uitleg en bewijscontext."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "state-change",
+        "value": "180ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Hover, focus en compacte statuswissels."
+      },
+      {
+        "name": "workline-reveal",
+        "value": "360ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Eenmalige overgang tussen werkspoorhaltes."
+      }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "390px" },
+      { "name": "tablet", "value": "768px" },
+      { "name": "compact-desktop", "value": "1024px" },
+      { "name": "wide", "value": "1440px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "De ene primaire vervolgstap op een Persuade-surface."
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Zichtbaar gelabeld veld met directe herstelstatus."
+    },
+    {
+      "name": "Workline Stop",
+      "kind": "custom",
+      "description": "Een halte die toestand, ingreep, bewijs en eigenaar verbindt."
+    },
+    {
+      "name": "Navigation Link",
+      "kind": "nav",
+      "description": "Expliciet gelabelde route met actieve status en toetsenbordfocus."
+    }
+  ],
+  "narrative": {
+    "northStar": "Het Werkspoor",
+    "overview": "Het Werkspoor maakt Setpieces eigen mechanisme zichtbaar: terugkerend werk wordt scherp gezien, gericht veranderd en overdraagbaar gemaakt. Eén doorgaande lijn verbindt frictie, keuze, ingreep, bewijs en eigenaarschap.",
+    "keyCharacteristics": [
+      "Eén doorlopend werkspoor als structurele signatuur.",
+      "Grote typografische uitspraken naast concrete werkdetails.",
+      "Bewijs verschijnt vroeg en altijd met context.",
+      "Fotografie toont handeling, test en overdracht.",
+      "Vlakke, scherpe componenten zonder SaaS-kaarten."
+    ]
+  }
+}

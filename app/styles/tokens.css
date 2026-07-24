@@ -59,14 +59,12 @@
 
   --focus-ring: var(--color-indigo);
 }
-/* Setpiece — Type tokens
-   Bricolage Grotesque = display/UI (headlines, wordmark, buttons, subheads).
-   DM Sans = body (paragraphs, labels, nav, forms) — only weights 400/500,
-   the brand guide explicitly calls out "geen 600 of 700" for DM Sans. */
+/* Compatibiliteitslaag voor oudere, niet-publieke onderdelen.
+   De publieke Werkspoor-site gebruikt dezelfde lokale Space Grotesk-bron. */
 
 :root {
-  --font-display: var(--font-bricolage), 'Bricolage Grotesque', 'Arial Black', sans-serif;
-  --font-body: var(--font-dm), 'DM Sans', -apple-system, sans-serif;
+  --font-display: var(--font-space), 'Space Grotesk', Arial, sans-serif;
+  --font-body: var(--font-space), 'Space Grotesk', Arial, sans-serif;
 
   /* Weights */
   --weight-display-regular: 400;

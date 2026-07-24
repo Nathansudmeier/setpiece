@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const SITE_URL = new URL("https://www.setpiece.nl");
 export const SITE_NAME = "Setpiece";
 export const DEFAULT_DESCRIPTION =
-  "Strategie en digitale identiteit voor ondernemingen en verenigingen. Elke kans voorbereid, elke campagne raak.";
+  "Setpiece is een AI Consultancy voor B2B-dienstverleners. We bouwen AI-oplossingen en workflows die terugkerend werk eenvoudiger, sneller en consistenter maken.";
 
 type PageMetadataOptions = {
   title: string;

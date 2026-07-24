@@ -12,10 +12,10 @@ export default function AppleIcon() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0f2a52",
+        background: "#17141f",
       }}
     >
-      <div style={{ width: 108, height: 108, borderRadius: 999, background: "#e8a020", display: "flex", alignItems: "center", justifyContent: "center", color: "#0f2a52", fontSize: 66, fontWeight: 800 }}>
+      <div style={{ width: 108, height: 108, background: "#e8558a", clipPath: "polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%)", display: "flex", alignItems: "center", justifyContent: "center", color: "#17141f", fontSize: 66, fontWeight: 800 }}>
         S
       </div>
     </div>,

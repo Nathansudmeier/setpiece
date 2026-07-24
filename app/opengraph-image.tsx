@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Setpiece — Elke kans voorbereid. Elke campagne raak.";
+export const alt = "Setpiece | AI Consultancy voor beter dagelijks werk.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -14,21 +14,28 @@ export default function OpenGraphImage() {
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "72px",
-        background: "#0f2a52",
-        color: "#f5f2ec",
+        background: "#17141f",
+        color: "#faf9fb",
         fontFamily: "sans-serif",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "22px", fontSize: 38, fontWeight: 700 }}>
-        <div style={{ width: 54, height: 54, borderRadius: 999, background: "#e8a020" }} />
+        <div
+          style={{
+            width: 54,
+            height: 54,
+            background: "#e8558a",
+            clipPath: "polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%)",
+          }}
+        />
         Setpiece
       </div>
       <div style={{ display: "flex", flexDirection: "column", fontSize: 74, fontWeight: 800, lineHeight: 1.05, letterSpacing: "-3px" }}>
-        <span>Elke kans voorbereid.</span>
-        <span style={{ color: "#e8a020" }}>Elke campagne raak.</span>
+        <span>AI Consultancy voor</span>
+        <span style={{ color: "#e8558a" }}>beter dagelijks werk.</span>
       </div>
-      <div style={{ fontSize: 24, color: "rgba(245,242,236,0.72)" }}>
-        Strategie & digitale identiteit
+      <div style={{ fontSize: 24, color: "#cbc7d1" }}>
+        Kansenscan · € 1.250 excl. btw · 5 werkdagen
       </div>
     </div>,
     size,

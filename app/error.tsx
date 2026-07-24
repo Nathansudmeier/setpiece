@@ -2,8 +2,6 @@
 
 import { useEffect } from "react";
 
-import { Button } from "@/components/ds";
-
 export default function ErrorPage({
   error,
   unstable_retry,
@@ -16,12 +14,14 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <main id="main-content" className="sp-error-page">
-      <div className="sp-error-page__inner">
-        <p className="sp-eyebrow sp-eyebrow--on-dark">Er ging iets mis</p>
-        <h1>De voorbereiding stokte even.</h1>
+    <main id="main-content" className="ws-error-page">
+      <div>
+        <p className="ws-context">Er ging iets mis</p>
+        <h1>Het werkspoor stokte even.</h1>
         <p>Probeer de pagina opnieuw. Blijft dit gebeuren, mail dan naar hallo@setpiece.nl.</p>
-        <Button size="lg" onClick={unstable_retry}>Probeer opnieuw</Button>
+        <button className="ws-button" type="button" onClick={unstable_retry}>
+          Probeer opnieuw
+        </button>
       </div>
     </main>
   );

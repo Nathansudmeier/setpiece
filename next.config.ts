@@ -37,6 +37,17 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: "/experience", destination: "/", permanent: true },
+      { source: "/nankaro", destination: "/praktijkvoorbeelden#nankaro", permanent: true },
+      { source: "/cases/mv-artemis", destination: "/praktijkvoorbeelden", permanent: true },
+      { source: "/cases/set-in", destination: "/praktijkvoorbeelden#set-in", permanent: true },
+      { source: "/cases/merkstrategie", destination: "/praktijkvoorbeelden", permanent: true },
+      { source: "/cases/digitale-identiteit", destination: "/praktijkvoorbeelden", permanent: true },
+      { source: "/cases/ai-strategie", destination: "/praktijkvoorbeelden", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
