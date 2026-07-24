@@ -1,0 +1,294 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - link "Ga naar de inhoud" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Setpiece — home" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Setpiece" [ref=e7]
+        - button "Open menu" [expanded] [ref=e10] [cursor=pointer]: Menu
+    - main [ref=e12]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: Beschikbaar voor nieuwe projecten
+        - heading "Elke kans voorbereid. Elke campagne raak." [level=1] [ref=e16]: Elke kans voorbereid.Elke campagne raak.
+        - paragraph [ref=e17]: Strategie, campagnes en digitale identiteit voor organisaties die willen groeien zonder losse flodders. Setpiece brengt merk, marketing en uitvoering samen in een helder spelplan.
+        - generic [ref=e18]:
+          - link "Plan een kennismaking" [ref=e19] [cursor=pointer]:
+            - /url: "#contact"
+          - link "Bekijk het werk" [ref=e20] [cursor=pointer]:
+            - /url: "#cases"
+        - generic [ref=e21]:
+          - paragraph [ref=e23]: Recent werk
+          - generic [ref=e24]:
+            - link "MV Artemis" [ref=e25] [cursor=pointer]:
+              - /url: /cases/mv-artemis
+            - link "· Nankaro" [ref=e26] [cursor=pointer]:
+              - /url: /nankaro
+            - link "· Set In" [ref=e27] [cursor=pointer]:
+              - /url: /cases/set-in
+      - generic [ref=e29]:
+        - paragraph [ref=e30]: Spelplan
+        - heading "Waar Setpiece bij helpt" [level=2] [ref=e31]
+        - generic [ref=e32]:
+          - generic [ref=e34]:
+            - heading "Positioneringssprint" [level=3] [ref=e35]
+            - paragraph [ref=e36]: Voor organisaties met een goed verhaal dat nog te vaag, te versnipperd of te intern klinkt.
+            - generic [ref=e37]: Output
+            - list [ref=e38]:
+              - listitem [ref=e39]: scherpe merkpositionering
+              - listitem [ref=e40]: doelgroepkeuze
+              - listitem [ref=e41]: kernboodschap
+              - listitem [ref=e42]: tone of voice
+              - listitem [ref=e43]: communicatiebasis
+          - generic [ref=e45]:
+            - heading "Campagnekompas" [level=3] [ref=e46]
+            - paragraph [ref=e47]: Voor organisaties die zichtbaarheid willen omzetten in actie, aanvragen of betrokkenheid.
+            - generic [ref=e48]: Output
+            - list [ref=e49]:
+              - listitem [ref=e50]: campagneconcept
+              - listitem [ref=e51]: kanaalkeuze
+              - listitem [ref=e52]: contentlijnen
+              - listitem [ref=e53]: planning
+              - listitem [ref=e54]: meetpunten
+          - generic [ref=e56]:
+            - heading "AI-transitieplan" [level=3] [ref=e57]
+            - paragraph [ref=e58]: Voor teams die slimmer willen werken met AI zonder chaos, trucjes of losse tools.
+            - generic [ref=e59]: Output
+            - list [ref=e60]:
+              - listitem [ref=e61]: praktische AI-workflows
+              - listitem [ref=e62]: content- en communicatieprocessen
+              - listitem [ref=e63]: interne werkwijze
+              - listitem [ref=e64]: implementatieadvies
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Bouwstenen
+          - heading "Zes disciplines, onder één dak." [level=2] [ref=e67]
+          - group [ref=e256]:
+            - generic "Bekijk de zes bouwstenen +" [ref=e257] [cursor=pointer]
+        - generic [ref=e68]:
+          - generic [ref=e69]:
+            - paragraph [ref=e70]: Voor wie
+            - heading "Voor organisaties die scherper willen spelen." [level=2] [ref=e71]
+            - paragraph [ref=e72]: Setpiece helpt organisaties die voelen dat hun merk, marketing of digitale uitstraling beter kan. Niet met dikke rapporten die verdwijnen in een map, maar met keuzes, ritme en werk dat zichtbaar wordt.
+          - generic [ref=e73]:
+            - list [ref=e74]:
+              - listitem [ref=e75]: Je verhaal is goed, maar nog niet scherp genoeg.
+              - listitem [ref=e76]: Je marketing bestaat uit losse acties zonder duidelijke lijn.
+              - listitem [ref=e77]: Je website of digitale identiteit voelt niet professioneel genoeg.
+              - listitem [ref=e78]: Je wilt AI gebruiken, maar praktisch en zonder circus.
+              - listitem [ref=e79]: Je zoekt tijdelijke senior marketingkracht met strategisch overzicht.
+            - paragraph [ref=e80]: Niet ideaal als je alleen even snel een postje zoekt of geen keuzes wilt maken.
+      - generic [ref=e82]:
+        - paragraph [ref=e83]: Werkwijze
+        - heading "Van voorbereiding naar doelpunt." [level=2] [ref=e84]
+        - generic [ref=e85]:
+          - generic [ref=e88]:
+            - generic [ref=e89]: "01"
+            - heading "Kennismaking" [level=3] [ref=e91]
+            - paragraph [ref=e92]: We bespreken de situatie, het doel en wat er al is.
+          - generic [ref=e94]:
+            - generic [ref=e95]: "02"
+            - heading "Strategie" [level=3] [ref=e97]
+            - paragraph [ref=e98]: Positionering en koers, vastgelegd in heldere taal.
+          - generic [ref=e100]:
+            - generic [ref=e101]: "03"
+            - heading "Uitvoering" [level=3] [ref=e103]
+            - paragraph [ref=e104]: Identiteit, site of app, gebouwd op die koers.
+          - generic [ref=e106]:
+            - generic [ref=e107]: "04"
+            - heading "Raak" [level=3] [ref=e109]
+            - paragraph [ref=e110]: Oplevering met documentatie — de fase is voorbereid, de kans is benut.
+      - generic [ref=e112]:
+        - paragraph [ref=e113]: Cases
+        - heading "Werk dat richting geeft." [level=2] [ref=e114]
+        - generic [ref=e115]:
+          - 'link "AI-werkomgeving Set In: een AI-werkomgeving die hun taal spreekt Probleem Waardevolle kennis, maar te veel tijd kwijt aan presentaties, offertes en content. Aanpak Een AI-werkomgeving op maat, met training en doorlopende begeleiding. Output AI-werkomgeving voor 5 soorten output, in 3 fasen ingericht. Lees case" [ref=e116] [cursor=pointer]':
+            - /url: /cases/set-in
+            - generic [ref=e117]:
+              - generic [ref=e118]: AI-werkomgeving
+              - 'heading "Set In: een AI-werkomgeving die hun taal spreekt" [level=3] [ref=e119]'
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - term [ref=e122]: Probleem
+                  - definition [ref=e123]: Waardevolle kennis, maar te veel tijd kwijt aan presentaties, offertes en content.
+                - generic [ref=e124]:
+                  - term [ref=e125]: Aanpak
+                  - definition [ref=e126]: Een AI-werkomgeving op maat, met training en doorlopende begeleiding.
+                - generic [ref=e127]:
+                  - term [ref=e128]: Output
+                  - definition [ref=e129]: AI-werkomgeving voor 5 soorten output, in 3 fasen ingericht.
+              - generic [ref=e130]: Lees case
+          - 'link "Clubidentiteit MV Artemis: van ambitie naar herkenbare clubidentiteit Probleem Een jonge vrouwenvoetbalclub met groeiplannen had een herkenbaar verhaal nodig. Aanpak Merkverhaal, visuele stijl en communicatiebasis voor bestuur, team en achterban. Output Nieuwe naam, huisstijl, clubsite en app voor 3 teams. Lees case" [ref=e131] [cursor=pointer]':
+            - /url: /cases/mv-artemis
+            - generic [ref=e132]:
+              - generic [ref=e133]: Clubidentiteit
+              - 'heading "MV Artemis: van ambitie naar herkenbare clubidentiteit" [level=3] [ref=e134]'
+              - generic [ref=e135]:
+                - generic [ref=e136]:
+                  - term [ref=e137]: Probleem
+                  - definition [ref=e138]: Een jonge vrouwenvoetbalclub met groeiplannen had een herkenbaar verhaal nodig.
+                - generic [ref=e139]:
+                  - term [ref=e140]: Aanpak
+                  - definition [ref=e141]: Merkverhaal, visuele stijl en communicatiebasis voor bestuur, team en achterban.
+                - generic [ref=e142]:
+                  - term [ref=e143]: Output
+                  - definition [ref=e144]: Nieuwe naam, huisstijl, clubsite en app voor 3 teams.
+              - generic [ref=e145]: Lees case
+          - 'link "Sportplatform Nankaro: van idee naar digitaal clubplatform Probleem Een productidee in de sportwereld vroeg om scherpere keuzes en een geloofwaardige basis. Aanpak Productstrategie, UX-denken en merkontwikkeling voor een SaaS-platform. Output Eén clubplatform met 8 featureclusters en 3 pakketten. Lees case" [ref=e146] [cursor=pointer]':
+            - /url: /nankaro
+            - generic [ref=e147]:
+              - generic [ref=e148]: Sportplatform
+              - 'heading "Nankaro: van idee naar digitaal clubplatform" [level=3] [ref=e149]'
+              - generic [ref=e150]:
+                - generic [ref=e151]:
+                  - term [ref=e152]: Probleem
+                  - definition [ref=e153]: Een productidee in de sportwereld vroeg om scherpere keuzes en een geloofwaardige basis.
+                - generic [ref=e154]:
+                  - term [ref=e155]: Aanpak
+                  - definition [ref=e156]: Productstrategie, UX-denken en merkontwikkeling voor een SaaS-platform.
+                - generic [ref=e157]:
+                  - term [ref=e158]: Output
+                  - definition [ref=e159]: Eén clubplatform met 8 featureclusters en 3 pakketten.
+              - generic [ref=e160]: Lees case
+      - generic [ref=e163]:
+        - img "Portret van Nathan Sudmeier" [ref=e165]
+        - generic [ref=e166]:
+          - paragraph [ref=e167]: Wie je spreekt
+          - heading "Geen bureau in twaalf lagen. Eén aanspreekpunt." [level=2] [ref=e168]
+          - paragraph [ref=e169]: Bij Setpiece praat je niet met een accountmanager. Je werkt rechtstreeks met de persoon die strategie, design en techniek zelf aan elkaar knoopt. Kortere lijnen, snellere beslissingen, werk dat klopt.
+          - paragraph [ref=e170]: Ik ken verenigingen van binnenuit. Als UEFA B-coach en hoofdtrainer weet ik hoe een club echt werkt. Die blik van binnenuit maakt het verschil, voor sport en non-profit én voor het MKB dat scherper wil spelen.
+          - list [ref=e171]:
+            - listitem [ref=e172]: Eén aanspreekpunt
+            - listitem [ref=e173]: Senior strateeg
+            - listitem [ref=e174]: UEFA B-coach
+            - listitem [ref=e175]: Almere
+          - link "Plan een kennismaking" [ref=e177] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=e179]:
+        - generic [ref=e180]:
+          - paragraph [ref=e181]: AI-intake
+          - heading "Zie in één minuut wat de eerste zet zou zijn." [level=2] [ref=e182]
+          - paragraph [ref=e183]: Beantwoord drie vragen. Je krijgt direct een kort spelplan, opgesteld met dezelfde AI die we voor klanten inzetten. Gratis, geen account, geen verplichting.
+        - generic [ref=e185]:
+          - generic [ref=e186]:
+            - generic [ref=e187]: Wat voor organisatie ben je?
+            - combobox "Wat voor organisatie ben je?" [ref=e189] [cursor=pointer]:
+              - option "Onderneming of MKB" [selected]
+              - option "Vereniging of club"
+              - option "Non-profit of stichting"
+              - option "Anders"
+          - generic [ref=e190]:
+            - generic [ref=e191]: Waar loopt het spaak?
+            - textbox "Waar loopt het spaak?" [ref=e192]:
+              - /placeholder: "Bijvoorbeeld: ons verhaal is vaag, onze site is verouderd, marketing is losse acties."
+          - generic [ref=e193]:
+            - generic [ref=e194]: Wat wil je bereiken?
+            - textbox "Wat wil je bereiken?" [ref=e195]:
+              - /placeholder: "Bijvoorbeeld: meer aanvragen, een herkenbaar merk, slimmer werken met AI."
+          - generic [ref=e196]:
+            - text: Website
+            - textbox [ref=e197]
+          - generic "Beveiligingscontrole" [ref=e198]
+          - generic [ref=e199]:
+            - button "Genereer mijn spelplan" [ref=e200] [cursor=pointer]
+            - generic [ref=e201]: Duurt een paar seconden.
+      - generic [ref=e205]:
+        - generic [ref=e206]: ”
+        - paragraph [ref=e207]: Setpiece zette in zes weken een positionering neer die het hele bestuur zelf kon uitleggen. Geen jargon, wel resultaat.
+        - text: Bestuurslid, sportorganisatie
+      - generic [ref=e208]:
+        - generic [ref=e210]:
+          - paragraph [ref=e211]: Kennismaking
+          - heading "Laten we praten over jouw volgende kans." [level=2] [ref=e212]
+          - paragraph [ref=e213]: Vertel waar het schuurt en wat je wilt bereiken. Dan kijken we samen naar de slimste volgende zet.
+          - generic [ref=e214]:
+            - generic [ref=e215]:
+              - generic [ref=e216]:
+                - generic [ref=e217]: Naam
+                - textbox "Naam" [ref=e218]:
+                  - /placeholder: Jouw naam
+              - generic [ref=e219]:
+                - generic [ref=e220]: E-mail
+                - textbox "E-mail" [ref=e221]:
+                  - /placeholder: jij@bedrijf.nl
+            - generic [ref=e222]:
+              - generic [ref=e223]: Organisatie optioneel
+              - textbox "Organisatie optioneel" [ref=e224]:
+                - /placeholder: Bedrijf of vereniging
+            - generic [ref=e225]:
+              - generic [ref=e226]: Waar kunnen we bij helpen?
+              - textbox "Waar kunnen we bij helpen?" [ref=e227]:
+                - /placeholder: Een paar zinnen over je plan, je vereniging of de vraag die speelt.
+            - generic [ref=e228]:
+              - text: Website
+              - textbox [ref=e229]
+            - generic "Beveiligingscontrole" [ref=e230]
+            - generic [ref=e231]:
+              - button "Verstuur bericht" [ref=e232] [cursor=pointer]
+              - generic [ref=e233]:
+                - text: Liever direct mailen?
+                - link "hallo@setpiece.nl" [ref=e234] [cursor=pointer]:
+                  - /url: mailto:hallo@setpiece.nl?subject=Kennismaking%20via%20setpiece.nl
+            - paragraph [ref=e235]: Gratis en vrijblijvend. We reageren binnen 1 werkdag.
+        - generic:
+          - generic:
+            - generic:
+              - generic: Verstuurd
+              - generic: We nemen binnen 1 werkdag contact op.
+    - contentinfo [ref=e237]:
+      - generic [ref=e238]:
+        - generic [ref=e239]:
+          - generic [ref=e240]:
+            - img "Setpiece" [ref=e241]
+            - paragraph [ref=e242]: Strategie & digitale identiteit voor ondernemingen en verenigingen.
+          - navigation [ref=e243]:
+            - link "Diensten" [ref=e244] [cursor=pointer]:
+              - /url: "#diensten"
+            - link "Werkwijze" [ref=e245] [cursor=pointer]:
+              - /url: "#werkwijze"
+            - link "Cases" [ref=e246] [cursor=pointer]:
+              - /url: "#cases"
+            - link "Nankaro" [ref=e247] [cursor=pointer]:
+              - /url: /nankaro
+            - link "Over" [ref=e248] [cursor=pointer]:
+              - /url: /over
+          - link "Setpiece op LinkedIn" [ref=e249] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/setpiece-nl/
+        - generic [ref=e252]:
+          - generic [ref=e253]: © 2026 Setpiece — Almere, Nederland — KVK 99116111
+          - link "hallo@setpiece.nl" [ref=e254] [cursor=pointer]:
+            - /url: mailto:hallo@setpiece.nl
+  - alert [ref=e255]
+  - dialog "Menu" [ref=e288]:
+    - generic [ref=e289]:
+      - img "Setpiece" [ref=e290]
+      - button "Sluit menu" [active] [ref=e291] [cursor=pointer]
+    - navigation "Menu" [ref=e295]:
+      - link "01 Diensten" [ref=e296] [cursor=pointer]:
+        - /url: "#diensten"
+        - generic [ref=e297]: "01"
+        - generic [ref=e298]: Diensten
+      - link "02 Werkwijze" [ref=e299] [cursor=pointer]:
+        - /url: "#werkwijze"
+        - generic [ref=e300]: "02"
+        - generic [ref=e301]: Werkwijze
+      - link "03 Cases" [ref=e302] [cursor=pointer]:
+        - /url: "#cases"
+        - generic [ref=e303]: "03"
+        - generic [ref=e304]: Cases
+      - link "04 Contact" [ref=e305] [cursor=pointer]:
+        - /url: "#contact"
+        - generic [ref=e306]: "04"
+        - generic [ref=e307]: Contact
+      - link "05 Nankaro" [ref=e308] [cursor=pointer]:
+        - /url: /nankaro
+        - generic [ref=e309]: "05"
+        - generic [ref=e310]: Nankaro
+      - link "06 Over" [ref=e311] [cursor=pointer]:
+        - /url: /over
+        - generic [ref=e312]: "06"
+        - generic [ref=e313]: Over
+    - generic [ref=e314]:
+      - generic [ref=e316]: Beschikbaar voor nieuwe projecten
+      - link "hallo@setpiece.nl" [ref=e317] [cursor=pointer]:
+        - /url: mailto:hallo@setpiece.nl?subject=Kennismaking%20via%20setpiece.nl

@@ -1,0 +1,173 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Ga naar de inhoud" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Setpiece — home" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Setpiece" [ref=e7]
+        - generic [ref=e8]:
+          - link "Plan een kennismaking" [ref=e9] [cursor=pointer]:
+            - /url: /#contact
+          - button "Open menu" [ref=e10] [cursor=pointer]: Menu
+    - main [ref=e12]:
+      - generic [ref=e14]:
+        - paragraph [ref=e15]: Ons grootste project
+        - 'heading "Nankaro: een compleet clubplatform, gebouwd door Setpiece." [level=1] [ref=e16]'
+        - paragraph [ref=e17]: Een digitale clubomgeving waarin planning, spelersontwikkeling, wedstrijden, communicatie, scouting, taken, aanvragen en de publieke clubwebsite samenkomen. Van concept tot lancering in eigen beheer.
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - generic [ref=e20]: "8"
+            - generic [ref=e21]: featureclusters die samenwerken
+          - generic [ref=e22]:
+            - generic [ref=e23]: "3"
+            - generic [ref=e24]: pakketten, van organisatie tot clubregie
+          - generic [ref=e25]:
+            - generic [ref=e26]: "1"
+            - generic [ref=e27]: clubomgeving, website inbegrepen
+        - generic [ref=e28]:
+          - link "Bekijk nankaro.app →" [ref=e29] [cursor=pointer]:
+            - /url: https://nankaro.app
+          - link "Praat over jouw club" [ref=e30] [cursor=pointer]:
+            - /url: /#contact
+      - generic [ref=e32]:
+        - paragraph [ref=e33]: Het idee
+        - heading "Geen losse teamapp. Een clubplatform." [level=2] [ref=e34]
+        - paragraph [ref=e35]: Nankaro is geen losse teamapp en ook geen klassiek ledenadministratiesysteem. Het is een digitaal clubplatform voor verenigingen die professioneler willen organiseren, ontwikkelen en communiceren zonder de menselijke clubcultuur kwijt te raken.
+        - paragraph [ref=e36]: De kracht zit in de samenhang. Een proeftrainingaanvraag kan een taak, een scoutingdossier en uiteindelijk een spelerprofiel worden. Een wedstrijd levert input voor score, speelminuten, reflectie en content. De website is geen eiland, maar de publieke voorkant van dezelfde clubomgeving.
+        - generic [ref=e38]:
+          - generic [ref=e39]: ”
+          - paragraph [ref=e40]: Nankaro maakt van cluborganisatie geen brandjes blussen, maar bouwen.
+          - text: Uit het Nankaro-productoverzicht
+      - generic [ref=e42]:
+        - paragraph [ref=e43]: Waarde
+        - heading "Voor iedereen in de club." [level=2] [ref=e44]
+        - generic [ref=e45]:
+          - generic [ref=e47]:
+            - heading "Voor trainers" [level=3] [ref=e48]
+            - list [ref=e49]:
+              - listitem [ref=e50]: Betere voorbereiding
+              - listitem [ref=e51]: Minder losse administratie
+              - listitem [ref=e52]: Meer houvast in ontwikkeling
+          - generic [ref=e54]:
+            - heading "Voor spelers" [level=3] [ref=e55]
+            - list [ref=e56]:
+              - listitem [ref=e57]: Eigen planning en statistieken
+              - listitem [ref=e58]: Reflecties en doelen
+              - listitem [ref=e59]: Meer eigenaarschap
+          - generic [ref=e61]:
+            - heading "Voor ouders" [level=3] [ref=e62]
+            - list [ref=e63]:
+              - listitem [ref=e64]: Duidelijke planning
+              - listitem [ref=e65]: Afmelden en updates
+              - listitem [ref=e66]: Wel informatie, geen gevoelige stafdata
+          - generic [ref=e68]:
+            - heading "Voor bestuur en TC" [level=3] [ref=e69]
+            - list [ref=e70]:
+              - listitem [ref=e71]: Overzicht op processen
+              - listitem [ref=e72]: Rollen en rechten
+              - listitem [ref=e73]: Continuïteit bij vrijwilligerswissels
+      - generic [ref=e75]:
+        - paragraph [ref=e76]: Het platform
+        - heading "Acht clusters die samenwerken." [level=2] [ref=e77]
+        - paragraph [ref=e78]: Bekijk Nankaro niet als lange lijst knoppen, maar als acht samenwerkende productgebieden. Elke cluster lost een concreet clubprobleem op.
+        - generic [ref=e79]:
+          - generic [ref=e81]:
+            - generic [ref=e82]: "01"
+            - heading "Cluborganisatie" [level=3] [ref=e83]
+            - paragraph [ref=e84]: Dashboard, planning, aanwezigheid, rollen, clubbeheer en basiscommunicatie.
+          - generic [ref=e86]:
+            - generic [ref=e87]: "02"
+            - heading "Voetbalontwikkeling" [level=3] [ref=e88]
+            - paragraph [ref=e89]: Trainingen, spelprincipes, beoordelingen, testen, speelminuten, gesprekken en reflecties.
+          - generic [ref=e91]:
+            - generic [ref=e92]: "03"
+            - heading "Wedstrijdorganisatie" [level=3] [ref=e93]
+            - paragraph [ref=e94]: Resultaten, verslagen, live registratie, publieke live viewer en wedstrijdarchief.
+          - generic [ref=e96]:
+            - generic [ref=e97]: "04"
+            - heading "Speler- en ouderervaring" [level=3] [ref=e98]
+            - paragraph [ref=e99]: Persoonlijke portalen met planning, aanwezigheid, stats, updates en veilige zichtbaarheid.
+          - generic [ref=e101]:
+            - generic [ref=e102]: "05"
+            - heading "Scouting en werving" [level=3] [ref=e103]
+            - paragraph [ref=e104]: Dossiers, observaties, wervingslijsten, opdrachten en statusflows.
+          - generic [ref=e106]:
+            - generic [ref=e107]: "06"
+            - heading "Taken en aanvragen" [level=3] [ref=e108]
+            - paragraph [ref=e109]: Van losse opvolging naar eigenaar, deadline, checklist, comments en activity log.
+          - generic [ref=e111]:
+            - generic [ref=e112]: "07"
+            - heading "Clubwebsite" [level=3] [ref=e113]
+            - paragraph [ref=e114]: CMS, nieuws, teams, sponsors, documenten, formulieren, SEO en eigen domein.
+          - generic [ref=e116]:
+            - generic [ref=e117]: "08"
+            - heading "Platformlaag" [level=3] [ref=e118]
+            - paragraph [ref=e119]: Multi-tenant basis, veiligheid, rollen, feature-gating, branding en schaalbaarheid.
+      - generic [ref=e121]:
+        - paragraph [ref=e122]: Pakketten
+        - heading "Instappen op organisatie, doorgroeien naar clubregie." [level=2] [ref=e123]
+        - generic [ref=e124]:
+          - generic [ref=e126]:
+            - heading "Starter" [level=3] [ref=e127]
+            - paragraph [ref=e128]: Grip op de clubdag.
+            - list [ref=e129]:
+              - listitem [ref=e130]: Clubdashboard
+              - listitem [ref=e131]: Planning en aanwezigheid
+              - listitem [ref=e132]: Mededelingen
+              - listitem [ref=e133]: Spelersbeheer (basis)
+          - generic [ref=e135]:
+            - generic [ref=e136]: Meestgekozen
+            - heading "Pro" [level=3] [ref=e137]
+            - paragraph [ref=e138]: Sportieve ontwikkeling.
+            - list [ref=e139]:
+              - listitem [ref=e140]: Alles uit Starter
+              - listitem [ref=e141]: Training en oefenvormen
+              - listitem [ref=e142]: Spelprincipes
+              - listitem [ref=e143]: Beoordelingen en testen
+              - listitem [ref=e144]: Ontwikkelgesprekken
+              - listitem [ref=e145]: Taken (basis)
+          - generic [ref=e147]:
+            - heading "Club+" [level=3] [ref=e148]
+            - paragraph [ref=e149]: Volledige clubregie.
+            - list [ref=e150]:
+              - listitem [ref=e151]: Alles uit Pro
+              - listitem [ref=e152]: Live wedstrijdregistratie
+              - listitem [ref=e153]: Scouting en werving
+              - listitem [ref=e154]: Taken en aanvragen
+              - listitem [ref=e155]: Website CMS en eigen domein
+        - paragraph [ref=e156]: Starter draait om rust in de clubdag, Pro om sportieve ontwikkeling en Club+ om volledige clubregie inclusief website, scouting, aanvragen en live beleving.
+      - generic [ref=e159]:
+        - generic [ref=e160]: Een Setpiece product
+        - heading "Benieuwd wat Nankaro voor jouw club kan doen?" [level=2] [ref=e161]
+        - paragraph [ref=e162]: Bekijk het platform of stel je vraag rechtstreeks. We denken graag mee over hoe jouw vereniging professioneler organiseert zonder de clubcultuur te verliezen.
+        - generic [ref=e163]:
+          - link "Bekijk nankaro.app →" [ref=e164] [cursor=pointer]:
+            - /url: https://nankaro.app
+          - link "Neem contact op" [ref=e165] [cursor=pointer]:
+            - /url: /#contact
+    - contentinfo [ref=e166]:
+      - generic [ref=e167]:
+        - generic [ref=e168]:
+          - generic [ref=e169]:
+            - img "Setpiece" [ref=e170]
+            - paragraph [ref=e171]: Strategie & digitale identiteit voor ondernemingen en verenigingen.
+          - navigation [ref=e172]:
+            - link "Diensten" [ref=e173] [cursor=pointer]:
+              - /url: /#diensten
+            - link "Werkwijze" [ref=e174] [cursor=pointer]:
+              - /url: /#werkwijze
+            - link "Cases" [ref=e175] [cursor=pointer]:
+              - /url: /#cases
+            - link "Nankaro" [ref=e176] [cursor=pointer]:
+              - /url: /nankaro
+            - link "Over" [ref=e177] [cursor=pointer]:
+              - /url: /over
+          - link "Setpiece op LinkedIn" [ref=e178] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/setpiece-nl/
+        - generic [ref=e181]:
+          - generic [ref=e182]: © 2026 Setpiece — Almere, Nederland — KVK 99116111
+          - link "hallo@setpiece.nl" [ref=e183] [cursor=pointer]:
+            - /url: mailto:hallo@setpiece.nl
+  - alert [ref=e184]

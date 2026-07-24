@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1128" height="191" viewBox="0 0 1128 191" role="img" aria-labelledby="title desc">
+  <title id="title">Setpiece LinkedIn-bedrijfsbanner</title>
+  <desc id="desc">Van versnipperde communicatie naar één sterke digitale clubervaring.</desc>
+
+  <rect width="1128" height="191" fill="#0f2a52" />
+  <circle cx="102" cy="-38" r="96" fill="#1a5cad" opacity="0.18" />
+  <circle cx="1094" cy="220" r="145" fill="#1a5cad" opacity="0.20" />
+
+  <g opacity="0.08" stroke="#f0f4fb" stroke-width="2" fill="none">
+    <circle cx="982" cy="42" r="105" />
+    <line x1="982" y1="-40" x2="982" y2="124" />
+    <line x1="900" y1="42" x2="1064" y2="42" />
+    <circle cx="982" cy="42" r="34" />
+  </g>
+
+  <text x="238" y="86" fill="#f5f2ec" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-size="30" font-weight="800" letter-spacing="-0.6">
+    <tspan x="238" dy="0">Van versnipperde communicatie naar één</tspan>
+    <tspan x="238" dy="31">sterke digitale clubervaring.</tspan>
+  </text>
+
+  <rect x="238" y="148" width="24" height="3" rx="1.5" fill="#e8a020" />
+  <text x="272" y="156" fill="#a9c2e6" font-family="Arial, sans-serif" font-size="13" font-weight="500">
+    Strategie · merk · website · clubapp · AI
+  </text>
+
+  <text x="1072" y="156" text-anchor="end" fill="#f5f2ec" font-family="Arial, sans-serif" font-size="13" font-weight="500">
+    setpiece.nl
+  </text>
+</svg>

@@ -1,0 +1,149 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Ga naar de inhoud" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Setpiece — home" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Setpiece" [ref=e7]
+        - generic [ref=e8]:
+          - link "Plan een kennismaking" [ref=e9] [cursor=pointer]:
+            - /url: /#contact
+          - button "Open menu" [ref=e10] [cursor=pointer]: Menu
+    - main [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]: Beschikbaar voor nieuwe projecten
+          - heading "Elke kans voorbereid. Elke campagne raak." [level=1] [ref=e17]:
+            - generic [ref=e18]: Elke kans voorbereid.
+            - generic [ref=e20]: Elke campagne raak.
+          - group "Voor wie kijk je" [ref=e22]:
+            - button "Voor ondernemingen" [pressed] [ref=e23] [cursor=pointer]
+            - button "Voor verenigingen" [ref=e24] [cursor=pointer]
+          - paragraph [ref=e25]:
+            - generic [ref=e26]: Strategie en digitale identiteit voor ondernemingen. Geen losse flodders, maar een plan dat elke campagne raak maakt.
+          - generic [ref=e27]:
+            - link "Plan een kennismaking" [ref=e29] [cursor=pointer]:
+              - /url: /#contact
+            - link "Bekijk het spelplan" [ref=e30] [cursor=pointer]:
+              - /url: "#spelplan"
+        - link "Scroll voor de aftrap" [ref=e31] [cursor=pointer]:
+          - /url: "#spelplan"
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - paragraph [ref=e35]: Het spelplan
+          - heading "Zes posities, één doel." [level=2] [ref=e36]
+          - paragraph [ref=e37]:
+            - generic [ref=e38]: "Elke dienst staat opgesteld rond dezelfde vraag: welke kans bereiden we voor. Kies een positie op het bord."
+        - generic [ref=e39]:
+          - generic [ref=e41]:
+            - button "01 — Merkstrategie" [ref=e58] [cursor=pointer]: "01"
+            - button "02 — Digitale identiteit" [ref=e59] [cursor=pointer]: "02"
+            - button "03 — Campagnes" [ref=e60] [cursor=pointer]: "03"
+            - button "04 — AI-strategie & advies" [ref=e61] [cursor=pointer]: "04"
+            - button "05 — App-ontwikkeling" [ref=e62] [cursor=pointer]: "05"
+            - button "06 — Interim marketing" [ref=e63] [cursor=pointer]: "06"
+          - generic [ref=e64]:
+            - tabpanel "Merkstrategie" [ref=e65]:
+              - generic [ref=e66]: 01 / 06
+              - heading "Merkstrategie" [level=3] [ref=e67]
+              - paragraph [ref=e68]: Positionering, verhaal en een koers die iedereen in de organisatie kan uitleggen. De opstelling waar elke andere keuze op bouwt.
+            - tablist "Diensten" [ref=e69]:
+              - tab "Merkstrategie" [selected] [ref=e70] [cursor=pointer]
+              - tab "Digitale identiteit" [ref=e71] [cursor=pointer]
+              - tab "Campagnes" [ref=e72] [cursor=pointer]
+              - tab "AI-strategie & advies" [ref=e73] [cursor=pointer]
+              - tab "App-ontwikkeling" [ref=e74] [cursor=pointer]
+              - tab "Interim marketing" [ref=e75] [cursor=pointer]
+      - generic [ref=e78]:
+        - img [ref=e79]:
+          - 'button "Ga naar stap 01: Kennismaking" [ref=e83] [cursor=pointer]':
+            - generic [ref=e85]: "01"
+          - 'button "Ga naar stap 02: Strategie" [ref=e86] [cursor=pointer]':
+            - generic [ref=e88]: "02"
+          - 'button "Ga naar stap 03: Uitvoering" [ref=e89] [cursor=pointer]':
+            - generic [ref=e91]: "03"
+          - 'button "Ga naar stap 04: Raak" [ref=e92] [cursor=pointer]':
+            - generic [ref=e94]: "04"
+        - generic:
+          - paragraph: Werkwijze
+          - heading "Van voorbereiding naar doelpunt." [level=2]: Van voorbereidingnaar doelpunt.
+        - generic [ref=e98]: 01/ 04
+        - generic [ref=e99]:
+          - generic [ref=e100]: 01 — de fase loopt
+          - heading "Kennismaking" [level=3] [ref=e101]
+          - paragraph [ref=e102]: We bespreken de situatie, het doel en wat er al is. Geen intake-formulier, gewoon een goed gesprek.
+        - generic [ref=e103]: Scroll of klik op een stap
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - paragraph [ref=e106]: Het bewijs
+          - heading "Werk dat raak was." [level=2] [ref=e107]
+        - generic [ref=e108]:
+          - link "Digitale identiteit Geanonimiseerde klantcase Een merk dat net zo hard meegroeit als het team. Bekijk case →" [ref=e110] [cursor=pointer]:
+            - /url: /cases/digitale-identiteit
+            - generic [ref=e112]:
+              - generic [ref=e113]: Digitale identiteit
+              - generic [ref=e114]: Geanonimiseerde klantcase
+              - heading "Een merk dat net zo hard meegroeit als het team." [level=3] [ref=e115]
+            - generic [ref=e116]: Bekijk case →
+          - link "AI-strategie & advies Geanonimiseerde klantcase Van losse experimenten naar één gericht stappenplan. Bekijk case →" [ref=e118] [cursor=pointer]:
+            - /url: /cases/ai-strategie
+            - generic [ref=e120]:
+              - generic [ref=e121]: AI-strategie & advies
+              - generic [ref=e122]: Geanonimiseerde klantcase
+              - heading "Van losse experimenten naar één gericht stappenplan." [level=3] [ref=e123]
+            - generic [ref=e124]: Bekijk case →
+          - link "Merkstrategie Geanonimiseerde klantcase Van bestuurstaal naar een koers die leden meteen begrijpen. Bekijk case →" [ref=e126] [cursor=pointer]:
+            - /url: /cases/merkstrategie
+            - generic [ref=e128]:
+              - generic [ref=e129]: Merkstrategie
+              - generic [ref=e130]: Geanonimiseerde klantcase
+              - heading "Van bestuurstaal naar een koers die leden meteen begrijpen." [level=3] [ref=e131]
+            - generic [ref=e132]: Bekijk case →
+        - generic [ref=e134]:
+          - generic [ref=e135]: ”
+          - paragraph [ref=e136]: Setpiece zette in zes weken een positionering neer die het hele bestuur zelf kan uitleggen. Geen jargon, wel resultaat.
+          - text: Bestuurslid, brancheorganisatie
+      - generic [ref=e137]:
+        - generic [ref=e138]:
+          - button "Schiet de bal op het doel" [ref=e139] [cursor=pointer]
+          - heading "Raak." [level=2] [ref=e144]
+          - paragraph [ref=e145]:
+            - generic [ref=e146]: Elke kans voorbereid. Nu die van jouw onderneming. Stuur je aanvraag, je krijgt binnen één werkdag antwoord.
+          - generic [ref=e147]:
+            - link "Plan een kennismaking" [ref=e149] [cursor=pointer]:
+              - /url: /#contact
+            - button "Kopieer e-mailadres" [ref=e150] [cursor=pointer]
+          - paragraph [ref=e151]:
+            - link "hallo@setpiece.nl" [ref=e152] [cursor=pointer]:
+              - /url: mailto:hallo@setpiece.nl?subject=Kennismaking%20via%20setpiece.nl%20(onderneming)
+        - generic:
+          - generic:
+            - generic:
+              - generic: Gekopieerd
+              - generic: hallo@setpiece.nl staat op je klembord.
+    - contentinfo [ref=e153]:
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - generic [ref=e156]:
+            - img "Setpiece" [ref=e157]
+            - paragraph [ref=e158]: Strategie & digitale identiteit voor ondernemingen en verenigingen.
+          - navigation [ref=e159]:
+            - link "Diensten" [ref=e160] [cursor=pointer]:
+              - /url: /#diensten
+            - link "Werkwijze" [ref=e161] [cursor=pointer]:
+              - /url: /#werkwijze
+            - link "Cases" [ref=e162] [cursor=pointer]:
+              - /url: /#cases
+            - link "Nankaro" [ref=e163] [cursor=pointer]:
+              - /url: /nankaro
+            - link "Over" [ref=e164] [cursor=pointer]:
+              - /url: /over
+          - link "Setpiece op LinkedIn" [ref=e165] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/setpiece-nl/
+        - generic [ref=e168]:
+          - generic [ref=e169]: © 2026 Setpiece — Almere, Nederland — KVK 99116111
+          - link "hallo@setpiece.nl" [ref=e170] [cursor=pointer]:
+            - /url: mailto:hallo@setpiece.nl
+  - alert [ref=e171]

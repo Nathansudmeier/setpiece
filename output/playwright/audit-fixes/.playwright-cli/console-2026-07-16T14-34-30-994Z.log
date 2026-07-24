@@ -1,0 +1,6 @@
+[     211ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3017/_vercel/insights/script.js:0
+[     212ms] [ERROR] Refused to execute script from 'http://127.0.0.1:3017/_vercel/insights/script.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled. @ http://127.0.0.1:3017/experience:0
+[     212ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:3017/_vercel/speed-insights/script.js:0
+[     212ms] [ERROR] Refused to execute script from 'http://127.0.0.1:3017/_vercel/speed-insights/script.js' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled. @ http://127.0.0.1:3017/experience:0
+[     223ms] [LOG] [Vercel Web Analytics] Failed to load script from /_vercel/insights/script.js. Be sure to enable Web Analytics for your project and deploy again. See https://vercel.com/docs/analytics/quickstart for more information. @ http://127.0.0.1:3017/_next/static/chunks/0-bura7exq75i.js:0
+[     223ms] [LOG] [Vercel Speed Insights] Failed to load script from /_vercel/speed-insights/script.js. Please check if any content blockers are enabled and try again. @ http://127.0.0.1:3017/_next/static/chunks/0-bura7exq75i.js:0
