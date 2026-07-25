@@ -103,6 +103,13 @@ Supabase-opslag zijn niet vervangen.
 - `npm run typecheck`
 - Directe Resend-test naar `nathan@setpiece.nl`, door de provider als
   `delivered` bevestigd
+- `SUPABASE_SECRET_KEY` versleuteld ingesteld voor Preview en Productie
+- Beveiligingsmigratie `harden_public_submissions` toegepast op het
+  Setpiece-project in Supabase
+- Rate-limiter via de Data API met `service_role` getest; `anon` en
+  `authenticated` hebben geen uitvoerrecht
+- Previewroute bereikt na de Supabase-configuratie de Turnstile-controle en
+  weigert een ongeldig testtoken gecontroleerd met HTTP 400
 - Visuele browsercontrole op 390, 768, 1024 en 1440 pixels
 - Lege formulierinzending en herstel van alle vereiste velden
 - Controle op horizontale overloop, consolefouten en beeldlading
@@ -115,9 +122,9 @@ afzonderlijk met Playwright uitgevoerd. Er is geen extra pakket aan het project
 toegevoegd.
 
 De volledige productie-equivalente formulierinzending blijft open totdat
-`SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` en
-`TURNSTILE_SECRET_KEY` voor Preview en Productie in Vercel zijn ingesteld. De
-Resend-variabelen staan daar al voor beide omgevingen.
+`NEXT_PUBLIC_TURNSTILE_SITE_KEY` en `TURNSTILE_SECRET_KEY` voor Preview en
+Productie in Vercel zijn ingesteld. De Supabase- en Resend-variabelen staan
+daar al voor beide omgevingen.
 
 ## Definitie van gereed voor publicatie
 
