@@ -1,6 +1,6 @@
 # Acceptatiehandoff Setpiece-website
 
-**Status op 2026-07-24:** klaar voor een nieuwe menselijke acceptatieronde. Nog
+**Status op 2026-07-25:** klaar voor een nieuwe menselijke acceptatieronde. Nog
 niet klaar voor publicatie.
 
 ## Besluit
@@ -65,6 +65,7 @@ Supabase-opslag zijn niet vervangen.
 
 ### P2. Productie-inzending
 
+- **Status:** technisch afgerond op 25 juli 2026.
 - **Eigenaar:** Nathan of technisch beheerder.
 - **Voorwaarde:** op een afgeschermde preview met productie-equivalente
   configuratie, vóór livegang.
@@ -110,6 +111,12 @@ Supabase-opslag zijn niet vervangen.
   `authenticated` hebben geen uitvoerrecht
 - Previewroute bereikt na de Supabase-configuratie de Turnstile-controle en
   weigert een ongeldig testtoken gecontroleerd met HTTP 400
+- Volledige browserinzending op de vaste previewalias met een geldige
+  Turnstile-token en HTTP 200
+- Precies één herkenbare testaanvraag in Supabase aangetroffen
+- Resend-notificatie door de provider als `delivered` bevestigd, met Reply-To
+  naar het e-mailadres van de inzender
+- De testaanvraag na controle exact verwijderd; nul testregels achtergebleven
 - Visuele browsercontrole op 390, 768, 1024 en 1440 pixels
 - Lege formulierinzending en herstel van alle vereiste velden
 - Controle op horizontale overloop, consolefouten en beeldlading
@@ -121,10 +128,9 @@ meegeleverde runtime geen Puppeteer bevat. De live browsercontrole is daarom
 afzonderlijk met Playwright uitgevoerd. Er is geen extra pakket aan het project
 toegevoegd.
 
-De volledige productie-equivalente formulierinzending blijft open totdat
-`NEXT_PUBLIC_TURNSTILE_SITE_KEY` en `TURNSTILE_SECRET_KEY` voor Preview en
-Productie in Vercel zijn ingesteld. De Supabase- en Resend-variabelen staan
-daar al voor beide omgevingen.
+De volledige productie-equivalente formulierinzending is geslaagd.
+`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, de Supabase-variabelen
+en de Resend-variabelen staan voor Preview en Productie in Vercel.
 
 ## Definitie van gereed voor publicatie
 
