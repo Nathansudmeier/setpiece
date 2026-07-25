@@ -1,6 +1,7 @@
 "use client";
 
 import { track } from "@vercel/analytics";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import Turnstile from "@/components/site/Turnstile";
@@ -295,7 +296,8 @@ export default function KansenscanContactForm() {
         />
         <small id="scan-work-help">
           Beschrijf de situatie in je eigen woorden. Een concreet voorbeeld helpt meer dan
-          een volledige analyse.
+          een volledige analyse. Deel nog geen namen, personeelsgegevens of andere
+          vertrouwelijke persoonsgegevens.
         </small>
         {fieldError("work") ? <p id="scan-work-error">{fieldError("work")}</p> : null}
       </div>
@@ -378,8 +380,8 @@ export default function KansenscanContactForm() {
           {submitting ? "Aanvraag wordt verwerkt…" : "Verstuur aanvraag"}
         </button>
         <p>
-          Je gegevens worden alleen gebruikt om deze aanvraag te beoordelen en te
-          beantwoorden.
+          We gebruiken je gegevens alleen om deze aanvraag te beoordelen en te
+          beantwoorden. Lees hoe dat werkt in onze <Link href="/privacy">privacyverklaring</Link>.
         </p>
       </div>
     </form>

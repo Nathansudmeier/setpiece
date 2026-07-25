@@ -44,8 +44,12 @@ Supabase-opslag zijn niet vervangen.
 
 - **Eigenaar:** Nathan, met juridische controle waar nodig.
 - **Voorwaarde:** vóór publicatie.
+- **Uitgevoerd in code:** een volledige privacyverklaring op `/privacy`, een
+  cookiebeleid op `/cookies`, links in het formulier en de footer en concrete
+  bewaartermijnen voor aanvragen en beveiligingsgegevens.
 - **Te bevestigen:** verwerkingsdoel, grondslag, bewaartermijn, betrokken
-  verwerkers, rechten en definitieve privacyroute.
+  verwerkers, rechten en de feitelijke uitvoerbaarheid van de genoemde
+  bewaartermijnen.
 - **Acceptatie:** de korte uitleg bij het formulier verwijst naar een volledige,
   juridisch bevestigde privacyverklaring.
 

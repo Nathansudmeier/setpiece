@@ -27,6 +27,8 @@ export default function WorkspoorFooter() {
               </Link>
             ))}
             <Link href="/contact">Contact</Link>
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/cookies">Cookies</Link>
           </nav>
           <div className="ws-footer__contact">
             <span>Setpiece · Almere</span>

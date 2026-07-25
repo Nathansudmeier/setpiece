@@ -81,8 +81,29 @@ test("technische SEO-basis is onderdeel van de App Router", () => {
   assert.match(sitemap, /\/werkwijze/);
   assert.match(sitemap, /\/praktijkvoorbeelden/);
   assert.match(sitemap, /\/contact/);
+  assert.match(sitemap, /\/privacy/);
+  assert.match(sitemap, /\/cookies/);
   assert.match(layout, /AI Consultancy/);
   assert.match(layout, /AI-oplossingen/);
+});
+
+test("privacy en cookies zijn helder uitgelegd en bereikbaar", () => {
+  const privacy = read("app/privacy/page.tsx");
+  const cookies = read("app/cookies/page.tsx");
+  const footer = read("components/workspoor/WorkspoorFooter.tsx");
+  const contact = read("components/workspoor/KansenscanContactForm.tsx");
+
+  assert.match(privacy, /maximaal twaalf maanden/);
+  assert.match(privacy, /maximaal twee dagen/);
+  assert.match(privacy, /Vercel/);
+  assert.match(privacy, /Supabase/);
+  assert.match(privacy, /Cloudflare Turnstile/);
+  assert.match(privacy, /Autoriteit Persoonsgegevens/);
+  assert.match(cookies, /Geen marketingcookies/);
+  assert.match(cookies, /zonder cookies/);
+  assert.match(footer, /href="\/privacy"/);
+  assert.match(footer, /href="\/cookies"/);
+  assert.match(contact, /privacyverklaring/);
 });
 
 test("de nieuwe visuele wereld en richting zijn duurzaam vastgelegd", () => {

@@ -9,6 +9,8 @@ const ROUTES = [
   "/praktijkvoorbeelden",
   "/over",
   "/contact",
+  "/privacy",
+  "/cookies",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
