@@ -69,9 +69,11 @@ Supabase-opslag zijn niet vervangen.
 - **Voorwaarde:** op een afgeschermde preview met productie-equivalente
   configuratie, vóór livegang.
 - **Te testen:** Turnstile, `/api/contact`, rate limiting, Supabase-opslag,
-  ontvangst en foutafhandeling.
+  de notificatiemail via Resend, Reply-To, ontvangst en foutafhandeling.
 - **Acceptatie:** één herkenbare testaanvraag komt volledig en slechts eenmaal
-  aan. Verwijder de testdata daarna volgens de afgesproken bewaarroutine.
+  aan in Supabase en op `nathan@setpiece.nl`. Een antwoord op de notificatie is
+  gericht aan de inzender. Verwijder de testdata daarna volgens de afgesproken
+  bewaarroutine.
 
 ### P3. Ondersteunende technologie
 
@@ -96,9 +98,11 @@ Supabase-opslag zijn niet vervangen.
 ## Reeds uitgevoerde controles
 
 - `npm run lint`
-- `npm run test`, 6 van 6 tests geslaagd
+- `npm run test`, 7 van 7 tests geslaagd
 - `npm run build`
 - `npm run typecheck`
+- Directe Resend-test naar `nathan@setpiece.nl`, door de provider als
+  `delivered` bevestigd
 - Visuele browsercontrole op 390, 768, 1024 en 1440 pixels
 - Lege formulierinzending en herstel van alle vereiste velden
 - Controle op horizontale overloop, consolefouten en beeldlading
@@ -109,6 +113,11 @@ De URL-engine van de lokale Impeccable-installatie kon niet starten omdat de
 meegeleverde runtime geen Puppeteer bevat. De live browsercontrole is daarom
 afzonderlijk met Playwright uitgevoerd. Er is geen extra pakket aan het project
 toegevoegd.
+
+De volledige productie-equivalente formulierinzending blijft open totdat
+`SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` en
+`TURNSTILE_SECRET_KEY` voor Preview en Productie in Vercel zijn ingesteld. De
+Resend-variabelen staan daar al voor beide omgevingen.
 
 ## Definitie van gereed voor publicatie
 

@@ -54,6 +54,7 @@ test("praktijkvoorbeelden tonen beginsituatie, verandering, resultaat en context
 test("publieke formulieren blijven achter servergrenzen", () => {
   const contact = read("components/workspoor/KansenscanContactForm.tsx");
   const contactRoute = read("app/api/contact/route.ts");
+  const contactNotification = read("lib/email/contact-notification.ts");
   const intakeRoute = read("app/api/intake/route.ts");
 
   assert.match(contact, /fetch\("\/api\/contact"/);
@@ -62,6 +63,12 @@ test("publieke formulieren blijven achter servergrenzen", () => {
   assert.match(contact, /required/);
   assert.match(contactRoute, /consumeRateLimit/);
   assert.match(contactRoute, /verifyTurnstile/);
+  assert.match(contactRoute, /\.select\("id"\)/);
+  assert.match(contactRoute, /sendContactNotification/);
+  assert.match(contactNotification, /replyTo: input\.email/);
+  assert.match(contactNotification, /idempotencyKey: `contact-submission\//);
+  assert.match(contactNotification, /text: createNotificationText/);
+  assert.doesNotMatch(contactNotification, /html:/);
   assert.match(intakeRoute, /intake_daily_budget/);
   assert.match(intakeRoute, /AbortSignal\.timeout/);
 });
@@ -97,6 +104,7 @@ test("privacy en cookies zijn helder uitgelegd en bereikbaar", () => {
   assert.match(privacy, /maximaal twee dagen/);
   assert.match(privacy, /Vercel/);
   assert.match(privacy, /Supabase/);
+  assert.match(privacy, /Resend/);
   assert.match(privacy, /Cloudflare Turnstile/);
   assert.match(privacy, /Autoriteit Persoonsgegevens/);
   assert.match(cookies, /Geen marketingcookies/);

@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { logContactNotification, sendContactNotification } from "@/lib/email/contact-notification";
 import { cleanText, getClientIp, hasValidOrigin, logPublicEndpoint, requestIsTooLarge } from "@/lib/security/request";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { verifyTurnstile } from "@/lib/security/turnstile";
@@ -69,15 +70,37 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = getSupabaseAdminClient();
-    const { error } = await supabase.from("contact_submissions").insert({
-      name,
-      email,
-      company: company || null,
-      message,
-      source: "homepage",
-    });
+    const { data: submission, error } = await supabase
+      .from("contact_submissions")
+      .insert({
+        name,
+        email,
+        company: company || null,
+        message,
+        source: "homepage",
+      })
+      .select("id")
+      .single();
 
-    if (error) throw error;
+    if (error || !submission) throw error ?? new Error("Opgeslagen aanvraag heeft geen id.");
+
+    try {
+      await sendContactNotification({
+        submissionId: submission.id,
+        name,
+        email,
+        company: company || null,
+        message,
+      });
+      logContactNotification("sent", submission.id);
+    } catch (notificationError) {
+      logContactNotification(
+        "failed",
+        submission.id,
+        notificationError instanceof Error ? notificationError.message : "unknown_error",
+      );
+    }
+
     logPublicEndpoint("contact", "accepted", startedAt);
     return NextResponse.json({ ok: true });
   } catch {

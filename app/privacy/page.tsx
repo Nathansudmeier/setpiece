@@ -122,6 +122,10 @@ export default function PrivacyPage() {
               <ul>
                 <li>Vercel voor hosting, geanonimiseerde webstatistieken en prestatiemeting;</li>
                 <li>Supabase voor beveiligde opslag van aanvragen en snelheidsbeperking;</li>
+                <li>
+                  Resend voor de interne notificatiemail waarmee Setpiece ziet dat er
+                  een nieuwe aanvraag klaarstaat;
+                </li>
                 <li>Cloudflare Turnstile voor de controle op bots en misbruik;</li>
                 <li>de zakelijke e-mailprovider wanneer Setpiece je aanvraag beantwoordt.</li>
               </ul>

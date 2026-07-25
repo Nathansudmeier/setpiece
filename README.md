@@ -15,6 +15,7 @@ Gebouwd met Next.js (App Router) op basis van het Setpiece design system. Twee o
 - **Supabase** voor contactaanvragen, beheer-auth, RLS en gedeelde rate limiting
 - **Anthropic** voor de publieke AI-intake, met budget- en misbruikgrenzen
 - **Cloudflare Turnstile** voor botcontrole op publieke formulieren
+- **Resend** voor een interne notificatie na een veilig opgeslagen contactaanvraag
 - **Vercel Analytics en Speed Insights** voor productievelddata
 - **Vercel** voor hosting
 
@@ -42,9 +43,20 @@ ANTHROPIC_INTAKE_FALLBACK_MODEL=claude-sonnet-5
 INTAKE_DAILY_LIMIT=80
 NEXT_PUBLIC_TURNSTILE_SITE_KEY= # Publieke Turnstile site key
 TURNSTILE_SECRET_KEY=           # Alleen server-side
+RESEND_API_KEY=                 # Alleen server-side
+CONTACT_NOTIFICATION_FROM=Setpiece Website <onboarding@resend.dev>
+CONTACT_NOTIFICATION_TO=nathan@setpiece.nl
 ```
 
 Dezelfde variabelen staan in Vercel als project environment variables.
+Het verzenddomein van `CONTACT_NOTIFICATION_FROM` moet in Resend geverifieerd
+zijn. De notificatie gebruikt het e-mailadres van de inzender als Reply-To.
+Een mailfout verwijdert of weigert de al in Supabase opgeslagen aanvraag niet.
+De huidige acceptatieconfiguratie gebruikt Resends testafzender en kan daardoor
+alleen naar het accountadres `nathan@setpiece.nl` verzenden. Verifieer
+`setpiece.nl` in een Resend-account met een vrij domeinslot voordat de afzender
+wordt gewijzigd naar `website@setpiece.nl` en de ontvanger eventueel naar
+`hallo@setpiece.nl`.
 
 ### Database en deployment
 
@@ -52,6 +64,7 @@ Pas vóór de eerste deployment van de beveiligde formulieren de migratie in
 `supabase/migrations/` toe. Deze maakt de gedeelde limiter aan en trekt directe
 anonieme inserts op `contact_submissions` in. Deploy de applicatie pas nadat
 `SUPABASE_SECRET_KEY` en de Turnstile-variabelen in Vercel staan.
+Voor notificaties moeten ook de drie Resend-variabelen zijn ingesteld.
 
 ```bash
 supabase db push
