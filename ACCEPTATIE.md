@@ -98,6 +98,9 @@ Supabase-opslag zijn niet vervangen.
 
 ## Reeds uitgevoerde controles
 
+- Next.js en `eslint-config-next` gelijk bijgewerkt naar 16.2.11
+- Afhankelijkheden voor PostCSS en Sharp vastgezet op beveiligde versies
+- `npm audit --omit=dev`, geen bekende productiekwetsbaarheden
 - `npm run lint`
 - `npm run test`, 7 van 7 tests geslaagd
 - `npm run build`
