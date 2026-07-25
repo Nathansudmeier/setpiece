@@ -1,7 +1,7 @@
 # Acceptatiehandoff Setpiece-website
 
-**Status op 2026-07-25:** klaar voor een nieuwe menselijke acceptatieronde. Nog
-niet klaar voor publicatie.
+**Status op 2026-07-25:** door Nathan geaccepteerd, naar `main` gemerged en
+gepubliceerd op `setpiece.nl`.
 
 ## Besluit
 
@@ -38,12 +38,19 @@ Supabase-opslag zijn niet vervangen.
 - De publieke vormgeving en productrichting zijn vastgelegd in
   [DESIGN.md](DESIGN.md) en [PRODUCT.md](PRODUCT.md).
 
-## Open acceptatiegates
+## Publicatiebesluit
+
+Nathan heeft de beveiligde preview op 25 juli 2026 expliciet goedgekeurd.
+Commit `7fa8af4` is als schone fast-forward naar `main` gepusht en door Vercel
+als productieversie gepubliceerd. De publieke hoofdroutes geven HTTP 200.
+
+## Opvolgpunten na publicatie
 
 ### P1. Privacy bij de aanvraag
 
 - **Eigenaar:** Nathan, met juridische controle waar nodig.
-- **Voorwaarde:** vóór publicatie.
+- **Voorwaarde:** bij de eerstvolgende juridische of operationele controle en
+  vóór een materiële wijziging aan gegevensverwerking of bewaartermijnen.
 - **Uitgevoerd in code:** een volledige privacyverklaring op `/privacy`, een
   cookiebeleid op `/cookies`, links in het formulier en de footer en concrete
   bewaartermijnen voor aanvragen en beveiligingsgegevens.
@@ -56,19 +63,20 @@ Supabase-opslag zijn niet vervangen.
 ### P2. Bron en toestemming voor resultaatclaims
 
 - **Eigenaar:** Nathan.
-- **Voorwaarde:** vóór publicatie van klantnamen en percentages.
+- **Voorwaarde:** vóór toevoeging of aanscherping van klantnamen, percentages
+  of resultaatclaims.
 - **Te bevestigen:** meetobject, periode, voor- en namethode, bron en
   publicatietoestemming voor Nankaro, Cameranu en A.Vogel.
 - **Acceptatie:** iedere publieke claim heeft een controleerbare meetcontext.
   Als die niet openbaar mag worden, wordt de precisie van de claim verlaagd of
   de klantnaam verwijderd.
 
-### P2. Productie-inzending
+### Afgerond. Productie-inzending
 
 - **Status:** technisch afgerond op 25 juli 2026.
 - **Eigenaar:** Nathan of technisch beheerder.
-- **Voorwaarde:** op een afgeschermde preview met productie-equivalente
-  configuratie, vóór livegang.
+- **Voorwaarde:** uitgevoerd op een afgeschermde preview met
+  productie-equivalente configuratie vóór livegang.
 - **Te testen:** Turnstile, `/api/contact`, rate limiting, Supabase-opslag,
   de notificatiemail via Resend, Reply-To, ontvangst en foutafhandeling.
 - **Acceptatie:** één herkenbare testaanvraag komt volledig en slechts eenmaal
@@ -135,9 +143,9 @@ De volledige productie-equivalente formulierinzending is geslaagd.
 `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, de Supabase-variabelen
 en de Resend-variabelen staan voor Preview en Productie in Vercel.
 
-## Definitie van gereed voor publicatie
+## Publicatiestatus
 
-Publicatie is pas akkoord wanneer alle vier open gates hierboven zijn
-afgetekend, de checks opnieuw groen zijn en de acceptant expliciet bevestigt dat
-de huidige preview de te publiceren versie is. Deze migratie is niet
-gepubliceerd.
+De geaccepteerde preview is gepubliceerd. Lint, tests, productiebuild,
+typecheck, productie-audit, Vercel-deployment en de openbare hoofdroutes waren
+groen bij publicatie. De resterende punten hierboven zijn beheer- en
+vervolgacties en veranderen het genomen publicatiebesluit niet.
