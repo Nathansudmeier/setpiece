@@ -4,7 +4,7 @@ import JsonLd from "@/components/JsonLd";
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
 import { LITERACY_ARTICLE_PATH, LITERACY_PATH, LITERACY_REVIEW_DATE, LITERACY_SOURCES } from "@/lib/ai-geletterdheid";
-import { createPageMetadata, SITE_URL } from "@/lib/seo";
+import { createPageMetadata, PERSON_ID, SITE_URL } from "@/lib/seo";
 
 const title = "AI-geletterdheid verplicht: wat moeten bedrijven regelen?";
 const description = "Wat vraagt artikel 4 van de AI Act? Lees voor wie AI-geletterdheid geldt, waarom een certificaat geen garantie is en hoe je praktisch begint.";
@@ -28,14 +28,14 @@ export const metadata = {
 export default function LiteracyArticlePage() {
   const url = new URL(LITERACY_ARTICLE_PATH, SITE_URL).toString();
   return (
-    <WorkspoorShell activePath={LITERACY_PATH}>
+    <WorkspoorShell activePath={LITERACY_ARTICLE_PATH}>
       <JsonLd data={{
         "@context": "https://schema.org",
         "@graph": [
-          { "@type": "Article", "@id": `${url}#article`, headline: title, description, mainEntityOfPage: url, datePublished: LITERACY_REVIEW_DATE, dateModified: LITERACY_REVIEW_DATE, inLanguage: "nl-NL", image: new URL("/ai-geletterdheid/opengraph-image", SITE_URL).toString(), author: { "@type": "Person", name: "Nathan Sudmeier", url: new URL("/over", SITE_URL).toString() }, publisher: { "@id": `${SITE_URL}#organization` }, citation: Object.values(LITERACY_SOURCES) },
+          { "@type": "Article", "@id": `${url}#article`, headline: title, description, mainEntityOfPage: url, datePublished: LITERACY_REVIEW_DATE, dateModified: LITERACY_REVIEW_DATE, inLanguage: "nl-NL", image: new URL("/ai-geletterdheid/opengraph-image", SITE_URL).toString(), author: { "@id": PERSON_ID, "@type": "Person", name: "Nathan Sudmeier", url: new URL("/over", SITE_URL).toString() }, publisher: { "@id": `${SITE_URL}#organization` }, citation: Object.values(LITERACY_SOURCES) },
           { "@type": "BreadcrumbList", itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL.toString() },
-            { "@type": "ListItem", position: 2, name: "AI-geletterdheid", item: new URL(LITERACY_PATH, SITE_URL).toString() },
+            { "@type": "ListItem", position: 2, name: "Kennis", item: new URL("/kennis", SITE_URL).toString() },
             { "@type": "ListItem", position: 3, name: "Wat is verplicht?", item: url },
           ] },
         ],
@@ -43,7 +43,7 @@ export default function LiteracyArticlePage() {
       <article>
         <header className="ws-page-hero ws-literacy-article-hero">
           <div className="ws-frame">
-            <nav className="ws-breadcrumb" aria-label="Broodkruimel"><Link href="/">Home</Link><span aria-hidden="true">/</span><Link href={LITERACY_PATH}>AI-geletterdheid</Link><span aria-hidden="true">/</span><span>Wat is verplicht?</span></nav>
+            <nav className="ws-breadcrumb" aria-label="Broodkruimel"><Link href="/">Home</Link><span aria-hidden="true">/</span><Link href="/kennis">Kennis</Link><span aria-hidden="true">/</span><span>Wat is verplicht?</span></nav>
             <p className="ws-context">Uitleg voor werkgevers</p>
             <h1>{title}</h1>
             <p className="ws-lead">Organisaties die AI aanbieden of gebruiken moeten maatregelen nemen om AI-geletterdheid te ondersteunen. Een verplichte standaardcursus voor iedere medewerker bestaat niet. De aanpak hangt samen met het werk, de mensen en de gebruikte systemen.</p>

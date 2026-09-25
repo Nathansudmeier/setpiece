@@ -1,7 +1,7 @@
 export const WORKSPOOR_NAV = [
-  { href: "/kansenscan", label: "Kansenscan" },
+  { href: "/diensten", label: "Diensten" },
   { href: "/ai-geletterdheid", label: "AI-geletterdheid" },
-  { href: "/werkwijze", label: "Werkwijze" },
+  { href: "/kennis", label: "Kennis" },
   { href: "/praktijkvoorbeelden", label: "Praktijkvoorbeelden" },
   { href: "/over", label: "Over Setpiece" },
 ] as const;
@@ -57,6 +57,7 @@ export const WORKLINE_STEPS = [
 export const SERVICE_ROUTE = [
   {
     name: "Kansenscan",
+    href: "/kansenscan",
     when: "Je weet dat werk beter kan, maar nog niet waar je verantwoord begint.",
     result: "Prioriteit, 90-dagenroute en één kleine werkende AI-oplossing.",
     price: "€ 1.250",
@@ -64,6 +65,7 @@ export const SERVICE_ROUTE = [
   },
   {
     name: "Implementatiesprint",
+    href: "/ai-implementatie",
     when: "De prioriteit is duidelijk en moet werkend en overdraagbaar worden.",
     result: "Maximaal twee samenhangende AI-workflows, getest met medewerkers.",
     price: "€ 7.500",
@@ -71,6 +73,7 @@ export const SERVICE_ROUTE = [
   },
   {
     name: "Groeipartnerschap",
+    href: "/ai-groeipartner",
     when: "De werkwijze moet blijven werken en gecontroleerd verbeteren.",
     result: "Borging, optimalisatie en nieuwe AI-kansen binnen vaste capaciteit.",
     price: "Vanaf € 2.250 p/m",

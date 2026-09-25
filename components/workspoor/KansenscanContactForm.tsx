@@ -7,7 +7,15 @@ import { useEffect, useRef, useState } from "react";
 import Turnstile from "@/components/site/Turnstile";
 
 type Status = "idle" | "submitting" | "success" | "error";
-type Service = "kansenscan" | "ai-geletterdheid";
+export type Service = "kansenscan" | "ai-geletterdheid" | "ai-implementatie" | "ai-groeipartner" | "ai-maatwerk";
+
+const SERVICE_NAMES: Record<Service, string> = {
+  kansenscan: "kansenscan",
+  "ai-geletterdheid": "AI-geletterdheid",
+  "ai-implementatie": "AI-implementatie",
+  "ai-groeipartner": "AI-groeipartnerschap",
+  "ai-maatwerk": "maatwerkverkenning",
+};
 
 type FormValues = {
   name: string;
@@ -62,7 +70,7 @@ function validate(values: FormValues, service: Service): Errors {
 function toMessage(values: FormValues, service: Service) {
   const literacy = service === "ai-geletterdheid";
   return [
-    literacy ? "Aanvraag AI-geletterdheid" : "Aanvraag kansenscan",
+    `Aanvraag ${SERVICE_NAMES[service]}`,
     ...(literacy ? [`Werkvorm: ${values.format}`] : []),
     "",
     `Aantal medewerkers: ${values.employees}`,
@@ -87,7 +95,7 @@ export default function KansenscanContactForm({ service = "kansenscan" }: { serv
   const submitting = status === "submitting";
   const mailHref =
     "mailto:hallo@setpiece.nl?subject=" +
-    encodeURIComponent(literacy ? "AI-geletterdheid bespreken via setpiece.nl" : "Kansenscan bespreken via setpiece.nl");
+    encodeURIComponent(`${SERVICE_NAMES[service]} bespreken via setpiece.nl`);
 
   useEffect(() => {
     if (status === "success") {
@@ -191,7 +199,7 @@ export default function KansenscanContactForm({ service = "kansenscan" }: { serv
       aria-labelledby="scan-form-title"
     >
       <div className="ws-form-intro">
-        <p className="ws-context">{literacy ? "Aanvraag AI-geletterdheid" : "Aanvraag kansenscan"}</p>
+        <p className="ws-context">Aanvraag {SERVICE_NAMES[service]}</p>
         <h2 id="scan-form-title">{literacy ? "Vertel wat jouw team nodig heeft." : "Vertel welk werk steeds terugkomt."}</h2>
         <p>Alle velden zijn verplicht, tenzij ze als optioneel zijn gemarkeerd.</p>
       </div>

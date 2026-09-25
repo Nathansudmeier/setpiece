@@ -35,7 +35,7 @@ export default function OpenGraphImage() {
         <span style={{ color: "#e8558a" }}>beter dagelijks werk.</span>
       </div>
       <div style={{ fontSize: 24, color: "#cbc7d1" }}>
-        Kansenscan · € 1.250 excl. btw · 5 werkdagen
+        AI-advies · Implementatie · Teamtraining
       </div>
     </div>,
     size,

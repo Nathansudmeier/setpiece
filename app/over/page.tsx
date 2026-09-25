@@ -4,7 +4,7 @@ import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
-import { createPageMetadata, SITE_URL } from "@/lib/seo";
+import { createBreadcrumbSchema, createPageMetadata, ORGANIZATION_ID, PERSON_ID, SITE_URL, WEBSITE_ID } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "AI-consultant voor strategie en uitvoering",
@@ -26,22 +26,40 @@ export default function OverPage() {
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "Person",
-          name: "Nathan Sudmeier",
-          url: new URL("/over", SITE_URL).toString(),
-          jobTitle: "AI-consultant en implementatiepartner",
-          worksFor: { "@id": `${SITE_URL}#organization` },
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Almere",
-            addressCountry: "NL",
-          },
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": PERSON_ID,
+              name: "Nathan Sudmeier",
+              url: new URL("/over", SITE_URL).toString(),
+              jobTitle: "AI-consultant en implementatiepartner",
+              worksFor: { "@id": ORGANIZATION_ID },
+              image: new URL("/people/nathan-sudmeier.jpg", SITE_URL).toString(),
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Almere",
+                addressCountry: "NL",
+              },
+            },
+            {
+              "@type": "AboutPage",
+              "@id": new URL("/over#webpage", SITE_URL).toString(),
+              url: new URL("/over", SITE_URL).toString(),
+              name: "Over Nathan Sudmeier en Setpiece",
+              inLanguage: "nl-NL",
+              isPartOf: { "@id": WEBSITE_ID },
+              mainEntity: { "@id": PERSON_ID },
+              about: { "@id": ORGANIZATION_ID },
+            },
+            createBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Over Setpiece", path: "/over" }]),
+          ],
         }}
       />
       <WorkspoorShell activePath="/over">
         <section className="ws-page-hero">
           <div className="ws-frame ws-over-hero">
             <div>
+              <nav className="ws-breadcrumb" aria-label="Broodkruimel"><Link href="/">Home</Link><span aria-hidden="true">/</span><span>Over Setpiece</span></nav>
               <p className="ws-context">Over Setpiece</p>
               <h1>Praktische ervaring aan de directietafel en op de werkvloer.</h1>
               <p className="ws-lead">
@@ -65,14 +83,18 @@ export default function OverPage() {
           <div className="ws-frame ws-origin-grid">
             <div>
               <p className="ws-context">Waarom Setpiece bestaat</p>
-              <h2 id="origin-title">Geen losse presentatie. Een werkwijze die blijft.</h2>
+              <h2 id="origin-title">Inzicht dat verder helpt in het dagelijks werk.</h2>
             </div>
             <div>
               <p>
-                Veel organisaties zien kansen met AI, maar hebben weinig aan een losse
-                presentatie, tool of verzameling prompts. Zij hebben iemand nodig die het
-                werk begrijpt, een proces afbakent en een bruikbare AI-oplossing bouwt die
-                medewerkers zelfstandig kunnen gebruiken.
+                Veel organisaties zien kansen met AI en zoeken een passende eerste stap.
+                Een lezing kan helpen om mogelijkheden en vragen te verkennen. Een
+                teamtraining voegt oefenen en werkafspraken toe. Wie een volledig proces
+                wil verbeteren, heeft ook afbakening, een werkende oplossing en overdracht nodig.
+              </p>
+              <p>
+                Bekijk de <Link href="/ai-geletterdheid">teamtraining en lezingen over AI-geletterdheid</Link>{" "}
+                of begin met een <Link href="/kansenscan">AI-kansenscan</Link> voor een concreet werkproces.
               </p>
               <p>
                 Setpiece is opgericht om die rol te vervullen. Het is een AI Consultancy

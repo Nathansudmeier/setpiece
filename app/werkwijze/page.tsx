@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
@@ -117,6 +118,7 @@ export default function WerkwijzePage() {
           <div className="ws-method-film__heading">
             <p className="ws-context">Van analyse naar dagelijks gebruik</p>
             <h2 id="method-film-title">AI-oplossingen ontstaan midden in het werk.</h2>
+            <p className="ws-image-note">Illustratieve werkbeelden; geen fotografie van klantopdrachten.</p>
           </div>
           <div className="ws-method-film__grid">
             {METHOD_SCENES.map((scene, index) => (
@@ -154,7 +156,7 @@ export default function WerkwijzePage() {
               <article key={service.name} className={index === 0 ? "is-primary" : undefined}>
                 <div>
                   <span>{service.note}</span>
-                  <h3>{service.name}</h3>
+                  <h3><Link href={service.href}>{service.name}</Link></h3>
                 </div>
                 <p>{service.when}</p>
                 <p>{service.result}</p>

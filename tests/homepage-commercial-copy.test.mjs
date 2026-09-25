@@ -80,7 +80,8 @@ test("technische SEO-basis is onderdeel van de App Router", () => {
   const sitemap = read("app/sitemap.ts");
 
   assert.match(layout, /metadataBase/);
-  assert.match(layout, /ProfessionalService/);
+  assert.match(layout, /Organization/);
+  assert.doesNotMatch(layout, /ProfessionalService/);
   assert.match(layout, /RouteFocus/);
   assert.match(routeFocus, /main-content/);
   assert.match(robots, /\/beheer\//);

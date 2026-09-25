@@ -130,7 +130,7 @@ export default function WorkspoorHome() {
         </div>
       </section>
 
-      <section id="ai-consultancy" className="ws-photo-crossing" aria-label="Setpiece aan het werk">
+      <section id="ai-consultancy" className="ws-photo-crossing" aria-label="De aanpak van Setpiece">
         <div className="ws-frame ws-photo-crossing__grid">
           <div className="ws-photo-crossing__statement">
             <p>AI Consultancy in het echte werk.</p>
@@ -139,12 +139,13 @@ export default function WorkspoorHome() {
               Eerst begrijpen wat mensen doen en waar het stokt. Dan de juiste AI-oplossing
               bouwen, testen en overdragen aan de mensen die ermee werken.
             </span>
+            <p className="ws-image-note">Illustratieve werkbeelden; geen fotografie van klantopdrachten.</p>
           </div>
           <div className="ws-photo-crossing__media">
             <figure className="ws-photo-crossing__wide">
               <Image
                 src="/workspoor/werkcontext-breed.webp"
-                alt="Vier professionals bespreken een werkproces terwijl Setpiece luistert"
+                alt="Illustratie van een team dat een werkproces bespreekt"
                 fill
                 sizes="(max-width: 800px) 100vw, 58vw"
               />
@@ -154,7 +155,7 @@ export default function WorkspoorHome() {
                 src="/workspoor/proces-detail.webp"
                 alt="Twee professionals vergelijken processtappen op papier"
                 fill
-                sizes="(max-width: 800px) 52vw, 24vw"
+                sizes="(max-width: 540px) 62vw, (max-width: 800px) 52vw, 24vw"
               />
             </figure>
           </div>
@@ -234,7 +235,7 @@ export default function WorkspoorHome() {
               <article key={service.name} className={index === 0 ? "is-primary" : undefined}>
                 <div>
                   <span>{service.note}</span>
-                  <h3>{service.name}</h3>
+                  <h3><Link href={service.href}>{service.name}</Link></h3>
                 </div>
                 <p>{service.when}</p>
                 <p>{service.result}</p>

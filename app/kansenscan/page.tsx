@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import JsonLd from "@/components/JsonLd";
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import FaqList from "@/components/workspoor/FaqList";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
 import { FAQ_ITEMS } from "@/lib/workspoor-content";
-import { createPageMetadata } from "@/lib/seo";
+import { createBreadcrumbSchema, createPageMetadata, ORGANIZATION_ID, SITE_URL, WEBSITE_ID } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "AI-kansenscan voor betere werkprocessen",
@@ -54,14 +55,49 @@ const OUTSIDE_SCOPE = [
 export default function KansenscanPage() {
   return (
     <WorkspoorShell activePath="/kansenscan">
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Service",
+            "@id": new URL("/kansenscan#service", SITE_URL).toString(),
+            name: "AI-kansenscan",
+            serviceType: "AI-kansenscan voor betere werkprocessen",
+            description: "Analyse van maximaal drie werkprocessen, één onderbouwde AI-kans, een kleine werkende verbetering en een route voor 90 dagen.",
+            url: new URL("/kansenscan", SITE_URL).toString(),
+            provider: { "@id": ORGANIZATION_ID },
+            areaServed: { "@type": "Country", name: "Nederland" },
+            offers: {
+              "@type": "Offer",
+              url: new URL("/kansenscan", SITE_URL).toString(),
+              price: "1250",
+              priceCurrency: "EUR",
+              priceSpecification: { "@type": "PriceSpecification", price: "1250", priceCurrency: "EUR", valueAddedTaxIncluded: false },
+            },
+          },
+          {
+            "@type": "WebPage",
+            "@id": new URL("/kansenscan#webpage", SITE_URL).toString(),
+            url: new URL("/kansenscan", SITE_URL).toString(),
+            name: "AI-kansenscan voor betere werkprocessen",
+            inLanguage: "nl-NL",
+            isPartOf: { "@id": WEBSITE_ID },
+            mainEntity: { "@id": new URL("/kansenscan#service", SITE_URL).toString() },
+          },
+          createBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "AI-kansenscan", path: "/kansenscan" }]),
+        ],
+      }} />
       <section className="ws-page-hero">
         <div className="ws-frame ws-page-hero__grid">
           <div>
+            <nav className="ws-breadcrumb" aria-label="Broodkruimel"><Link href="/">Home</Link><span aria-hidden="true">/</span><span>AI-kansenscan</span></nav>
             <p className="ws-context">Kansenscan</p>
             <h1>Binnen vijf werkdagen weten waar AI verantwoord verschil kan maken.</h1>
             <p className="ws-lead">
-              Na de werksessie ontvang je een onderbouwde prioriteit voor AI, een eerste
-              werkende oplossing en een route voor 90 dagen.
+              Een AI-kansenscan is een afgebakend onderzoek naar waar AI jouw dagelijkse
+              werk kan verbeteren. We vergelijken maximaal drie processen. Na de werksessie
+              ontvang je een onderbouwde prioriteit, een kleine werkende oplossing en een
+              route voor 90 dagen.
             </p>
           </div>
           <aside className="ws-price-block" aria-label="Prijs en doorlooptijd">
@@ -109,6 +145,7 @@ export default function KansenscanPage() {
               Samen leggen we terugkerend werk naast elkaar. We vergelijken waarde,
               uitvoerbaarheid en risico voordat er een AI-oplossing wordt gekozen.
             </p>
+            <p className="ws-image-note">Illustratief werkbeeld; geen fotografie van een klantopdracht.</p>
           </div>
           <figure>
             <Image

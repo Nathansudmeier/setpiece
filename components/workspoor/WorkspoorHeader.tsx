@@ -16,8 +16,10 @@ export default function WorkspoorHeader({
     ? "/logos/workspoor/setpiece-logo-paper.svg"
     : "/logos/workspoor/setpiece-logo-ink.svg";
   const isLiteracy = activePath === "/ai-geletterdheid";
-  const contactHref = isLiteracy ? "/ai-geletterdheid/aanvragen" : "/contact";
-  const contactLabel = isLiteracy ? "Bespreek de training" : "Bespreek de kansenscan";
+  const isService = ["/ai-implementatie", "/ai-groeipartner", "/ai-maatwerk"].includes(activePath ?? "");
+  const contactHref = isLiteracy ? "/ai-geletterdheid/aanvragen" : isService ? `/contact?dienst=${activePath?.slice(1)}` : "/contact";
+  const contactLabel = isLiteracy ? "Bespreek de training" : isService ? "Bespreek je vraag" : "Bespreek de kansenscan";
+  const navPath = isService || activePath === "/kansenscan" ? "/diensten" : activePath?.startsWith("/kennis/") ? "/kennis" : activePath;
 
   return (
     <>
@@ -35,7 +37,7 @@ export default function WorkspoorHeader({
               <Link
                 key={item.href}
                 href={item.href}
-                aria-current={activePath === item.href ? "page" : undefined}
+                aria-current={navPath === item.href ? (activePath === item.href ? "page" : "true") : undefined}
               >
                 {item.label}
               </Link>
@@ -53,7 +55,7 @@ export default function WorkspoorHeader({
                 <Link
                   key={item.href}
                   href={item.href}
-                  aria-current={activePath === item.href ? "page" : undefined}
+                  aria-current={navPath === item.href ? (activePath === item.href ? "page" : "true") : undefined}
                 >
                   {item.label}
                 </Link>
