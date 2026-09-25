@@ -1,5 +1,6 @@
 export const WORKSPOOR_NAV = [
   { href: "/kansenscan", label: "Kansenscan" },
+  { href: "/ai-geletterdheid", label: "AI-geletterdheid" },
   { href: "/werkwijze", label: "Werkwijze" },
   { href: "/praktijkvoorbeelden", label: "Praktijkvoorbeelden" },
   { href: "/over", label: "Over Setpiece" },

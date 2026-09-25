@@ -17,7 +17,7 @@ export default function WorkspoorFooter() {
             />
             <p>
               AI Consultancy voor werk dat eenvoudiger, sneller en consistenter kan.
-              De kansenscan is de vaste eerste stap.
+              Met een kansenscan voor procesverbetering en teamtraining voor verantwoord AI-gebruik.
             </p>
           </div>
           <nav aria-label="Voettekstnavigatie">
