@@ -249,6 +249,13 @@ export default function WorkspoorHome() {
         </div>
       </section>
 
+      <section className="ws-literacy-section ws-literacy-section--mist" aria-labelledby="home-literacy-title">
+        <div className="ws-frame ws-literacy-split">
+          <div><p className="ws-context">AI-geletterdheid voor je team</p><h2 id="home-literacy-title">Je team gebruikt AI. Werkt iedereen met dezelfde afspraken?</h2></div>
+          <div><p>Met een praktische teamtraining leren medewerkers AI-uitkomsten beoordelen, veilig met gegevens omgaan en zelf blijven beslissen. Je krijgt werkafspraken en een gebruiksgesprek na dertig dagen.</p><p>Ook beschikbaar als lezing voor een teamdag of ondernemersbijeenkomst.</p><Link className="ws-text-link" href="/ai-geletterdheid">Bekijk de training AI-geletterdheid</Link></div>
+        </div>
+      </section>
+
       <section className="ws-founder-section" aria-labelledby="founder-title">
         <div className="ws-frame ws-founder-grid">
           <div>

@@ -3,11 +3,15 @@ import Link from "next/link";
 type ClosingCtaProps = {
   title?: string;
   body?: string;
+  href?: string;
+  label?: string;
 };
 
 export default function ClosingCta({
   title = "Weet je dat werk beter kan, maar nog niet waar je begint?",
   body = "In maximaal 30 minuten verkennen we het werkprobleem, eigenaarschap en de voorwaarden. De volledige diagnose blijft onderdeel van de betaalde scan.",
+  href = "/contact",
+  label = "Bespreek de kansenscan",
 }: ClosingCtaProps) {
   return (
     <section className="ws-closing" aria-labelledby="closing-title">
@@ -15,8 +19,8 @@ export default function ClosingCta({
         <h2 id="closing-title">{title}</h2>
         <div>
           <p>{body}</p>
-          <Link className="ws-button" href="/contact">
-            Bespreek de kansenscan
+          <Link className="ws-button" href={href}>
+            {label}
           </Link>
         </div>
       </div>

@@ -15,6 +15,9 @@ export default function WorkspoorHeader({
   const logo = dark
     ? "/logos/workspoor/setpiece-logo-paper.svg"
     : "/logos/workspoor/setpiece-logo-ink.svg";
+  const isLiteracy = activePath === "/ai-geletterdheid";
+  const contactHref = isLiteracy ? "/ai-geletterdheid/aanvragen" : "/contact";
+  const contactLabel = isLiteracy ? "Bespreek de training" : "Bespreek de kansenscan";
 
   return (
     <>
@@ -39,8 +42,8 @@ export default function WorkspoorHeader({
             ))}
           </nav>
 
-          <Link className="ws-button ws-button--small" href="/contact">
-            Bespreek de kansenscan
+          <Link className="ws-button ws-button--small" href={contactHref}>
+            {contactLabel}
           </Link>
 
           <details className="ws-menu">
@@ -55,8 +58,8 @@ export default function WorkspoorHeader({
                   {item.label}
                 </Link>
               ))}
-              <Link href="/contact" aria-current={activePath === "/contact" ? "page" : undefined}>
-                Bespreek de kansenscan
+              <Link href={contactHref} aria-current={activePath === "/contact" ? "page" : undefined}>
+                {contactLabel}
               </Link>
             </nav>
           </details>
