@@ -1,0 +1,11 @@
+import Link from "next/link";
+import JsonLd from "@/components/JsonLd";
+import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
+import { KNOWLEDGE_ARTICLES } from "@/lib/knowledge";
+import { createPageMetadata, SITE_URL } from "@/lib/seo";
+
+export const metadata = createPageMetadata({ title: "Kennis over AI, werkprocessen en AI-geletterdheid", description: "Praktische uitleg van Setpiece over AI invoeren, bedrijfsprocessen automatiseren, kosten, resultaat meten en werkafspraken voor medewerkers.", path: "/kennis" });
+
+export default function KnowledgePage() {
+  return <WorkspoorShell activePath="/kennis"><JsonLd data={{ "@context": "https://schema.org", "@type": "CollectionPage", name: "Kennis over AI en werkprocessen", url: new URL("/kennis", SITE_URL).toString(), publisher: { "@id": `${SITE_URL}#organization` }, mainEntity: { "@type": "ItemList", itemListElement: KNOWLEDGE_ARTICLES.map((article, index) => ({ "@type": "ListItem", position: index + 1, name: article.title, url: new URL(`/kennis/${article.slug}`, SITE_URL).toString() })) } }} /><section className="ws-page-hero"><div className="ws-frame"><p className="ws-context">Kennis voor dagelijks werk</p><h1>Begrijp wat AI voor jouw werk kan betekenen.</h1><p className="ws-lead">Waar begin je, wat kost het en hoe weet je of het helpt? Deze gidsen geven je houvast bij proceskeuze, resultaat en afspraken met medewerkers.</p></div></section><section className="ws-literacy-section"><div className="ws-frame ws-knowledge-grid">{KNOWLEDGE_ARTICLES.map(article => <article key={article.slug}><p className="ws-context">{article.label}</p><h2><Link href={`/kennis/${article.slug}`}>{article.title}</Link></h2><p>{article.description}</p><Link className="ws-text-link" href={`/kennis/${article.slug}`}>Lees de uitleg</Link></article>)}</div></section><section className="ws-literacy-section ws-literacy-section--mist"><div className="ws-frame"><h2>Van uitleg naar je eigen situatie.</h2><p>Vergelijk <Link href="/diensten">de diensten van Setpiece</Link>, bekijk <Link href="/praktijkvoorbeelden">de praktijkvoorbeelden</Link> of lees <Link href="/werkwijze">hoe we een verbetering testen en overdragen</Link>.</p></div></section></WorkspoorShell>;
+}

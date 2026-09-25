@@ -27,6 +27,11 @@ export default function WorkspoorFooter() {
               </Link>
             ))}
             <Link href="/contact">Contact</Link>
+            <Link href="/kansenscan">Kansenscan</Link>
+            <Link href="/ai-implementatie">AI-implementatie</Link>
+            <Link href="/ai-groeipartner">AI-groeipartner</Link>
+            <Link href="/ai-maatwerk">Maatwerkverkenning</Link>
+            <Link href="/werkwijze">Werkwijze</Link>
             <Link href="/privacy">Privacy</Link>
             <Link href="/cookies">Cookies</Link>
           </nav>

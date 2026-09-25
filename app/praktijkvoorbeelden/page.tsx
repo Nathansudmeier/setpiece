@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
 import { PRACTICE_CASES } from "@/lib/workspoor-content";
@@ -63,9 +64,10 @@ export default function PraktijkvoorbeeldenPage() {
         <div className="ws-frame">
           <p>
             Ieder voorbeeld volgt hetzelfde format: beginsituatie, ingreep, resultaat en
-            context. Cijfers worden alleen gepubliceerd wanneer de meetmethode en
-            gebruikscontext zijn vastgelegd.
+            context. De genoemde cijfers horen bij de beschreven werkzaamheden en
+            zijn geen voorspelling voor een andere organisatie.
           </p>
+          <p>Lees hoe we <Link href="/kennis/ai-resultaat-meten">kosten en resultaat beoordelen</Link> en bekijk de <Link href="/ai-implementatie">AI-implementatiesprint</Link> of <Link href="/ai-groeipartner">doorlopende begeleiding</Link>.</p>
         </div>
       </section>
 
