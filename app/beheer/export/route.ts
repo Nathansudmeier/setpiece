@@ -20,7 +20,7 @@ export async function GET() {
           table === "sp_activity"
             ? "id"
             : table === "sp_items"
-              ? "created_at"
+              ? "id"
               : "submission_id",
         )
         .range(offset, offset + 499);

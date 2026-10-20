@@ -43,3 +43,9 @@ Nog niet uitgevoerd. Geen productieclaim. Taak 1 gestart.
 - Echte Grok-test geslaagd: Jarvis las appnotitie exact terug bij versie 4, rondde via sp_command af naar versie 5 en controleerde resultaat/5 auditregels; daarna dezelfde gegevens in ingelogde app gecontroleerd. Geen klantbericht/publicatie of andere projectwijziging via deze test uitgevoerd.
 - Advisor: geen ERROR. Bewust publieke read-only publicatie-RPC wordt als SECURITY DEFINER-waarschuwing gemeld; dit is de gecontroleerde openbare leesmogelijkheid. Bestaande waarschuwing over wachtwoordlekcontrole ongewijzigd.
 - Voor preview moeten commit/push/deployment en hostgebonden ingelogde controles nog worden uitgevoerd. Productie is nog niet bijgewerkt.
+
+## Previewacceptatie
+- Commit `7001ece4bfa4a27ca4666933168b30e170e037fd` gepusht via bestaande GitHub Desktop-sessie.
+- Preview `dpl_FGNcMmmuCpME5rnLtZt8zu4nQiuz`: READY, https://setpiece-6tt4jn2ma-setpiece-s-projects.vercel.app.
+- Vercel-beveiliging bereikt met tijdelijk previewgebonden share-token; daarna afzonderlijk echte appauth getest. Acht publieke routes gecontroleerd, anonieme beheerredirect, echte Jarvis-afronding in ingelogde app, actie via Vercel aangemaakt/opgeslagen/ververst/afgerond, CMS-preview/noindex, vier viewportbreedtes en foutvrije console.
+- Kleine laatste correctie: export sorteert ook items op unieke ID zodat gelijke aanmaaktijden de paginering niet onbepaald maken. Formulieracceptatie met bestaande Turnstile loopt nog.
