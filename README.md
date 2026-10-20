@@ -1,23 +1,12 @@
-# Setpiece — setpiece.nl
+# Setpiece
 
-Marketingsite van Setpiece: strategie en digitale identiteit voor ondernemingen en verenigingen. Elke kans voorbereid, elke campagne raak.
+Next.js 16-website en besloten persoonlijke werkomgeving voor Nathan. De publieke Werkspoor-routes zijn Home, Kansenscan, Werkwijze, Praktijkvoorbeelden, Over Setpiece en Contact, aangevuld met privacy en cookies. Bestaande oude routes behouden hun redirects.
 
-Gebouwd met Next.js (App Router) op basis van het Setpiece design system. Twee oppervlakken:
+Onder /beheer: Vandaag, projecten, acties/opvolging, het bestaande personenbestand, aanvragen, beslissingen, activiteit, JSON-export en het getypeerde website-CMS. Supabase-login, actuele admincontrole, eigenaargebonden RLS en transactionele functies beschermen het werk. Toewijzing aan een bot activeert geen externe uitvoering.
 
-1. **Standaardsite** — homepage (`/`), over (`/over`) en drie casepagina's (`/cases/*`). Licht perkament met een navy hero.
-2. **Experience-onepager** — `/experience`. Een cinematische, scroll-gedreven versie van de homepage rond de voetbalmetafoor: 3D-veld hero, interactief tactics board, scroll-gedreven werkwijze en een schietbaar doelwit in de finale.
+Het CMS heeft besloten concepten/preview, expliciet publiceren, revisies en herstel als concept. De publieke website leest uitsluitend de geselecteerde gepubliceerde inhoud. Vormgeving volgt DESIGN.md, Space Grotesk en bestaande Werkspoor-merkassets. PRODUCT.md en ACCEPTATIE.md bevatten context en de eerdere publieke acceptatie.
 
-## Stack
-
-- **Next.js 16** (App Router, TypeScript, statisch gegenereerd)
-- **Design tokens** in `app/styles/tokens.css` (kleuren, typografie, spacing, motion) — de bron van waarheid voor alle styling
-- **Fonts**: Bricolage Grotesque (display) + DM Sans (body) via `next/font`
-- **Supabase** voor contactaanvragen, beheer-auth, RLS en gedeelde rate limiting
-- **Anthropic** voor de publieke AI-intake, met budget- en misbruikgrenzen
-- **Cloudflare Turnstile** voor botcontrole op publieke formulieren
-- **Resend** voor een interne notificatie na een veilig opgeslagen contactaanvraag
-- **Vercel Analytics en Speed Insights** voor productievelddata
-- **Vercel** voor hosting
+Technische koppeling/herstel: [docs/beheer-koppeling.md](docs/beheer-koppeling.md). Direct bruikbare botinstructie: [docs/jarvis-instructie.md](docs/jarvis-instructie.md). Huidige opleverstatus: [docs/beheer-voortgang.md](docs/beheer-voortgang.md).
 
 ## Development
 
@@ -71,32 +60,14 @@ supabase db push
 npm run verify
 ```
 
-## Structuur
+## Structuur en ontwerp
 
-```
-app/
-  page.tsx              # homepage
-  over/                 # over-pagina
-  cases/[slug]/         # drie casepagina's
-  experience/           # de Experience-onepager
-  styles/               # tokens, design system, site, experience, glass (volgorde telt)
-components/
-  ds/                   # design-system-componenten (Button, Badge, Toast, ...)
-  site/                 # secties van de standaardsite
-  experience/           # secties van de Experience-pagina
-lib/
-  supabase/             # Server-, sessie- en adminclients
-  security/             # Rate limiting, requestvalidatie en Turnstile
-supabase/migrations/    # Versiebeheer voor databasebeveiliging
-public/logos/           # woordmerk, beeldmerk, favicon
-```
-
-## Huisstijlregels
-
-- Amber (`#e8a020`) alleen als accent, nooit als groot vlak
-- DM Sans alleen in gewicht 400/500; Bricolage Grotesque 600–800
-- Copy: Nederlands, je/jij, sentence case, geen em-dashes in lopende tekst
-- Alle motion zit achter `prefers-reduced-motion: no-preference`
+- app/beheer en components/beheer: besloten werkomgeving en bestaande aanvragen.
+- lib/beheer: autorisatie, werkmodel en eigenaargebonden data.
+- lib/cms en components/cms: vaste inhoudsvelden, publicatiereader, editor en herbruikbare publieke renderers.
+- components/workspoor: gedeelde publieke vormgeving en homepage.
+- supabase/migrations en supabase/tests: additieve schema's en live transactionele controles.
+- app/styles/workspoor.css en beheer.css: actuele Werkspoor-identiteit. Oudere styles blijven uitsluitend voor bestaande ondersteunende componenten.
 
 ## Kwaliteitschecks
 

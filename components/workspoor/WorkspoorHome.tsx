@@ -8,84 +8,90 @@ FORM: Richting B, verticale overdracht, was de structurele winnaar. Richting C l
 
 import Image from "next/image";
 import Link from "next/link";
-
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import FaqList from "@/components/workspoor/FaqList";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
-import {
-  FAQ_ITEMS,
-  HOME_PROOF,
-  SERVICE_ROUTE,
-  WORKLINE_STEPS,
-} from "@/lib/workspoor-content";
+import type { CmsCopy } from "@/lib/cms/schema";
+import { readPublished } from "@/lib/cms/read";
+import { sharedContent } from "@/lib/cms/shared";
+export function CmsHome({
+  copy,
+  sharedCopy,
+  preview = false,
+}: {
+  copy: CmsCopy;
+  sharedCopy: CmsCopy;
+  preview?: boolean;
+}) {
+  const { FAQ_ITEMS, HOME_PROOF, SERVICE_ROUTE, WORKLINE_STEPS } =
+    sharedContent(sharedCopy);
+  const PROBLEMS = [
+    copy.tekst_001 ??
+      "Medewerkers verzamelen dezelfde informatie uit meerdere systemen.",
+    copy.tekst_002 ??
+      "Offertes, rapportages of communicatie blijven te lang liggen.",
+    copy.tekst_003 ?? "Kwaliteit hangt sterk af van één ervaren collega.",
+    copy.tekst_004 ?? "Losse AI-experimenten worden geen vaste werkwijze.",
+    copy.tekst_005 ??
+      "De directie ziet mogelijkheden, maar mist een verantwoorde eerste keuze.",
+  ] as const;
+  const FITS = [
+    copy.tekst_006 ?? "Er is een herkenbaar terugkerend werkprobleem.",
+    copy.tekst_007 ?? "Een beslisser en proceseigenaar zijn betrokken.",
+    copy.tekst_008 ?? "Medewerkers krijgen tijd voor de werksessie en test.",
+    copy.tekst_009 ?? "Veilige voorbeelden of testgegevens zijn beschikbaar.",
+    copy.tekst_010 ?? "Er is budget voor een mogelijke vervolgstap.",
+  ] as const;
+  const DOES_NOT_FIT = [
+    copy.tekst_011 ?? "De organisatie zoekt alleen vrijblijvende ideeën.",
+    copy.tekst_012 ?? "Er wordt geen eigenaar aangewezen.",
+    copy.tekst_013 ?? "Er is geen tijd voor testen en invoering.",
+  ] as const;
 
-const PROBLEMS = [
-  "Medewerkers verzamelen dezelfde informatie uit meerdere systemen.",
-  "Offertes, rapportages of communicatie blijven te lang liggen.",
-  "Kwaliteit hangt sterk af van één ervaren collega.",
-  "Losse AI-experimenten worden geen vaste werkwijze.",
-  "De directie ziet mogelijkheden, maar mist een verantwoorde eerste keuze.",
-] as const;
-
-const FITS = [
-  "Er is een herkenbaar terugkerend werkprobleem.",
-  "Een beslisser en proceseigenaar zijn betrokken.",
-  "Medewerkers krijgen tijd voor de werksessie en test.",
-  "Veilige voorbeelden of testgegevens zijn beschikbaar.",
-  "Er is budget voor een mogelijke vervolgstap.",
-] as const;
-
-const DOES_NOT_FIT = [
-  "De organisatie zoekt alleen vrijblijvende ideeën.",
-  "Er wordt geen eigenaar aangewezen.",
-  "Er is geen tijd voor testen en invoering.",
-] as const;
-
-export default function WorkspoorHome() {
   return (
-    <WorkspoorShell>
+    <WorkspoorShell preview={preview} sharedCopy={sharedCopy}>
       <section className="ws-home-hero" aria-labelledby="home-title">
         <div className="ws-frame">
           <div className="ws-hero__signal" aria-hidden="true">
             <span />
           </div>
           <p className="ws-context">
-            AI Consultancy voor B2B-dienstverleners met 15 tot 75 medewerkers
+            {copy.tekst_014 ??
+              "AI Consultancy voor B2B-dienstverleners met 15 tot 75 medewerkers"}
           </p>
           <h1 id="home-title">
-            Maak dagelijks werk
-            <span>eenvoudiger en beter met AI.</span>
+            {copy.kop_015 ?? "Maak dagelijks werk"}
+            <span>{copy.tekst_016 ?? "eenvoudiger en beter met AI."}</span>
           </h1>
           <div className="ws-hero__intro">
             <p>
-              Setpiece onderzoekt waar terugkerend werk vastloopt, bouwt een passende
-              AI-oplossing of workflow en maakt die samen met medewerkers werkend en
-              overdraagbaar.
+              {copy.tekst_017 ??
+                "Setpiece onderzoekt waar terugkerend werk vastloopt, bouwt een passende AI-oplossing of workflow en maakt die samen met medewerkers werkend en overdraagbaar."}
             </p>
-            <Link className="ws-text-link" href="/werkwijze">
-              Zie hoe het werkspoor loopt
+            <Link className="ws-text-link" href={copy.link_018 ?? "/werkwijze"}>
+              {copy.tekst_019 ?? "Zie hoe het werkspoor loopt"}
             </Link>
           </div>
 
           <div className="ws-decision-rail" aria-label="Kern van de kansenscan">
             <div>
-              <span>Investering</span>
-              <strong>€ 1.250 excl. btw</strong>
+              <span>{copy.tekst_020 ?? "Investering"}</span>
+              <strong>{copy.tekst_021 ?? "€ 1.250 excl. btw"}</strong>
             </div>
             <div>
-              <span>Na de werksessie</span>
-              <strong>5 werkdagen</strong>
+              <span>{copy.tekst_022 ?? "Na de werksessie"}</span>
+              <strong>{copy.tekst_023 ?? "5 werkdagen"}</strong>
             </div>
             <div>
-              <span>Richting</span>
-              <strong>90-dagenroute</strong>
+              <span>{copy.tekst_024 ?? "Richting"}</span>
+              <strong>{copy.tekst_025 ?? "90-dagenroute"}</strong>
             </div>
             <div>
-              <span>Eerste bewijs</span>
-              <strong>1 werkende AI-oplossing</strong>
+              <span>{copy.tekst_026 ?? "Eerste bewijs"}</span>
+              <strong>{copy.tekst_027 ?? "1 werkende AI-oplossing"}</strong>
             </div>
-            <Link className="ws-button" href="/contact">
-              Bespreek de kansenscan
+            <Link className="ws-button" href={copy.link_028 ?? "/contact"}>
+              {copy.tekst_029 ?? "Bespreek de kansenscan"}
             </Link>
           </div>
         </div>
@@ -94,10 +100,13 @@ export default function WorkspoorHome() {
       <section className="ws-proof-field" aria-labelledby="proof-title">
         <div className="ws-frame">
           <div className="ws-section-heading ws-section-heading--dark">
-            <p>Resultaten uit dagelijks werk</p>
-            <h2 id="proof-title">Bewijs vóór belofte.</h2>
-            <Link className="ws-text-link ws-text-link--paper" href="/praktijkvoorbeelden">
-              Bekijk de volledige context
+            <p>{copy.tekst_030 ?? "Resultaten uit dagelijks werk"}</p>
+            <h2 id="proof-title">{copy.kop_031 ?? "Bewijs vóór belofte."}</h2>
+            <Link
+              className="ws-text-link ws-text-link--paper"
+              href={copy.link_032 ?? "/praktijkvoorbeelden"}
+            >
+              {copy.tekst_033 ?? "Bekijk de volledige context"}
             </Link>
           </div>
           <div className="ws-proof-grid">
@@ -116,8 +125,13 @@ export default function WorkspoorHome() {
       <section className="ws-problem-section" aria-labelledby="problem-title">
         <div className="ws-frame ws-problem-grid">
           <div className="ws-sticky-heading">
-            <p className="ws-context">Waar werk dagelijks lekt</p>
-            <h2 id="problem-title">Geen groot systeemprobleem. Wel iedere week verlies.</h2>
+            <p className="ws-context">
+              {copy.tekst_034 ?? "Waar werk dagelijks lekt"}
+            </p>
+            <h2 id="problem-title">
+              {copy.kop_035 ??
+                "Geen groot systeemprobleem. Wel iedere week verlies."}
+            </h2>
           </div>
           <ol className="ws-friction-list">
             {PROBLEMS.map((problem) => (
@@ -130,21 +144,28 @@ export default function WorkspoorHome() {
         </div>
       </section>
 
-      <section id="ai-consultancy" className="ws-photo-crossing" aria-label="Setpiece aan het werk">
+      <section
+        id="ai-consultancy"
+        className="ws-photo-crossing"
+        aria-label="Setpiece aan het werk"
+      >
         <div className="ws-frame ws-photo-crossing__grid">
           <div className="ws-photo-crossing__statement">
-            <p>AI Consultancy in het echte werk.</p>
-            <h2>AI begint bij het proces.</h2>
+            <p>{copy.tekst_036 ?? "AI Consultancy in het echte werk."}</p>
+            <h2>{copy.kop_037 ?? "AI begint bij het proces."}</h2>
             <span>
-              Eerst begrijpen wat mensen doen en waar het stokt. Dan de juiste AI-oplossing
-              bouwen, testen en overdragen aan de mensen die ermee werken.
+              {copy.tekst_038 ??
+                "Eerst begrijpen wat mensen doen en waar het stokt. Dan de juiste AI-oplossing bouwen, testen en overdragen aan de mensen die ermee werken."}
             </span>
           </div>
           <div className="ws-photo-crossing__media">
             <figure className="ws-photo-crossing__wide">
               <Image
                 src="/workspoor/werkcontext-breed.webp"
-                alt="Vier professionals bespreken een werkproces terwijl Setpiece luistert"
+                alt={
+                  copy.tekst_039 ??
+                  "Vier professionals bespreken een werkproces terwijl Setpiece luistert"
+                }
                 fill
                 sizes="(max-width: 800px) 100vw, 58vw"
               />
@@ -152,7 +173,10 @@ export default function WorkspoorHome() {
             <figure className="ws-photo-crossing__detail">
               <Image
                 src="/workspoor/proces-detail.webp"
-                alt="Twee professionals vergelijken processtappen op papier"
+                alt={
+                  copy.tekst_040 ??
+                  "Twee professionals vergelijken processtappen op papier"
+                }
                 fill
                 sizes="(max-width: 800px) 52vw, 24vw"
               />
@@ -164,38 +188,48 @@ export default function WorkspoorHome() {
       <section className="ws-scan-section" aria-labelledby="scan-title">
         <div className="ws-frame ws-scan-grid">
           <div>
-            <p className="ws-context">De beheerste eerste stap</p>
-            <h2 id="scan-title">Begin met één onderbouwde keuze.</h2>
+            <p className="ws-context">
+              {copy.tekst_041 ?? "De beheerste eerste stap"}
+            </p>
+            <h2 id="scan-title">
+              {copy.kop_042 ?? "Begin met één onderbouwde keuze."}
+            </h2>
             <p className="ws-lead">
-              De kansenscan onderzoekt maximaal drie kernprocessen. Binnen vijf werkdagen
-              na de werksessie ontvang je een prioriteit, een route voor 90 dagen en één
-              kleine werkende AI-oplossing.
+              {copy.tekst_043 ??
+                "De kansenscan onderzoekt maximaal drie kernprocessen. Binnen vijf werkdagen na de werksessie ontvang je een prioriteit, een route voor 90 dagen en één kleine werkende AI-oplossing."}
             </p>
             <div className="ws-inline-actions">
-              <Link className="ws-button" href="/contact">
-                Bespreek de kansenscan
+              <Link className="ws-button" href={copy.link_044 ?? "/contact"}>
+                {copy.tekst_045 ?? "Bespreek de kansenscan"}
               </Link>
-              <Link className="ws-text-link ws-text-link--paper" href="/kansenscan">
-                Bekijk scope en voorwaarden
+              <Link
+                className="ws-text-link ws-text-link--paper"
+                href={copy.link_046 ?? "/kansenscan"}
+              >
+                {copy.tekst_047 ?? "Bekijk scope en voorwaarden"}
               </Link>
             </div>
           </div>
           <dl className="ws-scan-facts">
             <div>
-              <dt>Werkgebied</dt>
-              <dd>Maximaal drie kernprocessen</dd>
+              <dt>{copy.tekst_048 ?? "Werkgebied"}</dt>
+              <dd>{copy.tekst_049 ?? "Maximaal drie kernprocessen"}</dd>
             </div>
             <div>
-              <dt>Werksessie</dt>
-              <dd>Maximaal 90 minuten</dd>
+              <dt>{copy.tekst_050 ?? "Werksessie"}</dt>
+              <dd>{copy.tekst_051 ?? "Maximaal 90 minuten"}</dd>
             </div>
             <div>
-              <dt>Vervolg</dt>
-              <dd>Stoppen, zelf uitvoeren of gericht verder</dd>
+              <dt>{copy.tekst_052 ?? "Vervolg"}</dt>
+              <dd>
+                {copy.tekst_053 ?? "Stoppen, zelf uitvoeren of gericht verder"}
+              </dd>
             </div>
             <div>
-              <dt>Verrekening</dt>
-              <dd>€ 750 bij een sprintstart binnen 30 dagen</dd>
+              <dt>{copy.tekst_054 ?? "Verrekening"}</dt>
+              <dd>
+                {copy.tekst_055 ?? "€ 750 bij een sprintstart binnen 30 dagen"}
+              </dd>
             </div>
           </dl>
         </div>
@@ -204,19 +238,27 @@ export default function WorkspoorHome() {
       <section className="ws-workline-section" aria-labelledby="workline-title">
         <div className="ws-frame">
           <div className="ws-section-heading">
-            <p>Van kans naar dagelijks gebruik</p>
-            <h2 id="workline-title">Iedere halte eindigt met eigenaarschap.</h2>
+            <p>{copy.tekst_056 ?? "Van kans naar dagelijks gebruik"}</p>
+            <h2 id="workline-title">
+              {copy.kop_057 ?? "Iedere halte eindigt met eigenaarschap."}
+            </h2>
           </div>
           <ol className="ws-workline">
             {WORKLINE_STEPS.map((step, index) => (
-              <li key={step.label} className={index === 1 ? "is-active" : undefined}>
+              <li
+                key={step.label}
+                className={index === 1 ? "is-active" : undefined}
+              >
                 <div className="ws-workline__mark" aria-hidden="true">
                   <span />
                 </div>
                 <p className="ws-workline__label">{step.label}</p>
                 <h3>{step.state}</h3>
                 <p>{step.action}</p>
-                <small>Eigenaar: {step.owner}</small>
+                <small>
+                  {copy.tekst_058 ?? "Eigenaar: "}
+                  {step.owner}
+                </small>
               </li>
             ))}
           </ol>
@@ -226,12 +268,17 @@ export default function WorkspoorHome() {
       <section className="ws-route-section" aria-labelledby="route-title">
         <div className="ws-frame">
           <div className="ws-section-heading">
-            <p>Drie diensten, één lijn</p>
-            <h2 id="route-title">Je koopt alleen de volgende logische stap.</h2>
+            <p>{copy.tekst_059 ?? "Drie diensten, één lijn"}</p>
+            <h2 id="route-title">
+              {copy.kop_060 ?? "Je koopt alleen de volgende logische stap."}
+            </h2>
           </div>
           <div className="ws-service-route">
             {SERVICE_ROUTE.map((service, index) => (
-              <article key={service.name} className={index === 0 ? "is-primary" : undefined}>
+              <article
+                key={service.name}
+                className={index === 0 ? "is-primary" : undefined}
+              >
                 <div>
                   <span>{service.note}</span>
                   <h3>{service.name}</h3>
@@ -243,8 +290,8 @@ export default function WorkspoorHome() {
             ))}
           </div>
           <p className="ws-route-note">
-            Alle bedragen zijn exclusief btw. De kansenscan is zelfstandig en verplicht
-            niet tot vervolg.
+            {copy.tekst_061 ??
+              "Alle bedragen zijn exclusief btw. De kansenscan is zelfstandig en verplicht niet tot vervolg."}
           </p>
         </div>
       </section>
@@ -252,22 +299,24 @@ export default function WorkspoorHome() {
       <section className="ws-founder-section" aria-labelledby="founder-title">
         <div className="ws-frame ws-founder-grid">
           <div>
-            <p className="ws-context">Verantwoordelijkheid blijft zichtbaar</p>
-            <h2 id="founder-title">Eén aanspreekpunt van diagnose tot overdracht.</h2>
+            <p className="ws-context">
+              {copy.tekst_062 ?? "Verantwoordelijkheid blijft zichtbaar"}
+            </p>
+            <h2 id="founder-title">
+              {copy.kop_063 ?? "Eén aanspreekpunt van diagnose tot overdracht."}
+            </h2>
           </div>
           <div>
             <p>
-              Setpiece is opgericht door Nathan Sudmeier. Vanuit ervaring met marketing,
-              communicatie, strategie en productontwikkeling weet hij waar plannen in de
-              dagelijkse praktijk vastlopen.
+              {copy.tekst_064 ??
+                "Setpiece is opgericht door Nathan Sudmeier. Vanuit ervaring met marketing, communicatie, strategie en productontwikkeling weet hij waar plannen in de dagelijkse praktijk vastlopen."}
             </p>
             <p>
-              Nathan blijft verantwoordelijk voor diagnose, klantrelatie,
-              implementatieregie en kwaliteit. Specialisten worden alleen betrokken
-              wanneer de opdracht dat aantoonbaar vraagt.
+              {copy.tekst_065 ??
+                "Nathan blijft verantwoordelijk voor diagnose, klantrelatie, implementatieregie en kwaliteit. Specialisten worden alleen betrokken wanneer de opdracht dat aantoonbaar vraagt."}
             </p>
-            <Link className="ws-text-link" href="/over">
-              Lees waarom Setpiece bestaat
+            <Link className="ws-text-link" href={copy.link_066 ?? "/over"}>
+              {copy.tekst_067 ?? "Lees waarom Setpiece bestaat"}
             </Link>
           </div>
         </div>
@@ -276,12 +325,17 @@ export default function WorkspoorHome() {
       <section className="ws-fit-section" aria-labelledby="fit-title">
         <div className="ws-frame">
           <div className="ws-section-heading ws-section-heading--dark">
-            <p>Goede afbakening voorkomt een verkeerd project</p>
-            <h2 id="fit-title">Past de kansenscan bij jouw organisatie?</h2>
+            <p>
+              {copy.tekst_068 ??
+                "Goede afbakening voorkomt een verkeerd project"}
+            </p>
+            <h2 id="fit-title">
+              {copy.kop_069 ?? "Past de kansenscan bij jouw organisatie?"}
+            </h2>
           </div>
           <div className="ws-fit-grid">
             <div>
-              <h3>De scan past wanneer</h3>
+              <h3>{copy.kop_070 ?? "De scan past wanneer"}</h3>
               <ul>
                 {FITS.map((item) => (
                   <li key={item}>{item}</li>
@@ -289,7 +343,7 @@ export default function WorkspoorHome() {
               </ul>
             </div>
             <div>
-              <h3>De scan past niet wanneer</h3>
+              <h3>{copy.kop_071 ?? "De scan past niet wanneer"}</h3>
               <ul>
                 {DOES_NOT_FIT.map((item) => (
                   <li key={item}>{item}</li>
@@ -303,14 +357,25 @@ export default function WorkspoorHome() {
       <section className="ws-faq-section" aria-labelledby="faq-title">
         <div className="ws-frame ws-faq-grid">
           <div>
-            <p className="ws-context">Veelgestelde vragen</p>
-            <h2 id="faq-title">Duidelijk vóór de werksessie.</h2>
+            <p className="ws-context">
+              {copy.tekst_072 ?? "Veelgestelde vragen"}
+            </p>
+            <h2 id="faq-title">
+              {copy.kop_073 ?? "Duidelijk vóór de werksessie."}
+            </h2>
           </div>
           <FaqList items={FAQ_ITEMS} />
         </div>
       </section>
 
-      <ClosingCta />
+      <ClosingCta sharedCopy={sharedCopy} />
     </WorkspoorShell>
   );
+}
+export default async function WorkspoorHome() {
+  const [copy, sharedCopy] = await Promise.all([
+    readPublished("home"),
+    readPublished("shared"),
+  ]);
+  return <CmsHome copy={copy} sharedCopy={sharedCopy} />;
 }

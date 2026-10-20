@@ -4,8 +4,17 @@ import { useActionState } from "react";
 import { Button } from "@/components/ds";
 import { saveNotes, type FormState } from "@/app/beheer/actions";
 
-export default function NotesForm({ id, notes }: { id: string; notes: string | null }) {
-  const [state, formAction, pending] = useActionState<FormState, FormData>(saveNotes, null);
+export default function NotesForm({
+  id,
+  notes,
+}: {
+  id: string;
+  notes: string | null;
+}) {
+  const [state, formAction, pending] = useActionState<FormState, FormData>(
+    saveNotes,
+    null,
+  );
 
   return (
     <form className="bh-notes__form" action={formAction}>

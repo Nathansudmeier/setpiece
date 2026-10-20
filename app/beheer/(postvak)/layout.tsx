@@ -2,27 +2,49 @@ import Image from "next/image";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/beheer/auth";
 import { logout } from "../actions";
-
-export default async function PostvakLayout({ children }: { children: React.ReactNode }) {
+import Navigation from "@/components/beheer/Navigation";
+export default async function WorkspaceLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const session = await requireAdmin();
-
   return (
-    <div className="bh-shell">
-      <header className="bh-topbar">
-        <Link href="/beheer" className="bh-topbar__brand">
-          <Image src="/logos/setpiece-logo-wit.png" alt="Setpiece" width={122} height={28} sizes="122px" />
-          <span className="bh-topbar__label">Beheer</span>
+    <div className="bh-shell bw-shell">
+      <a className="bw-skip" href="#main-content">
+        Naar de inhoud
+      </a>
+      <header className="bw-top">
+        <Link href="/beheer" aria-label="Setpiece vandaag">
+          <Image
+            src="/logos/workspoor/setpiece-logo-paper.svg"
+            alt="Setpiece"
+            width={140}
+            height={36}
+            loading="eager"
+            style={{width:140,height:"auto"}}
+          />
         </Link>
-        <div className="bh-topbar__actions">
-          <span className="bh-topbar__user">{session.email}</span>
-          <form action={logout}>
-            <button type="submit" className="bh-topbar__logout">
-              Log uit
-            </button>
-          </form>
-        </div>
+        <span className="bw-top__label">Jouw werkruimte</span>
+        <details className="bw-account">
+          <summary>Account</summary>
+          <div>
+            <p>{session.email}</p>
+            <Link href="/beheer/export">Exporteer je werk</Link>
+            <form action={logout}>
+              <button>Uitloggen</button>
+            </form>
+          </div>
+        </details>
       </header>
-      <main className="bh-main">{children}</main>
+      <Navigation />
+      <main id="main-content" className="bw-main">
+        {children}
+      </main>
+      <footer className="bw-footer">
+        Besloten Setpiece-omgeving{" "}
+        <span>Planning en weergave: Europe/Amsterdam</span>
+      </footer>
     </div>
   );
 }

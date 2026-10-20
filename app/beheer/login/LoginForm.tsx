@@ -5,7 +5,10 @@ import { Button } from "@/components/ds";
 import { login, type FormState } from "../actions";
 
 export default function LoginForm() {
-  const [state, formAction, pending] = useActionState<FormState, FormData>(login, null);
+  const [state, formAction, pending] = useActionState<FormState, FormData>(
+    login,
+    null,
+  );
 
   return (
     <form className="bh-login__form" action={formAction}>

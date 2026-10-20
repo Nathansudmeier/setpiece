@@ -34,7 +34,7 @@ test("publieke propositie gebruikt de goedgekeurde dienstenladder", () => {
 });
 
 test("praktijkvoorbeelden tonen beginsituatie, verandering, resultaat en context", () => {
-  const page = read("app/praktijkvoorbeelden/page.tsx");
+  const page = read("components/cms/pages/praktijkvoorbeelden.tsx");
   const content = read("lib/workspoor-content.ts");
 
   assert.match(page, /Beginsituatie/);
@@ -127,8 +127,8 @@ test("de nieuwe visuele wereld en richting zijn duurzaam vastgelegd", () => {
   assert.match(home, /Richting C/);
   assert.match(home, /werkcontext-breed\.webp/);
 
-  const scan = read("app/kansenscan/page.tsx");
-  const method = read("app/werkwijze/page.tsx");
+  const scan = read("components/cms/pages/kansenscan.tsx");
+  const method = read("components/cms/pages/werkwijze.tsx");
   assert.match(scan, /kansenscan-werksessie\.webp/);
   assert.match(method, /werkwijze-begrijpen\.webp/);
   assert.match(method, /werkwijze-testen\.webp/);

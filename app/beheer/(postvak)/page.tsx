@@ -1,132 +1,129 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import { Badge } from "@/components/ds";
-import { requireAdmin } from "@/lib/beheer/auth";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { formatCompact } from "@/lib/beheer/format";
-import { STATUSES, isSubmissionStatus, type Submission } from "@/lib/beheer/statuses";
-
-export const metadata: Metadata = {
-  title: "Postvak",
-};
-
-const FILTERS = [
-  { key: "alles", label: "Alles" },
-  ...Object.entries(STATUSES).map(([key, value]) => ({ key, label: value.label })),
-];
-
-export default async function PostvakPage({
+import { getSnapshot } from "@/lib/beheer/data";
+import {
+  todayGroups,
+  amsterdamDate,
+  WORKSPACES,
+  type Workspace,
+} from "@/lib/beheer/model";
+import WorkList from "@/components/beheer/WorkList";
+export const metadata = { title: "Vandaag" };
+export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ workspace?: string }>;
 }) {
-  await requireAdmin();
-
-  const params = await searchParams;
-  const rawFilter = typeof params.status === "string" ? params.status : "alles";
-  const filter = isSubmissionStatus(rawFilter) ? rawFilter : "alles";
-
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("contact_submissions")
-    .select("id, created_at, name, email, company, message, source, status, read_at, notes")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    return (
-      <section className="bh-page">
-        <h1 className="bh-h1">Postvak</h1>
-        <p className="bh-inline-error" role="alert">
-          Het postvak laden lukte niet. Ververs de pagina of probeer het later opnieuw.
-        </p>
-      </section>
-    );
-  }
-
-  const submissions = (data ?? []) as Submission[];
-  const unreadCount = submissions.filter((s) => !s.read_at).length;
-  const counts = new Map<string, number>([["alles", submissions.length]]);
-  for (const s of submissions) {
-    counts.set(s.status, (counts.get(s.status) ?? 0) + 1);
-  }
-
-  const visible = filter === "alles" ? submissions : submissions.filter((s) => s.status === filter);
-  const now = new Date();
-
+  const p = await searchParams;
+  const workspace =
+    p.workspace && p.workspace in WORKSPACES
+      ? (p.workspace as Workspace)
+      : undefined;
+  const s = await getSnapshot(workspace);
+  const tasks = s.items.filter((x) => x.kind === "task");
+  const g = todayGroups(tasks);
+  const decisions = s.items.filter(
+    (x) =>
+      x.kind === "decision" && !["afgerond", "gearchiveerd"].includes(x.status),
+  );
+  const completed = tasks
+    .filter((x) => x.status === "afgerond" && x.assignee !== "Nathan")
+    .sort((a, b) => (b.completed_at ?? "").localeCompare(a.completed_at ?? ""))
+    .slice(0, 5);
   return (
-    <section className="bh-page">
-      <header className="bh-page__head">
-        <h1 className="bh-h1">Postvak</h1>
-        <p className="bh-page__sub">
-          {submissions.length === 0
-            ? "Nog geen aanvragen."
-            : `${submissions.length} ${submissions.length === 1 ? "aanvraag" : "aanvragen"}, waarvan ${unreadCount} ongelezen.`}
-        </p>
-      </header>
-
-      <nav className="sp-tabs bh-tabs" aria-label="Filter op status">
-        {FILTERS.map((f) => (
-          <Link
-            key={f.key}
-            href={f.key === "alles" ? "/beheer" : `/beheer?status=${f.key}`}
-            className={`sp-tab${filter === f.key ? " sp-tab--active" : ""}`}
-            aria-current={filter === f.key ? "page" : undefined}
-          >
-            {f.label}
-            <span className="bh-tab__count">{counts.get(f.key) ?? 0}</span>
-          </Link>
-        ))}
-      </nav>
-
-      {visible.length === 0 ? (
-        <div className="bh-empty">
-          <span className="bh-empty__mark" aria-hidden="true">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-              <circle cx="28" cy="28" r="26" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2" />
-              <circle cx="28" cy="28" r="12" stroke="currentColor" strokeOpacity="0.45" strokeWidth="2" />
-              <line x1="28" y1="2" x2="28" y2="16" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2" />
-              <line x1="28" y1="40" x2="28" y2="54" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2" />
-            </svg>
-          </span>
-          <p className="bh-empty__title">
-            {filter === "alles" ? "Postvak leeg" : `Geen aanvragen met status "${STATUSES[filter].label}"`}
+    <>
+      <header className="bw-heading">
+        <div>
+          <p className="bw-eyebrow">
+            {new Intl.DateTimeFormat("nl-NL", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              timeZone: "Europe/Amsterdam",
+            }).format(new Date())}
           </p>
-          <p className="bh-empty__text">
-            Nieuwe aanvragen via het formulier op setpiece.nl verschijnen hier vanzelf.
+          <h1>Ruimte voor wat telt.</h1>
+          <p>
+            Dit vraagt nu je aandacht. Kies een stap en maak het werk lichter.
           </p>
         </div>
-      ) : (
-        <ul className="bh-list">
-          {visible.map((s, index) => {
-            const unread = !s.read_at;
-            return (
-              <li key={s.id} style={{ "--index": index } as React.CSSProperties}>
-                <Link
-                  href={`/beheer/aanvragen/${s.id}`}
-                  prefetch={false}
-                  className={`bh-row${unread ? " bh-row--unread" : ""}`}
-                >
-                  <span className="bh-row__dot" aria-hidden="true" />
-                  <span className="bh-row__who">
-                    <span className="bh-row__name">
-                      {s.name}
-                      {unread && <span className="bh-visually-hidden"> (ongelezen)</span>}
-                    </span>
-                    {s.company && <span className="bh-row__company">{s.company}</span>}
-                  </span>
-                  <span className="bh-row__preview">{s.message}</span>
-                  <span className="bh-row__meta">
-                    <Badge variant={STATUSES[s.status].badge}>{STATUSES[s.status].label}</Badge>
-                    <time className="bh-row__time" dateTime={s.created_at}>
-                      {formatCompact(s.created_at, now)}
-                    </time>
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </section>
+        <Link className="bw-primary" href="/beheer/werk/nieuw?kind=task">
+          Nieuwe actie
+        </Link>
+      </header>
+      <form className="bw-filters">
+        <label>
+          Werkgebied
+          <select name="workspace" defaultValue={workspace ?? ""}>
+            <option value="">Al je werk</option>
+            {Object.entries(WORKSPACES).map(([v, l]) => (
+              <option value={v} key={v}>
+                {l}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button className="bw-secondary">Bekijken</button>
+      </form>
+      <div className="bw-today">
+        <section>
+          <h2>Afspraak verlopen</h2>
+          <WorkList items={g.overdue} empty="Geen verlopen deadlines." />
+          <h2>Opvolging aan de beurt</h2>
+          <WorkList
+            items={g.followup}
+            empty="Je hoeft nu niets op te volgen."
+          />
+          <h2>De komende zeven dagen</h2>
+          <WorkList items={g.upcoming} empty="Geen naderende deadlines." />
+          <h2>Volgende acties</h2>
+          <WorkList
+            items={g.open.slice(0, 8)}
+            empty="Nog geen open acties. Leg je eerstvolgende stap vast."
+          />
+        </section>
+        <aside>
+          <section className="bw-panel">
+            <h2>Jouw oordeel</h2>
+            <WorkList
+              items={[...decisions, ...g.decisions]}
+              empty="Er wacht geen beslissing op je."
+            />
+            <Link href="/beheer/beslissingen">Alle voorstellen bekijken</Link>
+          </section>
+          <section className="bw-panel">
+            <h2>Recent afgerond werk</h2>
+            <p>
+              Afgerond met vastgelegd resultaat. De activiteit toont het
+              gebruikte toegangspad.
+            </p>
+            {completed.length ? (
+              completed.map((x) => (
+                <article className="bw-completed" key={x.id}>
+                  <Link href={`/beheer/werk/${x.id}`}>{x.title}</Link>
+                  <p>{x.result}</p>
+                  <small>
+                    Toegewezen aan {x.assignee} ·{" "}
+                    {x.completed_at &&
+                      new Date(x.completed_at).toLocaleString("nl-NL", {
+                        timeZone: "Europe/Amsterdam",
+                      })}
+                  </small>
+                </article>
+              ))
+            ) : (
+              <p className="bw-muted">
+                Nog geen herleidbaar afgerond toegewezen werk.
+              </p>
+            )}
+          </section>
+          <p className="bw-muted">
+            Bron: Setpiece-database. Opgehaald{" "}
+            {amsterdamDate(new Date(s.checked_at))}. Externe inboxen en agenda’s
+            worden hier niet automatisch ingelezen; Jarvis legt de
+            bronverwijzing vast.
+          </p>
+        </aside>
+      </div>
+    </>
   );
 }

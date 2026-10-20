@@ -1,3 +1,5 @@
+import RequestLinks from "@/components/beheer/RequestLinks";
+import { getSnapshot, getPeople } from "@/lib/beheer/data";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -9,7 +11,8 @@ import { STATUSES, type Submission } from "@/lib/beheer/statuses";
 import StatusSelect from "./StatusSelect";
 import NotesForm from "./NotesForm";
 
-const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 async function getSubmission(id: string): Promise<Submission | null> {
   if (!UUID_PATTERN.test(id)) return null;
@@ -17,7 +20,9 @@ async function getSubmission(id: string): Promise<Submission | null> {
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("contact_submissions")
-    .select("id, created_at, name, email, company, message, source, status, read_at, notes")
+    .select(
+      "id, created_at, name, email, company, message, source, status, read_at, notes",
+    )
     .eq("id", id)
     .maybeSingle();
 
@@ -30,11 +35,16 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
+  await requireAdmin();
   const submission = await getSubmission(id);
   return { title: submission ? `Aanvraag van ${submission.name}` : "Aanvraag" };
 }
 
-export default async function AanvraagPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function AanvraagPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   await requireAdmin();
 
   const { id } = await params;
@@ -54,6 +64,11 @@ export default async function AanvraagPage({ params }: { params: Promise<{ id: s
     if (!error) submission.read_at = readAt;
   }
 
+  const snapshot = await getSnapshot();
+  const link = snapshot.links.find((x) => x.submission_id === id);
+  const linkedPerson = link?.person_id
+    ? (await getPeople("", link.person_id)).people[0]
+    : undefined;
   const firstName = submission.name.trim().split(/\s+/)[0];
   const replyHref =
     `mailto:${submission.email}` +
@@ -62,7 +77,7 @@ export default async function AanvraagPage({ params }: { params: Promise<{ id: s
 
   return (
     <section className="bh-page">
-      <Link href="/beheer" className="bh-back">
+      <Link href="/beheer/aanvragen" className="bh-back">
         <span aria-hidden="true">←</span> Postvak
       </Link>
 
@@ -80,7 +95,10 @@ export default async function AanvraagPage({ params }: { params: Promise<{ id: s
               {submission.company && <span> · {submission.company}</span>}
               <span>
                 {" "}
-                · <time dateTime={submission.created_at}>{formatDateTime(submission.created_at)}</time>
+                ·{" "}
+                <time dateTime={submission.created_at}>
+                  {formatDateTime(submission.created_at)}
+                </time>
               </span>
             </p>
           </header>
@@ -96,6 +114,13 @@ export default async function AanvraagPage({ params }: { params: Promise<{ id: s
         </article>
 
         <aside className="bh-detail__side">
+          <RequestLinks
+            key={link?.version ?? 0}
+            submissionId={id}
+            link={link}
+            items={snapshot.items}
+            person={linkedPerson}
+          />
           <div className="sp-card sp-card--surface bh-panel">
             <h2 className="bh-panel__title">Acties</h2>
             <Button variant="primary" size="md" href={replyHref}>
@@ -118,7 +143,11 @@ export default async function AanvraagPage({ params }: { params: Promise<{ id: s
               </div>
               <div>
                 <dt>Gelezen</dt>
-                <dd>{submission.read_at ? formatDateTime(submission.read_at) : "Nog niet"}</dd>
+                <dd>
+                  {submission.read_at
+                    ? formatDateTime(submission.read_at)
+                    : "Nog niet"}
+                </dd>
               </div>
               <div>
                 <dt>Bron</dt>

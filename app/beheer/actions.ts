@@ -8,7 +8,10 @@ import { isSubmissionStatus } from "@/lib/beheer/statuses";
 
 export type FormState = { error?: string; ok?: boolean } | null;
 
-export async function login(_prev: FormState, formData: FormData): Promise<FormState> {
+export async function login(
+  _prev: FormState,
+  formData: FormData,
+): Promise<FormState> {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
@@ -20,7 +23,9 @@ export async function login(_prev: FormState, formData: FormData): Promise<FormS
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    return { error: "Inloggen lukte niet. Controleer je gegevens en probeer opnieuw." };
+    return {
+      error: "Inloggen lukte niet. Controleer je gegevens en probeer opnieuw.",
+    };
   }
 
   redirect("/beheer");
@@ -32,7 +37,10 @@ export async function logout() {
   redirect("/beheer/login");
 }
 
-export async function updateStatus(id: string, status: string): Promise<FormState> {
+export async function updateStatus(
+  id: string,
+  status: string,
+): Promise<FormState> {
   await requireAdmin();
   if (!isSubmissionStatus(status)) {
     return { error: "Onbekende status." };
@@ -53,10 +61,15 @@ export async function updateStatus(id: string, status: string): Promise<FormStat
   return { ok: true };
 }
 
-export async function saveNotes(_prev: FormState, formData: FormData): Promise<FormState> {
+export async function saveNotes(
+  _prev: FormState,
+  formData: FormData,
+): Promise<FormState> {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
-  const notes = String(formData.get("notes") ?? "").slice(0, 10000).trim();
+  const notes = String(formData.get("notes") ?? "")
+    .slice(0, 10000)
+    .trim();
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase

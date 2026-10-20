@@ -37,7 +37,8 @@ export default async function LoginPage() {
           />
           <h1 className="bh-login__title">Geen toegang</h1>
           <p className="bh-login__intro">
-            Dit account heeft geen beheerrechten. Log uit en probeer het met een ander account.
+            Dit account heeft geen beheerrechten. Log uit en probeer het met een
+            ander account.
           </p>
           <form action={logout}>
             <Button variant="on-dark" size="md" type="submit">
@@ -60,7 +61,9 @@ export default async function LoginPage() {
           height={32}
         />
         <h1 className="bh-login__title">Beheer</h1>
-        <p className="bh-login__intro">Log in om het postvak en de site te beheren.</p>
+        <p className="bh-login__intro">
+          Log in om het postvak en de site te beheren.
+        </p>
         <LoginForm />
       </div>
     </main>

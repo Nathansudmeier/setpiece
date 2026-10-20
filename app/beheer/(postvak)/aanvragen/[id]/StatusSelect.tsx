@@ -4,7 +4,13 @@ import { useState, useTransition } from "react";
 import { updateStatus } from "@/app/beheer/actions";
 import { STATUSES, type SubmissionStatus } from "@/lib/beheer/statuses";
 
-export default function StatusSelect({ id, status }: { id: string; status: SubmissionStatus }) {
+export default function StatusSelect({
+  id,
+  status,
+}: {
+  id: string;
+  status: SubmissionStatus;
+}) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -41,7 +47,12 @@ export default function StatusSelect({ id, status }: { id: string; status: Submi
           fill="none"
           aria-hidden="true"
         >
-          <path d="M1 1.5 6 6.5 11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M1 1.5 6 6.5 11 1.5"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </svg>
       </div>
       {error && (

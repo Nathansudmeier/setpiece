@@ -68,7 +68,7 @@ function toMessage(values: FormValues) {
   ].join("\n");
 }
 
-export default function KansenscanContactForm() {
+export default function KansenscanContactForm({preview = false}: {preview?: boolean}) {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -176,6 +176,8 @@ export default function KansenscanContactForm() {
       </div>
     );
   }
+
+  if (preview) return <div className="ws-contact-form"><h2>Vertel welk werk steeds terugkomt.</h2><p>Het aanvraagformulier is uitgeschakeld in de besloten voorvertoning.</p></div>;
 
   return (
     <form
