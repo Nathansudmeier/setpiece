@@ -2,7 +2,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { quickUpdate } from "@/app/beheer/work-actions";
-import type { WorkItem } from "@/lib/beheer/model";
+import { nextFollowUpDate, type WorkItem } from "@/lib/beheer/model";
 export default function QuickActions({ item }: { item: WorkItem }) {
   const [pending, start] = useTransition();
   const [error, setError] = useState("");
@@ -27,8 +27,6 @@ export default function QuickActions({ item }: { item: WorkItem }) {
       }
     });
   }
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
   return (
     <div className="bw-quick">
       <p>Snel bijwerken</p>
@@ -56,9 +54,7 @@ export default function QuickActions({ item }: { item: WorkItem }) {
             disabled={pending}
             onClick={() =>
               run({
-                follow_up_on: new Intl.DateTimeFormat("sv-SE", {
-                  timeZone: "Europe/Amsterdam",
-                }).format(tomorrow),
+                follow_up_on: nextFollowUpDate(),
               })
             }
           >

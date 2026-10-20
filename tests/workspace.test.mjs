@@ -32,6 +32,12 @@ test('Vandaag gebruikt Amsterdam en geen deadline voor zelfgekozen opvolging', (
   assert.deepEqual(groups.decisions.map(x=>x.id),['4']);
 });
 
+test('morgen opvolgen gebruikt de Amsterdamse kalender bij wintertijd en jaarwisseling', async () => {
+  const { nextFollowUpDate } = await import('../lib/beheer/model.ts');
+  assert.equal(nextFollowUpDate(new Date('2026-10-24T22:30:00Z')), '2026-10-26');
+  assert.equal(nextFollowUpDate(new Date('2026-12-31T23:30:00Z')), '2027-01-02');
+});
+
 test('volledig ophalen verliest geen werk achter de eerste duizend rijen', async () => {
   const {collectPages}=await import('../lib/beheer/model.ts');
   const rows=Array.from({length:1001},(_,id)=>({id}));

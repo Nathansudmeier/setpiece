@@ -157,6 +157,11 @@ export function amsterdamDate(now = new Date()) {
     timeZone: "Europe/Amsterdam",
   }).format(now);
 }
+export function nextFollowUpDate(now = new Date()) {
+  const next = new Date(`${amsterdamDate(now)}T12:00:00Z`);
+  next.setUTCDate(next.getUTCDate() + 1);
+  return next.toISOString().slice(0, 10);
+}
 export function todayGroups<
   T extends {
     status: string;
