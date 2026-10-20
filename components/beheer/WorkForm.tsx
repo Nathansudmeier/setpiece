@@ -136,19 +136,20 @@ export default function WorkForm({
           </label>
           <label>
             Verantwoordelijke
-            <select
+            <input
               aria-label="Verantwoordelijke"
               name="assignee"
+              list="work-assignees"
+              required
+              maxLength={120}
               defaultValue={item?.assignee ?? "Nathan"}
-            >
+            />
+            <datalist id="work-assignees">
               {ASSIGNEES.map((x) => (
-                <option key={x}>{x}</option>
+                <option key={x} value={x} />
               ))}
-              {item?.assignee &&
-                !ASSIGNEES.some((x) => x === item.assignee) && (
-                  <option>{item.assignee}</option>
-                )}
-            </select>
+            </datalist>
+            <small>Typ een naam of kies een bot. Koppel hieronder eventueel de bestaande persoon.</small>
           </label>
         </div>
         <PersonPicker
