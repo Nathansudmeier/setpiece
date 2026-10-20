@@ -1,0 +1,161 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.321Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "8px",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.354Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(15, 42, 82, 0.08)",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.387Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(245, 242, 236, 0.08)",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.417Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "3.2rem",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.446Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "2.75rem",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.475Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(10, 30, 60, 0.45)",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.502Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(10, 30, 60, 0.55)",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.531Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "11px",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.560Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(245, 242, 236, 0.06)",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.587Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(169, 194, 230, 0.22)",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.615Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#6f86a8",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.643Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(245, 242, 236, 0.1)",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.671Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#f0a894",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.699Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "3.4rem",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.726Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "2.25rem",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.754Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "4.25rem",
+        "files": [
+          "app/styles/site.css"
+        ],
+        "createdAt": "2026-10-20T12:33:46.782Z",
+        "reason": "Agent: bestaande legacy-stijl in main 98dc683; de expliciete opdracht behoudt de huidige publieke vormgeving. Deze waarde is ongewijzigd en valt buiten het Turnstile-herstel."
+      }
+    ]
+  }
+}

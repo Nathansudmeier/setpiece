@@ -4,7 +4,7 @@ import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import Turnstile from "@/components/site/Turnstile";
+import Turnstile, { VERIFICATION_REQUIRED_MESSAGE } from "@/components/site/Turnstile";
 
 type Status = "idle" | "submitting" | "success" | "error";
 export type Service =
@@ -154,6 +154,12 @@ export default function KansenscanContactForm({
     const firstError = Object.keys(nextErrors)[0];
     if (firstError) {
       document.getElementById(`scan-${firstError}`)?.focus();
+      return;
+    }
+
+    if (!turnstileToken) {
+      setStatus("error");
+      setStatusMessage(VERIFICATION_REQUIRED_MESSAGE);
       return;
     }
 
@@ -471,7 +477,13 @@ export default function KansenscanContactForm({
         {!preview && (
           <Turnstile
             action="contact"
-            onToken={setTurnstileToken}
+            onToken={(token) => {
+              setTurnstileToken(token);
+              if (token && statusMessage === VERIFICATION_REQUIRED_MESSAGE) {
+                setStatus("idle");
+                setStatusMessage("");
+              }
+            }}
             resetKey={turnstileReset}
           />
         )}

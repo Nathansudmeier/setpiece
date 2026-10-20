@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { track } from "@vercel/analytics";
 import { Button } from "@/components/ds";
-import Turnstile from "@/components/site/Turnstile";
+import Turnstile, { VERIFICATION_REQUIRED_MESSAGE } from "@/components/site/Turnstile";
 
 type Status = "idle" | "loading" | "done" | "error";
 
@@ -32,6 +32,11 @@ export default function SiteIntake() {
     if (submitting) return;
     if (challenge.trim().length < 3 || goal.trim().length < 3) {
       setError("Vul kort in waar het schuurt en wat je wilt bereiken.");
+      setStatus("error");
+      return;
+    }
+    if (!turnstileToken) {
+      setError(VERIFICATION_REQUIRED_MESSAGE);
       setStatus("error");
       return;
     }
@@ -182,7 +187,13 @@ export default function SiteIntake() {
 
               <Turnstile
                 action="intake"
-                onToken={setTurnstileToken}
+                onToken={(token) => {
+                  setTurnstileToken(token);
+                  if (token && error === VERIFICATION_REQUIRED_MESSAGE) {
+                    setStatus("idle");
+                    setError("");
+                  }
+                }}
                 resetKey={turnstileReset}
               />
 

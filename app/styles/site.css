@@ -547,6 +547,20 @@ img { max-width: 100%; display: block; }
 }
 .sp-turnstile { min-height: 4px; width: 100%; }
 .sp-turnstile > div { width: 100%; }
+.sp-turnstile__status { margin: 8px 0 0; color: var(--ws-slate); font-size: 13px; }
+.sp-turnstile__error {
+  display: grid; gap: 8px; padding: 14px 16px;
+  border: 1px solid #9d345b; background: #fdebf2; color: #67213a;
+  font-size: 14px; line-height: 1.6;
+}
+.sp-turnstile__error p { margin: 0; }
+.sp-turnstile__error a { color: inherit; text-decoration: underline; text-underline-offset: 4px; }
+.sp-turnstile__retry {
+  justify-self: start; min-height: 44px; padding: 8px 12px;
+  border: 1px solid currentColor; border-radius: 2px;
+  background: var(--ws-paper-raised); color: inherit; font: inherit; font-weight: 600; cursor: pointer;
+}
+.sp-turnstile__retry:hover { background: var(--ws-paper); }
 
 .sp-services-details > summary { display: none; }
 .sp-services-details:not([open]) > .sp-services-grid { display: grid; }
