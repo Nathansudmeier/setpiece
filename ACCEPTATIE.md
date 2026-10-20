@@ -149,3 +149,19 @@ De geaccepteerde preview is gepubliceerd. Lint, tests, productiebuild,
 typecheck, productie-audit, Vercel-deployment en de openbare hoofdroutes waren
 groen bij publicatie. De resterende punten hierboven zijn beheer- en
 vervolgacties en veranderen het genomen publicatiebesluit niet.
+
+
+## Besloten Setpiece-beheer — 20 oktober 2026
+
+Live: https://www.setpiece.nl/beheer. Functionele code: 6f0537d; productie dpl_AMf6wG8JrQEeqDpvyF4f3T17YsqQ.
+
+- Vandaag, projecten, acties, bestaande personen/context, aanvragen/koppelingen, beslissingen, activiteit en eigenaarsexport functioneel gecontroleerd met echte sessie en opslag.
+- Achttien CMS-documenten: zeventien huidige inhoudspagina’s plus gedeelde inhoud; concept, besloten preview, expliciet publiceren en herstel als concept getest. Publieke inhoud, links, SEO en formulierstructuur komen op 22 URL-varianten overeen met de eerdere productie.
+- Anoniem en ingelogd zonder rechten geweigerd; RLS/eigenaarisolatie, dedupe, versieconflict, gelijktijdige verwerking, uitvoering/resultaatregels en 1001-rijgrens gecontroleerd.
+- Lint, typecheck, 17 tests en productiebuild geslaagd. Echte browsers op 390/768/1024/1440; focus, formulierfouten, verversen, export, privé-cache/noindex en console gecontroleerd. Wintertijd/jaarwisseling en UTC-browser volgen de Amsterdamse kalender.
+- Daadwerkelijke Grok/Jarvis-test in beide richtingen geslaagd; herlezing na productie bevestigd. Bestaande ochtend- en avondroutine leest nu dezelfde bron. De gedeelde postgres-connector biedt geen technische isolatie tussen bots.
+- Alle 1012 herkenbare tijdelijke testitems en de synthetische aanvraag gericht opgeruimd; 566 bestaande personen behouden.
+
+Nog open: één positieve bestaande contactinzending en interne melding. Cloudflare weigert de geautomatiseerde browser met 300030, ook op de eerdere productie. Serverroute, notificatiecode en Turnstile-beveiliging zijn behouden; geen bypass toegevoegd. Een herkenbaar formulier staat in Chrome klaar voor Nathans handeling. Deze controle is nog niet als geslaagd geregistreerd.
+
+Details: [voortgang](docs/beheer-voortgang.md), [Jarvis-instructie](docs/jarvis-instructie.md), [migraties en herstel](docs/beheer-koppeling.md). Bij app-problemen blijft de eerdere publieke deployment dpl_8jtAgmWN6s9puuXbNixJCuwHpsZx een terugvalroute; laat de additieve tabellen en gegevens staan.
