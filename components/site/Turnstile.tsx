@@ -157,9 +157,20 @@ export default function Turnstile({ action, onToken, resetKey }: TurnstileProps)
           <p>Blijft het misgaan? <a href="mailto:hallo@setpiece.nl">Mail naar hallo@setpiece.nl</a>.</p>
         </div>
       ) : (
-        <p className="sp-turnstile__status" role="status">
-          {state === "verified" ? "Beveiligingscontrole afgerond." : state === "loading" ? "Beveiligingscontrole wordt geladen…" : "Beveiligingscontrole wordt uitgevoerd…"}
-        </p>
+        <>
+          <p className="sp-turnstile__status" role="status">
+            {state === "verified" ? "Beveiligingscontrole afgerond." : state === "loading" ? "Beveiligingscontrole wordt geladen…" : "Beveiligingscontrole wordt uitgevoerd…"}
+          </p>
+          {state === "checking" ? (
+            <div className="sp-turnstile__help">
+              <p>Duurt de controle lang?</p>
+              <button type="button" className="sp-turnstile__retry" onClick={retry}>
+                Controle opnieuw proberen
+              </button>
+              <a href="mailto:hallo@setpiece.nl">Mail naar hallo@setpiece.nl</a>
+            </div>
+          ) : null}
+        </>
       )}
       {nearViewport && SITE_KEY ? (
         <Script

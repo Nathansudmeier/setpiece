@@ -561,6 +561,9 @@ img { max-width: 100%; display: block; }
   background: var(--ws-paper-raised); color: inherit; font: inherit; font-weight: 600; cursor: pointer;
 }
 .sp-turnstile__retry:hover { background: var(--ws-paper); }
+.sp-turnstile__help { display: grid; gap: 8px; margin-top: 8px; color: var(--ws-slate); font-size: 14px; }
+.sp-turnstile__help p { margin: 0; }
+.sp-turnstile__help a { color: inherit; text-underline-offset: 4px; }
 
 .sp-services-details > summary { display: none; }
 .sp-services-details:not([open]) > .sp-services-grid { display: grid; }
