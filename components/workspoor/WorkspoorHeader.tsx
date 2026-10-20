@@ -4,23 +4,49 @@ import Link from "next/link";
 import { WORKSPOOR_NAV } from "@/lib/workspoor-content";
 
 type WorkspoorHeaderProps = {
-  activePath?: string;
-  dark?: boolean;
   navItems?: readonly { href: string; label: string }[];
   ctaLabel?: string;
   ctaHref?: string;
+  trainingLabel?: string;
+  serviceLabel?: string;
+  activePath?: string;
+  dark?: boolean;
 };
 
 export default function WorkspoorHeader({
   activePath,
   dark = false,
   navItems = WORKSPOOR_NAV,
-  ctaLabel = "Bespreek de kansenscan",
-  ctaHref = "/contact",
+  ctaLabel,
+  ctaHref,
+  trainingLabel = "Bespreek de training",
+  serviceLabel = "Bespreek je vraag",
 }: WorkspoorHeaderProps) {
   const logo = dark
     ? "/logos/workspoor/setpiece-logo-paper.svg"
     : "/logos/workspoor/setpiece-logo-ink.svg";
+  const isLiteracy = activePath === "/ai-geletterdheid";
+  const isService = [
+    "/ai-implementatie",
+    "/ai-groeipartner",
+    "/ai-maatwerk",
+  ].includes(activePath ?? "");
+  const contactHref = isLiteracy
+    ? "/ai-geletterdheid/aanvragen"
+    : isService
+      ? `/contact?dienst=${activePath?.slice(1)}`
+      : (ctaHref ?? "/contact");
+  const contactLabel = isLiteracy
+    ? trainingLabel
+    : isService
+      ? serviceLabel
+      : (ctaLabel ?? "Bespreek de kansenscan");
+  const navPath =
+    isService || activePath === "/kansenscan"
+      ? "/diensten"
+      : activePath?.startsWith("/kennis/")
+        ? "/kennis"
+        : activePath;
 
   return (
     <>
@@ -42,15 +68,21 @@ export default function WorkspoorHeader({
               <Link
                 key={item.href}
                 href={item.href}
-                aria-current={activePath === item.href ? "page" : undefined}
+                aria-current={
+                  navPath === item.href
+                    ? activePath === item.href
+                      ? "page"
+                      : "true"
+                    : undefined
+                }
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          <Link className="ws-button ws-button--small" href={ctaHref}>
-            {ctaLabel}
+          <Link className="ws-button ws-button--small" href={contactHref}>
+            {contactLabel}
           </Link>
 
           <details className="ws-menu">
@@ -60,16 +92,22 @@ export default function WorkspoorHeader({
                 <Link
                   key={item.href}
                   href={item.href}
-                  aria-current={activePath === item.href ? "page" : undefined}
+                  aria-current={
+                    navPath === item.href
+                      ? activePath === item.href
+                        ? "page"
+                        : "true"
+                      : undefined
+                  }
                 >
                   {item.label}
                 </Link>
               ))}
               <Link
-                href={ctaHref}
+                href={contactHref}
                 aria-current={activePath === "/contact" ? "page" : undefined}
               >
-                {ctaLabel}
+                {contactLabel}
               </Link>
             </nav>
           </details>

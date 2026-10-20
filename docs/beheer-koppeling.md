@@ -12,7 +12,7 @@ De bestaande Jarvis Management-connector werkt als postgres met bypassrls. Ook e
 
 ## CMS
 
-`lib/cms/schema.ts` beschrijft zeven vaste documenten: zes hoofdroutes en gedeelde inhoud. Bestaande structuur, vormgeving, media en routes zijn behouden. Er is geen vrije HTML. `sp_cms_documents` bewaart het concept, veldschema, werkversie en publicatiepointer. `sp_cms_revisions` bewaart revisies. De publieke lezer kan geen concepten lezen. Metadata haalt dezelfde gepubliceerde inhoud op.
+`lib/cms/schema.ts` beschrijft achttien vaste documenten: zeventien huidige inhoudspagina’s en gedeelde inhoud (navigatie, diensten, kennis en contact). Bestaande structuur, vormgeving, media en routes zijn behouden. Er is geen vrije HTML. `sp_cms_documents` bewaart het concept, veldschema, werkversie en publicatiepointer. `sp_cms_revisions` bewaart revisies. De publieke lezer kan geen concepten lezen. Metadata haalt dezelfde gepubliceerde inhoud op.
 
 De preview staat uitsluitend onder `/beheer/website/[slug]/preview`, controleert per request de sessie/eigenaar en heeft noindex/private caching. Het is geen openbare preview-URL met een deelbaar geheim. Formulierverzending is daar uitgeschakeld. Publiceren vereist een eigenaarsessie, versiecontrole, expliciete handeling en audit; de Next-serveractie herbevestigt de betreffende routes. Shared-publicatie ververst alle publieke pagina's. Herstel maakt een nieuw concept van een gekozen revisie; expliciet publiceren zet dit openbaar.
 
@@ -21,14 +21,18 @@ Bij een onbereikbare publieke database gebruikt de website de exact overgenomen 
 ## Migraties en volgorde
 
 1. `20261020104625_setpiece_workspace.sql`: additieve eigenaar-/werktabellen, RLS, command-/snapshot-/personenfuncties en audit. Verwijst naar bestaande personen-UUID's en aanvragen; wijzigt ze niet.
-2. `20261020105347_setpiece_cms.sql`: additieve CMS-tabellen/functies en exact overgenomen eerste gepubliceerde inhoud.
+2. `20261020105347_setpiece_cms.sql`: additieve CMS-tabellen/functies en eerste inhoudsimport.
+3. `20261020111321_setpiece_link_serialization.sql`: serialisatie van eerste aanvraagkoppelingen.
+4. `20261020111609_setpiece_conflict_responses.sql`: HTTP 409 voor versieconflicten.
+5. `20261020114248_sync_current_public_content.sql`: inhoud/veldschema gelijk aan de werkelijk bestaande productie bij main d02ecfc, inclusief nieuwe diensten en kennis. Bewaart eerdere revisies en weigert onverwacht gewijzigde inhoud.
+6. `20261020114451_preserve_home_social_metadata.sql`: behoud van de eigen titelvolgorde in bestaande homepage-deelmetadata.
 
-Beide SQL-bestanden zijn via de geauthenticeerde CLI Management API op Setpiece uitgevoerd, daarna afzonderlijk in de migratiehistorie geregistreerd. De bestaande oudere app blijft ermee werken. Schema eerst, daarna preview, acceptatie, dan productie. Er zijn oudere remote migraties die niet in deze checkout staan; voer daarom geen ongerichte db push/reset uit. Pas uitsluitend de gecontroleerde nieuwe migratie toe en controleer de geschiedenis.
+De zes migraties zijn via de geauthenticeerde CLI Management API op Setpiece uitgevoerd, daarna afzonderlijk in de migratiehistorie geregistreerd. De bestaande oudere app blijft ermee werken. Schema eerst, daarna preview, acceptatie, dan productie. Er zijn oudere remote migraties die niet in deze checkout staan; voer daarom geen ongerichte db push/reset uit. Pas uitsluitend de gecontroleerde nieuwe migratie toe en controleer de geschiedenis.
 
 ## Herstel
 
 - App: herstel de vorige werkende Vercel-productiedeployment of deploy de vorige Git-commit. De nieuwe tabellen mogen blijven bestaan; de vorige publieke app en het postvak werken zonder ze.
-- Inhoud: kies de vorige CMS-revisie, zet die als concept terug, controleer de private preview en publiceer expliciet. Dit bewaart de historie.
+- Inhoud: kies de vorige CMS-revisie, zet die als concept terug, controleer de private preview en publiceer expliciet. Dit bewaart de historie. Revisies uit een oudere veldindeling blijven als naslag zichtbaar; alleen versies met de huidige paginaonderdelen kunnen worden teruggezet.
 - Database: geen automatische DROP/DELETE-rollback op werkelijke data. Bij fouten corrigerende additieve migratie; exporteer eerst het getroffen eigen werk. Gebruik geen reset op deze gedeelde bestaande database.
 - Export: `/beheer/export` downloadt eigen werk, aanvraagrelaties en activiteiten als JSON, in begrensde pagina's opgehaald. Personen blijven in de bestaande bron en worden niet als tweede contactenbestand geëxporteerd.
 - Tijdelijke acceptatiegegevens dragen `[CODEX TEST 20261020]` of `[TEST JARVIS 20261020]`. Ruim uitsluitend de vastgelegde test-UUID's op na controles, inclusief hun testrelaties/audit/idempotentieresultaten. Raak echte aanvragen/personen niet aan.

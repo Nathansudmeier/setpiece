@@ -1,15 +1,23 @@
 import Image from "next/image";
+import Link from "next/link";
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
 
+import { createPageMetadata } from "@/lib/seo";
 import type { CmsCopy } from "@/lib/cms/schema";
-import { readPublished } from "@/lib/cms/read";
+import { readPublished, cmsMetadata } from "@/lib/cms/read";
 import { sharedContent } from "@/lib/cms/shared";
-import { cmsMetadata } from "@/lib/cms/read";
+
+const baseMetadata = createPageMetadata({
+  title: "AI Consultancy: van werkprobleem naar workflow",
+  description:
+    "Setpiece verbindt bedrijfsdoel, dagelijkse workflow, passende AI-oplossing, test, meting en overdracht.",
+  path: "/werkwijze",
+});
 export async function generateMetadata() {
-  return cmsMetadata("werkwijze");
+  return cmsMetadata("werkwijze", baseMetadata);
 }
-export function CmsWerkwijze({
+export async function CmsWerkwijze({
   copy,
   sharedCopy,
   preview = false,
@@ -20,94 +28,98 @@ export function CmsWerkwijze({
 }) {
   const { SERVICE_ROUTE, WORKLINE_STEPS } = sharedContent(sharedCopy);
   const PRINCIPLES = [
-    copy.tekst_001 ?? "AI volgt het bedrijfsdoel en het werkproces.",
-    copy.tekst_002 ?? "Iedere opdracht heeft een proceseigenaar.",
-    copy.tekst_003 ?? "Medewerkers worden betrokken bij ontwerp en test.",
-    copy.tekst_004 ?? "Gevoelige beslissingen blijven onder menselijk oordeel.",
-    copy.tekst_005 ?? "Resultaat krijgt een nulmeting en eerste effectmeting.",
-    copy.tekst_006 ?? "De klant kan na overdracht zelfstandig verder.",
+    copy.v2_tekst_001 ?? "AI volgt het bedrijfsdoel en het werkproces.",
+    copy.v2_tekst_002 ?? "Iedere opdracht heeft een proceseigenaar.",
+    copy.v2_tekst_003 ?? "Medewerkers worden betrokken bij ontwerp en test.",
+    copy.v2_tekst_004 ??
+      "Gevoelige beslissingen blijven onder menselijk oordeel.",
+    copy.v2_tekst_005 ??
+      "Resultaat krijgt een nulmeting en eerste effectmeting.",
+    copy.v2_tekst_006 ?? "De klant kan na overdracht zelfstandig verder.",
   ] as const;
   const METHOD_SCENES = [
     {
-      label: copy.tekst_007 ?? "Begrijpen",
-      title: copy.tekst_008 ?? "De medewerker legt het echte werk uit.",
+      label: copy.v2_tekst_007 ?? "Begrijpen",
+      title: copy.v2_tekst_008 ?? "De medewerker legt het echte werk uit.",
       body:
-        copy.tekst_009 ??
+        copy.v2_tekst_009 ??
         "Processtappen, uitzonderingen en terugkerend verlies worden zichtbaar voordat er iets wordt gebouwd.",
       src: "/workspoor/werkwijze-begrijpen.webp",
       alt:
-        copy.tekst_010 ??
+        copy.v2_tekst_010 ??
         "Een medewerker legt een werkproces uit terwijl Setpiece luistert en aantekeningen maakt",
     },
     {
-      label: copy.tekst_011 ?? "Testen",
-      title: copy.tekst_012 ?? "De medewerker bestuurt de test.",
+      label: copy.v2_tekst_011 ?? "Testen",
+      title: copy.v2_tekst_012 ?? "De medewerker bestuurt de test.",
       body:
-        copy.tekst_013 ??
+        copy.v2_tekst_013 ??
         "De AI-oplossing wordt gebruikt in een echte taak. Setpiece observeert, meet en stelt gericht bij.",
       src: "/workspoor/werkwijze-testen.webp",
       alt:
-        copy.tekst_014 ??
+        copy.v2_tekst_014 ??
         "Een medewerker test een AI-oplossing op een laptop terwijl Setpiece meekijkt",
     },
     {
-      label: copy.tekst_015 ?? "Overdragen",
-      title: copy.tekst_016 ?? "De eigenaar kan zelfstandig verder.",
+      label: copy.v2_tekst_015 ?? "Overdragen",
+      title: copy.v2_tekst_016 ?? "De eigenaar kan zelfstandig verder.",
       body:
-        copy.tekst_017 ??
+        copy.v2_tekst_017 ??
         "Werkwijze, controlepunten en verantwoordelijkheden worden aan de organisatie overgedragen.",
       src: "/workspoor/werkwijze-overdracht.webp",
       alt:
-        copy.tekst_018 ??
+        copy.v2_tekst_018 ??
         "Een medewerker draagt een nieuwe werkwijze over aan een manager",
     },
   ] as const;
   const ROLES = [
     [
-      copy.tekst_019 ?? "Beslisser",
-      copy.tekst_020 ?? "Bevestigt bedrijfsdoel, budget en vervolgbesluit.",
+      copy.v2_tekst_019 ?? "Beslisser",
+      copy.v2_tekst_020 ?? "Bevestigt bedrijfsdoel, budget en vervolgbesluit.",
     ],
     [
-      copy.tekst_021 ?? "Proceseigenaar",
-      copy.tekst_022 ?? "Bewaakt inhoud, uitzonderingen en ingebruikname.",
+      copy.v2_tekst_021 ?? "Proceseigenaar",
+      copy.v2_tekst_022 ?? "Bewaakt inhoud, uitzonderingen en ingebruikname.",
     ],
     [
-      copy.tekst_023 ?? "Medewerker",
-      copy.tekst_024 ?? "Test de werkwijze in een echte taak.",
+      copy.v2_tekst_023 ?? "Medewerker",
+      copy.v2_tekst_024 ?? "Test de werkwijze in een echte taak.",
     ],
     [
-      copy.tekst_025 ?? "Setpiece",
-      copy.tekst_026 ??
+      copy.v2_tekst_025 ?? "Setpiece",
+      copy.v2_tekst_026 ??
         "Draagt diagnose, ontwerp, regie, documentatie en kwaliteitscontrole.",
     ],
     [
-      copy.tekst_027 ?? "Specialist",
-      copy.tekst_028 ??
+      copy.v2_tekst_027 ?? "Specialist",
+      copy.v2_tekst_028 ??
         "Wordt alleen betrokken bij aantoonbare technische, juridische of beveiligingsbehoefte.",
     ],
   ] as const;
   const RECORDS = [
-    copy.tekst_029 ?? "De beginsituatie en het gewenste resultaat.",
-    copy.tekst_030 ?? "De gebruikte meetmethode.",
-    copy.tekst_031 ?? "Uitzonderingen en controlepunten.",
-    copy.tekst_032 ?? "Wie beslist en wie uitvoert.",
-    copy.tekst_033 ?? "Wat de klant na overdracht zelfstandig beheert.",
-    copy.tekst_034 ??
+    copy.v2_tekst_029 ?? "De beginsituatie en het gewenste resultaat.",
+    copy.v2_tekst_030 ?? "De gebruikte meetmethode.",
+    copy.v2_tekst_031 ?? "Uitzonderingen en controlepunten.",
+    copy.v2_tekst_032 ?? "Wie beslist en wie uitvoert.",
+    copy.v2_tekst_033 ?? "Wat de klant na overdracht zelfstandig beheert.",
+    copy.v2_tekst_034 ??
       "Wanneer stoppen, verbeteren of uitbreiden wordt besloten.",
   ] as const;
 
   return (
     <WorkspoorShell
-      preview={preview}
       sharedCopy={sharedCopy}
+      preview={preview}
       activePath="/werkwijze"
     >
       <section className="ws-page-hero ws-page-hero--statement">
         <div className="ws-frame">
-          <p className="ws-context">{copy.tekst_035 ?? "Werkwijze"}</p>
-          <h1>{copy.kop_036 ?? "AI telt pas wanneer mensen ermee werken."}</h1>
+          <p className="ws-context">{copy.v2_tekst_035 ?? "Werkwijze"}</p>
+          <h1>
+            {copy.v2_tekst_036 ?? "AI telt pas wanneer mensen ermee werken."}
+          </h1>
           <p className="ws-lead">
-            {copy.tekst_037 ??
+            {copy.v2_tekst_037 ??
               "Setpiece verbindt bedrijfsdoel, dagelijkse workflow, passende AI-oplossing, test en overdracht in één beheersbare route."}
           </p>
         </div>
@@ -116,9 +128,10 @@ export function CmsWerkwijze({
       <section className="ws-principles" aria-labelledby="principles-title">
         <div className="ws-frame">
           <div className="ws-section-heading">
-            <p>{copy.tekst_038 ?? "Principes"}</p>
+            <p>{copy.v2_tekst_038 ?? "Principes"}</p>
             <h2 id="principles-title">
-              {copy.kop_039 ?? "Wat tijdens iedere opdracht overeind blijft."}
+              {copy.v2_tekst_039 ??
+                "Wat tijdens iedere opdracht overeind blijft."}
             </h2>
           </div>
           <ul>
@@ -135,9 +148,9 @@ export function CmsWerkwijze({
       >
         <div className="ws-frame">
           <div className="ws-section-heading ws-section-heading--dark">
-            <p>{copy.tekst_040 ?? "Het werkspoor"}</p>
+            <p>{copy.v2_tekst_040 ?? "Het werkspoor"}</p>
             <h2 id="full-route-title">
-              {copy.kop_041 ?? "Van frictie naar eigenaarschap."}
+              {copy.v2_tekst_041 ?? "Van frictie naar eigenaarschap."}
             </h2>
           </div>
           <ol className="ws-workline">
@@ -153,7 +166,7 @@ export function CmsWerkwijze({
                 <h3>{step.state}</h3>
                 <p>{step.action}</p>
                 <small>
-                  {copy.tekst_042 ?? "Eigenaar: "}
+                  {copy.v2_tekst_042 ?? "Eigenaar: "}
                   {step.owner}
                 </small>
               </li>
@@ -166,11 +179,16 @@ export function CmsWerkwijze({
         <div className="ws-frame">
           <div className="ws-method-film__heading">
             <p className="ws-context">
-              {copy.tekst_043 ?? "Van analyse naar dagelijks gebruik"}
+              {copy.v2_tekst_043 ?? "Van analyse naar dagelijks gebruik"}
             </p>
             <h2 id="method-film-title">
-              {copy.kop_044 ?? "AI-oplossingen ontstaan midden in het werk."}
+              {copy.v2_tekst_044 ??
+                "AI-oplossingen ontstaan midden in het werk."}
             </h2>
+            <p className="ws-image-note">
+              {copy.v2_tekst_045 ??
+                "Illustratieve werkbeelden; geen fotografie van klantopdrachten."}
+            </p>
           </div>
           <div className="ws-method-film__grid">
             {METHOD_SCENES.map((scene, index) => (
@@ -200,9 +218,9 @@ export function CmsWerkwijze({
       <section className="ws-route-section" aria-labelledby="services-title">
         <div className="ws-frame">
           <div className="ws-section-heading">
-            <p>{copy.tekst_045 ?? "Drie diensten, één route"}</p>
+            <p>{copy.v2_tekst_046 ?? "Drie diensten, één route"}</p>
             <h2 id="services-title">
-              {copy.kop_046 ?? "Ieder onderdeel eindigt met een besluit."}
+              {copy.v2_tekst_047 ?? "Ieder onderdeel eindigt met een besluit."}
             </h2>
           </div>
           <div className="ws-service-route">
@@ -213,7 +231,9 @@ export function CmsWerkwijze({
               >
                 <div>
                   <span>{service.note}</span>
-                  <h3>{service.name}</h3>
+                  <h3>
+                    <Link href={service.href}>{service.name}</Link>
+                  </h3>
                 </div>
                 <p>{service.when}</p>
                 <p>{service.result}</p>
@@ -228,10 +248,10 @@ export function CmsWerkwijze({
         <div className="ws-frame ws-responsibility__grid">
           <div>
             <p className="ws-context">
-              {copy.tekst_047 ?? "Rollen en eigenaarschap"}
+              {copy.v2_tekst_048 ?? "Rollen en eigenaarschap"}
             </p>
             <h2 id="roles-title">
-              {copy.kop_048 ??
+              {copy.v2_tekst_049 ??
                 "De klant weet altijd wie beslist en wie uitvoert."}
             </h2>
           </div>
@@ -250,13 +270,13 @@ export function CmsWerkwijze({
         <div className="ws-frame ws-transfer-grid">
           <div>
             <p className="ws-context">
-              {copy.tekst_049 ?? "Meten en overdragen"}
+              {copy.v2_tekst_050 ?? "Meten en overdragen"}
             </p>
             <h2 id="transfer-title">
-              {copy.kop_050 ?? "Resultaat blijft controleerbaar."}
+              {copy.v2_tekst_051 ?? "Resultaat blijft controleerbaar."}
             </h2>
             <p className="ws-lead">
-              {copy.tekst_051 ??
+              {copy.v2_tekst_052 ??
                 "Iedere verbetering legt vast wat werkte, wie verantwoordelijk is en wat de organisatie zelfstandig beheert."}
             </p>
           </div>
@@ -271,11 +291,11 @@ export function CmsWerkwijze({
       <section className="ws-tool-statement">
         <div className="ws-frame">
           <p>
-            {copy.tekst_052 ??
+            {copy.v2_tekst_053 ??
               "De AI-oplossing wordt pas gekozen nadat het werk duidelijk is."}
           </p>
           <h2>
-            {copy.kop_053 ??
+            {copy.v2_tekst_054 ??
               "AI zonder eigenaar en werkwijze is geen oplevering."}
           </h2>
         </div>
@@ -284,14 +304,14 @@ export function CmsWerkwijze({
       <ClosingCta
         sharedCopy={sharedCopy}
         title={
-          copy.kop_054 ??
+          copy.v2_tekst_055 ??
           "Begin met het werkprobleem. Niet met een losse AI-tool."
         }
       />
     </WorkspoorShell>
   );
 }
-export default async function WerkwijzePage() {
+export default async function Page() {
   const [copy, sharedCopy] = await Promise.all([
     readPublished("werkwijze"),
     readPublished("shared"),

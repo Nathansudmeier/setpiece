@@ -26,6 +26,8 @@ export default async function WorkspoorShell({
         navItems={sharedContent(copy).WORKSPOOR_NAV}
         ctaLabel={copy.cta_label}
         ctaHref={copy.link_cta}
+        trainingLabel={copy.header_training}
+        serviceLabel={copy.header_service}
       />
       {preview ? (
         <div className="ws-preview-content">{children}</div>

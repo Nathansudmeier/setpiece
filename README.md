@@ -1,6 +1,6 @@
 # Setpiece
 
-Next.js 16-website en besloten persoonlijke werkomgeving voor Nathan. De publieke Werkspoor-routes zijn Home, Kansenscan, Werkwijze, Praktijkvoorbeelden, Over Setpiece en Contact, aangevuld met privacy en cookies. Bestaande oude routes behouden hun redirects.
+Next.js 16-website en besloten persoonlijke werkomgeving voor Nathan. Het CMS omvat de zeventien huidige Werkspoor-inhoudspagina’s: de homepage, diensten/aanbod, AI-geletterdheid, kennisartikelen, praktijkvoorbeelden, werkwijze, over en contact. Privacy, cookies en bestaande aanvraaglogica blijven behouden. Bestaande oude routes behouden hun redirects.
 
 Onder /beheer: Vandaag, projecten, acties/opvolging, het bestaande personenbestand, aanvragen, beslissingen, activiteit, JSON-export en het getypeerde website-CMS. Supabase-login, actuele admincontrole, eigenaargebonden RLS en transactionele functies beschermen het werk. Toewijzing aan een bot activeert geen externe uitvoering.
 

@@ -5,16 +5,15 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import JsonLd from "@/components/JsonLd";
 import RouteFocus from "@/components/workspoor/RouteFocus";
-import { DEFAULT_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/seo";
+import { DEFAULT_DESCRIPTION, ORGANIZATION_ID, PERSON_ID, SITE_NAME, SITE_URL, WEBSITE_ID } from "@/lib/seo";
 
 import "./styles/tokens.css";
 import "./styles/ds.css";
 import "./styles/site.css";
-import "./styles/glass.css";
 import "./styles/workspoor.css";
 
 const spaceGrotesk = localFont({
-  src: "./fonts/SpaceGrotesk-VariableFont_wght.ttf",
+  src: "./fonts/SpaceGrotesk-VariableFont_wght.woff2",
   variable: "--font-space",
   weight: "300 700",
   display: "swap",
@@ -73,25 +72,40 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@graph": [
               {
-                "@type": "ProfessionalService",
-                "@id": `${SITE_URL}#organization`,
+                "@type": "Organization",
+                "@id": ORGANIZATION_ID,
                 name: "Setpiece",
                 url: SITE_URL.toString(),
                 email: "hallo@setpiece.nl",
+                logo: {
+                  "@type": "ImageObject",
+                  url: new URL("/apple-icon", SITE_URL).toString(),
+                  width: 180,
+                  height: 180,
+                },
                 address: { "@type": "PostalAddress", addressLocality: "Almere", addressCountry: "NL" },
                 areaServed: "Nederland",
                 description: DEFAULT_DESCRIPTION,
                 slogan: "Maak dagelijks werk eenvoudiger en beter.",
-                serviceType: "AI Consultancy en implementatie van AI-workflows",
+                founder: { "@id": PERSON_ID },
+                identifier: { "@type": "PropertyValue", propertyID: "KVK", value: "99116111" },
                 sameAs: ["https://www.linkedin.com/company/setpiece-nl/"],
               },
               {
+                "@type": "Person",
+                "@id": PERSON_ID,
+                name: "Nathan Sudmeier",
+                url: new URL("/over", SITE_URL).toString(),
+                jobTitle: "AI-consultant en implementatiepartner",
+                worksFor: { "@id": ORGANIZATION_ID },
+              },
+              {
                 "@type": "WebSite",
-                "@id": `${SITE_URL}#website`,
+                "@id": WEBSITE_ID,
                 url: SITE_URL.toString(),
                 name: "Setpiece",
                 inLanguage: "nl-NL",
-                publisher: { "@id": `${SITE_URL}#organization` },
+                publisher: { "@id": ORGANIZATION_ID },
               },
             ],
           }}

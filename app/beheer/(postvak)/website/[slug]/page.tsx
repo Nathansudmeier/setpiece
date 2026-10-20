@@ -68,14 +68,26 @@ export default async function Page({
                 <small>
                   {r.actor} · {r.id.slice(0, 8)}
                 </small>
-                <CmsAction
-                  key={`${r.id}-${doc.version}`}
-                  doc={doc}
-                  intent="restore"
-                  revisionId={r.id}
-                >
-                  Als concept terugzetten
-                </CmsAction>
+                {Object.keys(r.content).length ===
+                  Object.keys(CMS_SCHEMA[slug].fields).length &&
+                Object.keys(r.content).every((key) =>
+                  Object.hasOwn(CMS_SCHEMA[slug].fields, key),
+                ) ? (
+                  <CmsAction
+                    key={`${r.id}-${doc.version}`}
+                    doc={doc}
+                    intent="restore"
+                    revisionId={r.id}
+                  >
+                    Als concept terugzetten
+                  </CmsAction>
+                ) : (
+                  <p>
+                    Historische veldindeling. Deze versie blijft bewaard als
+                    naslag; gebruik een versie met de huidige paginaonderdelen
+                    om terug te zetten.
+                  </p>
+                )}
               </article>
             ))}
           </section>

@@ -36,11 +36,12 @@ De commerciële route loopt van een kort verkennend gesprek naar een betaalde ka
 - De implementatiesprint kost € 7.500 exclusief btw en richt maximaal twee samenhangende AI-workflows in, getest en overdraagbaar.
 - Het groeipartnerschap kost vanaf € 2.250 exclusief btw per maand en duurt minimaal zes maanden.
 - Bij een sprintstart binnen 30 dagen wordt € 750 van de kansenscan verrekend.
-- De website gebruikt zes publieke routes: Home, Kansenscan, Werkwijze, Praktijkvoorbeelden, Over Setpiece en Contact.
-- De vaste primaire actie is `Bespreek de kansenscan`.
+- Naast Home, Kansenscan, Werkwijze, Praktijkvoorbeelden, Over Setpiece en Contact bevat de website sinds 2026-09-25 een productpagina AI-geletterdheid, een brononderbouwd kennisartikel en een eigen aanvraagroute. Privacy en Cookies blijven bereikbaar.
+- AI-geletterdheid is een zelfstandige teamtraining: maximaal twaalf deelnemers, drie uur, twee herkenbare werksituaties, werkafspraken en één gebruiksgesprek na ongeveer dertig dagen. Een lezing is de instap. Prijs op aanvraag; geen officiële certificering of nalevingsgarantie.
+- De primaire actie voor procesverbetering is `Bespreek de kansenscan`; de leerroute gebruikt `Bespreek de teamtraining`.
 - Het kennismakingsgesprek blijft verkennend en bevat geen volledige gratis diagnose.
 - Gevoelige gegevens worden alleen gebruikt wanneer noodzaak, rollen, grondslag en beveiliging duidelijk zijn. Juridische, financiële, personele en gezondheidsbeslissingen blijven onder menselijk oordeel.
-- Het productieplatform, CMS, hosting en publicatiedatum zijn nog niet besloten.
+- De publieke website gebruikt Next.js en Vercel. De eerste Werkspoor-versie is op 2026-07-25 gepubliceerd. Inhoud wordt in de repository beheerd.
 
 ## Brand Commitments
 

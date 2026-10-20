@@ -36,7 +36,7 @@ function createNotificationText(input: ContactNotificationInput) {
   const beheerUrl = `https://setpiece.nl/beheer/aanvragen/${encodeURIComponent(input.submissionId)}`;
 
   return [
-    "Nieuwe kansenscan-aanvraag via setpiece.nl",
+    "Nieuwe Setpiece-aanvraag via setpiece.nl",
     "",
     `Naam: ${asSingleLine(input.name)}`,
     `Bedrijf: ${input.company ? asSingleLine(input.company) : "Niet ingevuld"}`,
@@ -57,7 +57,7 @@ export async function sendContactNotification(input: ContactNotificationInput) {
       from,
       to,
       replyTo: input.email,
-      subject: `Nieuwe kansenscan-aanvraag van ${asSingleLine(input.name)}`,
+      subject: `Nieuwe Setpiece-aanvraag van ${asSingleLine(input.name)}`,
       text: createNotificationText(input),
     },
     {

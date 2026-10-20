@@ -1,14 +1,22 @@
+import Link from "next/link";
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
 
+import { createPageMetadata } from "@/lib/seo";
 import type { CmsCopy } from "@/lib/cms/schema";
-import { readPublished } from "@/lib/cms/read";
+import { readPublished, cmsMetadata } from "@/lib/cms/read";
 import { sharedContent } from "@/lib/cms/shared";
-import { cmsMetadata } from "@/lib/cms/read";
+
+const baseMetadata = createPageMetadata({
+  title: "AI-oplossingen in dagelijks werk",
+  description:
+    "Vier praktijkvoorbeelden laten zien hoe AI-oplossingen minder handwerk, snellere informatie en een vaste werkwijze mogelijk maken.",
+  path: "/praktijkvoorbeelden",
+});
 export async function generateMetadata() {
-  return cmsMetadata("praktijkvoorbeelden");
+  return cmsMetadata("praktijkvoorbeelden", baseMetadata);
 }
-export function CmsPraktijkvoorbeelden({
+export async function CmsPraktijkvoorbeelden({
   copy,
   sharedCopy,
   preview = false,
@@ -21,18 +29,20 @@ export function CmsPraktijkvoorbeelden({
 
   return (
     <WorkspoorShell
-      preview={preview}
       sharedCopy={sharedCopy}
+      preview={preview}
       activePath="/praktijkvoorbeelden"
     >
       <section className="ws-page-hero ws-page-hero--statement">
         <div className="ws-frame">
           <p className="ws-context">
-            {copy.tekst_001 ?? "Praktijkvoorbeelden"}
+            {copy.v2_tekst_001 ?? "Praktijkvoorbeelden"}
           </p>
-          <h1>{copy.kop_002 ?? "Wat veranderde er in het dagelijkse werk?"}</h1>
+          <h1>
+            {copy.v2_tekst_002 ?? "Wat veranderde er in het dagelijkse werk?"}
+          </h1>
           <p className="ws-lead">
-            {copy.tekst_003 ??
+            {copy.v2_tekst_003 ??
               "Vier voorbeelden laten zien hoe AI-oplossingen minder handwerk, snellere informatie en een vaste werkwijze mogelijk maken."}
           </p>
         </div>
@@ -45,25 +55,27 @@ export function CmsPraktijkvoorbeelden({
               <header>
                 <span className="ws-case__origin" aria-hidden="true" />
                 <div>
-                  <small>{copy.tekst_004 ?? "Werkspoor in de praktijk"}</small>
+                  <small>
+                    {copy.v2_tekst_004 ?? "Werkspoor in de praktijk"}
+                  </small>
                   <h2>{item.name}</h2>
                   <p>{item.summary}</p>
                 </div>
               </header>
               <div className="ws-case__story">
                 <div>
-                  <h3>{copy.kop_005 ?? "Beginsituatie"}</h3>
+                  <h3>{copy.v2_tekst_005 ?? "Beginsituatie"}</h3>
                   <p>{item.before}</p>
                 </div>
                 <div>
-                  <h3>{copy.kop_006 ?? "Wat veranderde"}</h3>
+                  <h3>{copy.v2_tekst_006 ?? "Wat veranderde"}</h3>
                   <p>{item.change}</p>
                 </div>
                 <div className="ws-case__result">
-                  <h3>{copy.kop_007 ?? "Resultaat"}</h3>
+                  <h3>{copy.v2_tekst_007 ?? "Resultaat"}</h3>
                   <p>{item.result}</p>
                   <small>
-                    <strong>{copy.tekst_008 ?? "Meetcontext"}</strong>
+                    <strong>{copy.v2_tekst_008 ?? "Meetcontext"}</strong>
                     {item.context}
                   </small>
                 </div>
@@ -76,8 +88,23 @@ export function CmsPraktijkvoorbeelden({
       <section className="ws-evidence-note">
         <div className="ws-frame">
           <p>
-            {copy.tekst_009 ??
-              "Ieder voorbeeld volgt hetzelfde format: beginsituatie, ingreep, resultaat en context. Cijfers worden alleen gepubliceerd wanneer de meetmethode en gebruikscontext zijn vastgelegd."}
+            {copy.v2_tekst_009 ??
+              "Ieder voorbeeld volgt hetzelfde format: beginsituatie, ingreep, resultaat en context. De genoemde cijfers horen bij de beschreven werkzaamheden en zijn geen voorspelling voor een andere organisatie."}
+          </p>
+          <p>
+            {copy.v2_tekst_010 ?? "Lees hoe we "}
+            <Link href={copy.v2_link_011 ?? "/kennis/ai-resultaat-meten"}>
+              {copy.v2_tekst_012 ?? "kosten en resultaat beoordelen"}
+            </Link>{" "}
+            {copy.v2_tekst_013 ?? "en bekijk de "}
+            <Link href={copy.v2_link_014 ?? "/ai-implementatie"}>
+              {copy.v2_tekst_015 ?? "AI-implementatiesprint"}
+            </Link>{" "}
+            {copy.v2_tekst_016 ?? "of "}
+            <Link href={copy.v2_link_017 ?? "/ai-groeipartner"}>
+              {copy.v2_tekst_018 ?? "doorlopende begeleiding"}
+            </Link>
+            {copy.v2_tekst_019 ?? "."}
           </p>
         </div>
       </section>
@@ -85,13 +112,14 @@ export function CmsPraktijkvoorbeelden({
       <ClosingCta
         sharedCopy={sharedCopy}
         title={
-          copy.kop_010 ?? "Welk terugkerend werk verdient als eerste aandacht?"
+          copy.v2_tekst_020 ??
+          "Welk terugkerend werk verdient als eerste aandacht?"
         }
       />
     </WorkspoorShell>
   );
 }
-export default async function PraktijkvoorbeeldenPage() {
+export default async function Page() {
   const [copy, sharedCopy] = await Promise.all([
     readPublished("praktijkvoorbeelden"),
     readPublished("shared"),

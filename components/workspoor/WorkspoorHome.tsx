@@ -11,10 +11,15 @@ import Link from "next/link";
 import ClosingCta from "@/components/workspoor/ClosingCta";
 import FaqList from "@/components/workspoor/FaqList";
 import WorkspoorShell from "@/components/workspoor/WorkspoorShell";
+
 import type { CmsCopy } from "@/lib/cms/schema";
-import { readPublished } from "@/lib/cms/read";
+import { readPublished, cmsMetadata } from "@/lib/cms/read";
 import { sharedContent } from "@/lib/cms/shared";
-export function CmsHome({
+
+export async function generateMetadata() {
+  return cmsMetadata("home");
+}
+export async function CmsHome({
   copy,
   sharedCopy,
   preview = false,
@@ -26,72 +31,76 @@ export function CmsHome({
   const { FAQ_ITEMS, HOME_PROOF, SERVICE_ROUTE, WORKLINE_STEPS } =
     sharedContent(sharedCopy);
   const PROBLEMS = [
-    copy.tekst_001 ??
+    copy.v2_tekst_001 ??
       "Medewerkers verzamelen dezelfde informatie uit meerdere systemen.",
-    copy.tekst_002 ??
+    copy.v2_tekst_002 ??
       "Offertes, rapportages of communicatie blijven te lang liggen.",
-    copy.tekst_003 ?? "Kwaliteit hangt sterk af van één ervaren collega.",
-    copy.tekst_004 ?? "Losse AI-experimenten worden geen vaste werkwijze.",
-    copy.tekst_005 ??
+    copy.v2_tekst_003 ?? "Kwaliteit hangt sterk af van één ervaren collega.",
+    copy.v2_tekst_004 ?? "Losse AI-experimenten worden geen vaste werkwijze.",
+    copy.v2_tekst_005 ??
       "De directie ziet mogelijkheden, maar mist een verantwoorde eerste keuze.",
   ] as const;
   const FITS = [
-    copy.tekst_006 ?? "Er is een herkenbaar terugkerend werkprobleem.",
-    copy.tekst_007 ?? "Een beslisser en proceseigenaar zijn betrokken.",
-    copy.tekst_008 ?? "Medewerkers krijgen tijd voor de werksessie en test.",
-    copy.tekst_009 ?? "Veilige voorbeelden of testgegevens zijn beschikbaar.",
-    copy.tekst_010 ?? "Er is budget voor een mogelijke vervolgstap.",
+    copy.v2_tekst_006 ?? "Er is een herkenbaar terugkerend werkprobleem.",
+    copy.v2_tekst_007 ?? "Een beslisser en proceseigenaar zijn betrokken.",
+    copy.v2_tekst_008 ?? "Medewerkers krijgen tijd voor de werksessie en test.",
+    copy.v2_tekst_009 ??
+      "Veilige voorbeelden of testgegevens zijn beschikbaar.",
+    copy.v2_tekst_010 ?? "Er is budget voor een mogelijke vervolgstap.",
   ] as const;
   const DOES_NOT_FIT = [
-    copy.tekst_011 ?? "De organisatie zoekt alleen vrijblijvende ideeën.",
-    copy.tekst_012 ?? "Er wordt geen eigenaar aangewezen.",
-    copy.tekst_013 ?? "Er is geen tijd voor testen en invoering.",
+    copy.v2_tekst_011 ?? "De organisatie zoekt alleen vrijblijvende ideeën.",
+    copy.v2_tekst_012 ?? "Er wordt geen eigenaar aangewezen.",
+    copy.v2_tekst_013 ?? "Er is geen tijd voor testen en invoering.",
   ] as const;
 
   return (
-    <WorkspoorShell preview={preview} sharedCopy={sharedCopy}>
+    <WorkspoorShell sharedCopy={sharedCopy} preview={preview}>
       <section className="ws-home-hero" aria-labelledby="home-title">
         <div className="ws-frame">
           <div className="ws-hero__signal" aria-hidden="true">
             <span />
           </div>
           <p className="ws-context">
-            {copy.tekst_014 ??
+            {copy.v2_tekst_014 ??
               "AI Consultancy voor B2B-dienstverleners met 15 tot 75 medewerkers"}
           </p>
           <h1 id="home-title">
-            {copy.kop_015 ?? "Maak dagelijks werk"}
-            <span>{copy.tekst_016 ?? "eenvoudiger en beter met AI."}</span>
+            {copy.v2_tekst_015 ?? "Maak dagelijks werk"}
+            <span>{copy.v2_tekst_016 ?? "eenvoudiger en beter met AI."}</span>
           </h1>
           <div className="ws-hero__intro">
             <p>
-              {copy.tekst_017 ??
+              {copy.v2_tekst_017 ??
                 "Setpiece onderzoekt waar terugkerend werk vastloopt, bouwt een passende AI-oplossing of workflow en maakt die samen met medewerkers werkend en overdraagbaar."}
             </p>
-            <Link className="ws-text-link" href={copy.link_018 ?? "/werkwijze"}>
-              {copy.tekst_019 ?? "Zie hoe het werkspoor loopt"}
+            <Link
+              className="ws-text-link"
+              href={copy.v2_link_018 ?? "/werkwijze"}
+            >
+              {copy.v2_tekst_019 ?? "Zie hoe het werkspoor loopt"}
             </Link>
           </div>
 
           <div className="ws-decision-rail" aria-label="Kern van de kansenscan">
             <div>
-              <span>{copy.tekst_020 ?? "Investering"}</span>
-              <strong>{copy.tekst_021 ?? "€ 1.250 excl. btw"}</strong>
+              <span>{copy.v2_tekst_020 ?? "Investering"}</span>
+              <strong>{copy.v2_tekst_021 ?? "€ 1.250 excl. btw"}</strong>
             </div>
             <div>
-              <span>{copy.tekst_022 ?? "Na de werksessie"}</span>
-              <strong>{copy.tekst_023 ?? "5 werkdagen"}</strong>
+              <span>{copy.v2_tekst_022 ?? "Na de werksessie"}</span>
+              <strong>{copy.v2_tekst_023 ?? "5 werkdagen"}</strong>
             </div>
             <div>
-              <span>{copy.tekst_024 ?? "Richting"}</span>
-              <strong>{copy.tekst_025 ?? "90-dagenroute"}</strong>
+              <span>{copy.v2_tekst_024 ?? "Richting"}</span>
+              <strong>{copy.v2_tekst_025 ?? "90-dagenroute"}</strong>
             </div>
             <div>
-              <span>{copy.tekst_026 ?? "Eerste bewijs"}</span>
-              <strong>{copy.tekst_027 ?? "1 werkende AI-oplossing"}</strong>
+              <span>{copy.v2_tekst_026 ?? "Eerste bewijs"}</span>
+              <strong>{copy.v2_tekst_027 ?? "1 werkende AI-oplossing"}</strong>
             </div>
-            <Link className="ws-button" href={copy.link_028 ?? "/contact"}>
-              {copy.tekst_029 ?? "Bespreek de kansenscan"}
+            <Link className="ws-button" href={copy.v2_link_028 ?? "/contact"}>
+              {copy.v2_tekst_029 ?? "Bespreek de kansenscan"}
             </Link>
           </div>
         </div>
@@ -100,13 +109,15 @@ export function CmsHome({
       <section className="ws-proof-field" aria-labelledby="proof-title">
         <div className="ws-frame">
           <div className="ws-section-heading ws-section-heading--dark">
-            <p>{copy.tekst_030 ?? "Resultaten uit dagelijks werk"}</p>
-            <h2 id="proof-title">{copy.kop_031 ?? "Bewijs vóór belofte."}</h2>
+            <p>{copy.v2_tekst_030 ?? "Resultaten uit dagelijks werk"}</p>
+            <h2 id="proof-title">
+              {copy.v2_tekst_031 ?? "Bewijs vóór belofte."}
+            </h2>
             <Link
               className="ws-text-link ws-text-link--paper"
-              href={copy.link_032 ?? "/praktijkvoorbeelden"}
+              href={copy.v2_link_032 ?? "/praktijkvoorbeelden"}
             >
-              {copy.tekst_033 ?? "Bekijk de volledige context"}
+              {copy.v2_tekst_033 ?? "Bekijk de volledige context"}
             </Link>
           </div>
           <div className="ws-proof-grid">
@@ -126,10 +137,10 @@ export function CmsHome({
         <div className="ws-frame ws-problem-grid">
           <div className="ws-sticky-heading">
             <p className="ws-context">
-              {copy.tekst_034 ?? "Waar werk dagelijks lekt"}
+              {copy.v2_tekst_034 ?? "Waar werk dagelijks lekt"}
             </p>
             <h2 id="problem-title">
-              {copy.kop_035 ??
+              {copy.v2_tekst_035 ??
                 "Geen groot systeemprobleem. Wel iedere week verlies."}
             </h2>
           </div>
@@ -147,24 +158,28 @@ export function CmsHome({
       <section
         id="ai-consultancy"
         className="ws-photo-crossing"
-        aria-label="Setpiece aan het werk"
+        aria-label="De aanpak van Setpiece"
       >
         <div className="ws-frame ws-photo-crossing__grid">
           <div className="ws-photo-crossing__statement">
-            <p>{copy.tekst_036 ?? "AI Consultancy in het echte werk."}</p>
-            <h2>{copy.kop_037 ?? "AI begint bij het proces."}</h2>
+            <p>{copy.v2_tekst_036 ?? "AI Consultancy in het echte werk."}</p>
+            <h2>{copy.v2_tekst_037 ?? "AI begint bij het proces."}</h2>
             <span>
-              {copy.tekst_038 ??
+              {copy.v2_tekst_038 ??
                 "Eerst begrijpen wat mensen doen en waar het stokt. Dan de juiste AI-oplossing bouwen, testen en overdragen aan de mensen die ermee werken."}
             </span>
+            <p className="ws-image-note">
+              {copy.v2_tekst_039 ??
+                "Illustratieve werkbeelden; geen fotografie van klantopdrachten."}
+            </p>
           </div>
           <div className="ws-photo-crossing__media">
             <figure className="ws-photo-crossing__wide">
               <Image
                 src="/workspoor/werkcontext-breed.webp"
                 alt={
-                  copy.tekst_039 ??
-                  "Vier professionals bespreken een werkproces terwijl Setpiece luistert"
+                  copy.v2_tekst_040 ??
+                  "Illustratie van een team dat een werkproces bespreekt"
                 }
                 fill
                 sizes="(max-width: 800px) 100vw, 58vw"
@@ -174,11 +189,11 @@ export function CmsHome({
               <Image
                 src="/workspoor/proces-detail.webp"
                 alt={
-                  copy.tekst_040 ??
+                  copy.v2_tekst_041 ??
                   "Twee professionals vergelijken processtappen op papier"
                 }
                 fill
-                sizes="(max-width: 800px) 52vw, 24vw"
+                sizes="(max-width: 540px) 62vw, (max-width: 800px) 52vw, 24vw"
               />
             </figure>
           </div>
@@ -189,46 +204,48 @@ export function CmsHome({
         <div className="ws-frame ws-scan-grid">
           <div>
             <p className="ws-context">
-              {copy.tekst_041 ?? "De beheerste eerste stap"}
+              {copy.v2_tekst_042 ?? "De beheerste eerste stap"}
             </p>
             <h2 id="scan-title">
-              {copy.kop_042 ?? "Begin met één onderbouwde keuze."}
+              {copy.v2_tekst_043 ?? "Begin met één onderbouwde keuze."}
             </h2>
             <p className="ws-lead">
-              {copy.tekst_043 ??
+              {copy.v2_tekst_044 ??
                 "De kansenscan onderzoekt maximaal drie kernprocessen. Binnen vijf werkdagen na de werksessie ontvang je een prioriteit, een route voor 90 dagen en één kleine werkende AI-oplossing."}
             </p>
             <div className="ws-inline-actions">
-              <Link className="ws-button" href={copy.link_044 ?? "/contact"}>
-                {copy.tekst_045 ?? "Bespreek de kansenscan"}
+              <Link className="ws-button" href={copy.v2_link_045 ?? "/contact"}>
+                {copy.v2_tekst_046 ?? "Bespreek de kansenscan"}
               </Link>
               <Link
                 className="ws-text-link ws-text-link--paper"
-                href={copy.link_046 ?? "/kansenscan"}
+                href={copy.v2_link_047 ?? "/kansenscan"}
               >
-                {copy.tekst_047 ?? "Bekijk scope en voorwaarden"}
+                {copy.v2_tekst_048 ?? "Bekijk scope en voorwaarden"}
               </Link>
             </div>
           </div>
           <dl className="ws-scan-facts">
             <div>
-              <dt>{copy.tekst_048 ?? "Werkgebied"}</dt>
-              <dd>{copy.tekst_049 ?? "Maximaal drie kernprocessen"}</dd>
+              <dt>{copy.v2_tekst_049 ?? "Werkgebied"}</dt>
+              <dd>{copy.v2_tekst_050 ?? "Maximaal drie kernprocessen"}</dd>
             </div>
             <div>
-              <dt>{copy.tekst_050 ?? "Werksessie"}</dt>
-              <dd>{copy.tekst_051 ?? "Maximaal 90 minuten"}</dd>
+              <dt>{copy.v2_tekst_051 ?? "Werksessie"}</dt>
+              <dd>{copy.v2_tekst_052 ?? "Maximaal 90 minuten"}</dd>
             </div>
             <div>
-              <dt>{copy.tekst_052 ?? "Vervolg"}</dt>
+              <dt>{copy.v2_tekst_053 ?? "Vervolg"}</dt>
               <dd>
-                {copy.tekst_053 ?? "Stoppen, zelf uitvoeren of gericht verder"}
+                {copy.v2_tekst_054 ??
+                  "Stoppen, zelf uitvoeren of gericht verder"}
               </dd>
             </div>
             <div>
-              <dt>{copy.tekst_054 ?? "Verrekening"}</dt>
+              <dt>{copy.v2_tekst_055 ?? "Verrekening"}</dt>
               <dd>
-                {copy.tekst_055 ?? "€ 750 bij een sprintstart binnen 30 dagen"}
+                {copy.v2_tekst_056 ??
+                  "€ 750 bij een sprintstart binnen 30 dagen"}
               </dd>
             </div>
           </dl>
@@ -238,9 +255,9 @@ export function CmsHome({
       <section className="ws-workline-section" aria-labelledby="workline-title">
         <div className="ws-frame">
           <div className="ws-section-heading">
-            <p>{copy.tekst_056 ?? "Van kans naar dagelijks gebruik"}</p>
+            <p>{copy.v2_tekst_057 ?? "Van kans naar dagelijks gebruik"}</p>
             <h2 id="workline-title">
-              {copy.kop_057 ?? "Iedere halte eindigt met eigenaarschap."}
+              {copy.v2_tekst_058 ?? "Iedere halte eindigt met eigenaarschap."}
             </h2>
           </div>
           <ol className="ws-workline">
@@ -256,7 +273,7 @@ export function CmsHome({
                 <h3>{step.state}</h3>
                 <p>{step.action}</p>
                 <small>
-                  {copy.tekst_058 ?? "Eigenaar: "}
+                  {copy.v2_tekst_059 ?? "Eigenaar: "}
                   {step.owner}
                 </small>
               </li>
@@ -268,9 +285,10 @@ export function CmsHome({
       <section className="ws-route-section" aria-labelledby="route-title">
         <div className="ws-frame">
           <div className="ws-section-heading">
-            <p>{copy.tekst_059 ?? "Drie diensten, één lijn"}</p>
+            <p>{copy.v2_tekst_060 ?? "Drie diensten, één lijn"}</p>
             <h2 id="route-title">
-              {copy.kop_060 ?? "Je koopt alleen de volgende logische stap."}
+              {copy.v2_tekst_061 ??
+                "Je koopt alleen de volgende logische stap."}
             </h2>
           </div>
           <div className="ws-service-route">
@@ -281,7 +299,9 @@ export function CmsHome({
               >
                 <div>
                   <span>{service.note}</span>
-                  <h3>{service.name}</h3>
+                  <h3>
+                    <Link href={service.href}>{service.name}</Link>
+                  </h3>
                 </div>
                 <p>{service.when}</p>
                 <p>{service.result}</p>
@@ -290,9 +310,42 @@ export function CmsHome({
             ))}
           </div>
           <p className="ws-route-note">
-            {copy.tekst_061 ??
+            {copy.v2_tekst_062 ??
               "Alle bedragen zijn exclusief btw. De kansenscan is zelfstandig en verplicht niet tot vervolg."}
           </p>
+        </div>
+      </section>
+
+      <section
+        className="ws-literacy-section ws-literacy-section--mist"
+        aria-labelledby="home-literacy-title"
+      >
+        <div className="ws-frame ws-literacy-split">
+          <div>
+            <p className="ws-context">
+              {copy.v2_tekst_063 ?? "AI-geletterdheid voor je team"}
+            </p>
+            <h2 id="home-literacy-title">
+              {copy.v2_tekst_064 ??
+                "Je team gebruikt AI. Werkt iedereen met dezelfde afspraken?"}
+            </h2>
+          </div>
+          <div>
+            <p>
+              {copy.v2_tekst_065 ??
+                "Met een praktische teamtraining leren medewerkers AI-uitkomsten beoordelen, veilig met gegevens omgaan en zelf blijven beslissen. Je krijgt werkafspraken en een gebruiksgesprek na dertig dagen."}
+            </p>
+            <p>
+              {copy.v2_tekst_066 ??
+                "Ook beschikbaar als lezing voor een teamdag of ondernemersbijeenkomst."}
+            </p>
+            <Link
+              className="ws-text-link"
+              href={copy.v2_link_067 ?? "/ai-geletterdheid"}
+            >
+              {copy.v2_tekst_068 ?? "Bekijk de training AI-geletterdheid"}
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -300,23 +353,24 @@ export function CmsHome({
         <div className="ws-frame ws-founder-grid">
           <div>
             <p className="ws-context">
-              {copy.tekst_062 ?? "Verantwoordelijkheid blijft zichtbaar"}
+              {copy.v2_tekst_069 ?? "Verantwoordelijkheid blijft zichtbaar"}
             </p>
             <h2 id="founder-title">
-              {copy.kop_063 ?? "Eén aanspreekpunt van diagnose tot overdracht."}
+              {copy.v2_tekst_070 ??
+                "Eén aanspreekpunt van diagnose tot overdracht."}
             </h2>
           </div>
           <div>
             <p>
-              {copy.tekst_064 ??
+              {copy.v2_tekst_071 ??
                 "Setpiece is opgericht door Nathan Sudmeier. Vanuit ervaring met marketing, communicatie, strategie en productontwikkeling weet hij waar plannen in de dagelijkse praktijk vastlopen."}
             </p>
             <p>
-              {copy.tekst_065 ??
+              {copy.v2_tekst_072 ??
                 "Nathan blijft verantwoordelijk voor diagnose, klantrelatie, implementatieregie en kwaliteit. Specialisten worden alleen betrokken wanneer de opdracht dat aantoonbaar vraagt."}
             </p>
-            <Link className="ws-text-link" href={copy.link_066 ?? "/over"}>
-              {copy.tekst_067 ?? "Lees waarom Setpiece bestaat"}
+            <Link className="ws-text-link" href={copy.v2_link_073 ?? "/over"}>
+              {copy.v2_tekst_074 ?? "Lees waarom Setpiece bestaat"}
             </Link>
           </div>
         </div>
@@ -326,16 +380,16 @@ export function CmsHome({
         <div className="ws-frame">
           <div className="ws-section-heading ws-section-heading--dark">
             <p>
-              {copy.tekst_068 ??
+              {copy.v2_tekst_075 ??
                 "Goede afbakening voorkomt een verkeerd project"}
             </p>
             <h2 id="fit-title">
-              {copy.kop_069 ?? "Past de kansenscan bij jouw organisatie?"}
+              {copy.v2_tekst_076 ?? "Past de kansenscan bij jouw organisatie?"}
             </h2>
           </div>
           <div className="ws-fit-grid">
             <div>
-              <h3>{copy.kop_070 ?? "De scan past wanneer"}</h3>
+              <h3>{copy.v2_tekst_077 ?? "De scan past wanneer"}</h3>
               <ul>
                 {FITS.map((item) => (
                   <li key={item}>{item}</li>
@@ -343,7 +397,7 @@ export function CmsHome({
               </ul>
             </div>
             <div>
-              <h3>{copy.kop_071 ?? "De scan past niet wanneer"}</h3>
+              <h3>{copy.v2_tekst_078 ?? "De scan past niet wanneer"}</h3>
               <ul>
                 {DOES_NOT_FIT.map((item) => (
                   <li key={item}>{item}</li>
@@ -358,10 +412,10 @@ export function CmsHome({
         <div className="ws-frame ws-faq-grid">
           <div>
             <p className="ws-context">
-              {copy.tekst_072 ?? "Veelgestelde vragen"}
+              {copy.v2_tekst_079 ?? "Veelgestelde vragen"}
             </p>
             <h2 id="faq-title">
-              {copy.kop_073 ?? "Duidelijk vóór de werksessie."}
+              {copy.v2_tekst_080 ?? "Duidelijk vóór de werksessie."}
             </h2>
           </div>
           <FaqList items={FAQ_ITEMS} />
@@ -372,7 +426,7 @@ export function CmsHome({
     </WorkspoorShell>
   );
 }
-export default async function WorkspoorHome() {
+export default async function Page() {
   const [copy, sharedCopy] = await Promise.all([
     readPublished("home"),
     readPublished("shared"),

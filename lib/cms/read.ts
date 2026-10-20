@@ -1,4 +1,5 @@
 import "server-only";
+import type { Metadata } from "next";
 import { cache } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { CMS_SCHEMA, defaultsFor, type CmsCopy, type CmsSlug } from "./schema";
@@ -28,14 +29,32 @@ export const readPublished = cache(async (slug: CmsSlug): Promise<CmsCopy> => {
     return defaultsFor(slug);
   }
 });
-export async function cmsMetadata(slug: Exclude<CmsSlug, "shared">) {
+export async function cmsMetadata(
+  slug: Exclude<CmsSlug, "shared">,
+  base?: Metadata,
+) {
   const copy = await readPublished(slug);
   const meta = createPageMetadata({
     title: copy.seo_title,
     description: copy.seo_description,
     path: CMS_SCHEMA[slug].path,
   });
-  return slug === "home"
-    ? { ...meta, title: { absolute: `Setpiece | ${copy.seo_title}` } }
-    : meta;
+  return {
+    ...meta,
+    ...base,
+    title: { absolute: copy.seo_title },
+    description: copy.seo_description,
+    openGraph: {
+      ...meta.openGraph,
+      ...base?.openGraph,
+      title: copy.seo_og_title,
+      description: copy.seo_description,
+    },
+    twitter: {
+      ...meta.twitter,
+      ...base?.twitter,
+      title: copy.seo_twitter_title,
+      description: copy.seo_description,
+    },
+  };
 }
