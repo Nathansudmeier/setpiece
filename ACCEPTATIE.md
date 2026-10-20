@@ -153,7 +153,7 @@ vervolgacties en veranderen het genomen publicatiebesluit niet.
 
 ## Besloten Setpiece-beheer — 20 oktober 2026
 
-Live: https://www.setpiece.nl/beheer. Functionele code: 6f0537d; productie dpl_AMf6wG8JrQEeqDpvyF4f3T17YsqQ.
+Live: https://www.setpiece.nl/beheer. Functionele code inclusief formulierherstel: 2780784; geverifieerde productie dpl_3HiQkeaSFtvvS1nmddPNJTgGGLd3 (documentatiecommit 431602c).
 
 - Vandaag, projecten, acties, bestaande personen/context, aanvragen/koppelingen, beslissingen, activiteit en eigenaarsexport functioneel gecontroleerd met echte sessie en opslag.
 - Achttien CMS-documenten: zeventien huidige inhoudspagina’s plus gedeelde inhoud; concept, besloten preview, expliciet publiceren en herstel als concept getest. Publieke inhoud, links, SEO en formulierstructuur komen op 22 URL-varianten overeen met de eerdere productie.
@@ -162,6 +162,6 @@ Live: https://www.setpiece.nl/beheer. Functionele code: 6f0537d; productie dpl_A
 - Daadwerkelijke Grok/Jarvis-test in beide richtingen geslaagd; herlezing na productie bevestigd. Bestaande ochtend- en avondroutine leest nu dezelfde bron. De gedeelde postgres-connector biedt geen technische isolatie tussen bots.
 - Alle 1012 herkenbare tijdelijke testitems en de synthetische aanvraag gericht opgeruimd; 566 bestaande personen behouden.
 
-Nog open: één positieve bestaande contactinzending en interne melding. Cloudflare meldt 300030, ook op de eerdere productie; Nathan bevestigt dat handmatig afronden eveneens mislukt. De officiële browserdiagnose slaagt, de benodigde Vercel-variabelen zijn aanwezig. Widgetinstellingen vereisen bestaande Cloudflare-accounttoegang, die is gevraagd. Serverroute, notificatiecode en Turnstile-beveiliging zijn behouden; geen bypass toegevoegd. Nieuw herstelgedrag (zichtbare fout/herhalen/invoerbehoud en geen POST zonder token) is lokaal in een echte browser getest. Deze verbetering bewijst nog geen positieve Cloudflare-acceptatie.
+Ook de laatste positieve formuliercontrole is geslaagd. Na Nathans Cloudflare-login bleek pre-clearance ten onrechte actief voor de rechtstreeks via Vercel aangeboden site. Alleen die instelling is uitgezet; Managed Turnstile, hostnames, sleutels en strikte servervalidatie zijn behouden. De live controle rondde daarna automatisch af. De herkenbare echte inzending van 15:01 Amsterdam is opgeslagen, in het ingelogde beheerpostvak geopend en de interne Resend-melding is daadwerkelijk ontvangen in de Setpiece-mailbox, inclusief de juiste aanvraaglink. Runtime-log bevestigt `contact_notification: sent` voor dezelfde aanvraag-UUID. Testaanvraag daarna op exacte UUID/naam/e-mail/inhoud en zonder relaties/notities verwijderd; de testmelding staat herstelbaar in Gmail Trash. Geen resterende acceptatieblokkades binnen deze opdracht.
 
 Details: [voortgang](docs/beheer-voortgang.md), [Jarvis-instructie](docs/jarvis-instructie.md), [migraties en herstel](docs/beheer-koppeling.md). Bij app-problemen blijft de eerdere publieke deployment dpl_8jtAgmWN6s9puuXbNixJCuwHpsZx een terugvalroute; laat de additieve tabellen en gegevens staan.
