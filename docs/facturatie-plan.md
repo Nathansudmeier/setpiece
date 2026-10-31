@@ -40,11 +40,11 @@ Autorisatie vóór commandcache. Request-ID 8–160, payload ≤100000 bytes, on
 
 ## Bouwtaken en verificatie
 
-- [ ] 1. Rekenen/validatie: `lib/billing/model.ts`, gedeelde `tests/billing/vectors.json`, unit RED→GREEN. Interfaces: `calculate`, `formatEuro`, `parseQuantity`, `parseMoney`, `renderMail`, saldo/labels en kalenderregels.
-- [ ] 2. Database: additieve migratie, SQL-contract en parallelle tests. Interfaces: stringveilige `sp_billing_read`, bestaande `sp_command`, outbox/token-RPC's. Dek auth, triggers, credits, teller, cache, herstel en verstuurbewijs.
-- [ ] 3. Server/PDF: getypeerde billingclient en runtimevalidatie, render/storage/download/token/export. Test onderbrekingen, bytes/hash, credits/multipage en manifest. Geen mailimports.
-- [ ] 4. UI: werkende lijst/editor/detail/klanten/instellingen, bestaande navigatie/PersonPicker, `bw-bill-*` CSS. Vier breedtes, toetsenbord, fout/conflict/dubbelklik, volledige synthetische flow en publieke regressie.
-- [ ] 5. Docs, Jarvis-contractsimulatie, designchecks, onafhankelijke eindreview, `npm run verify` + typecheck en lokale commits. Gmail-keten, preview en productie apart rapporteren.
+- [x] 1. Rekenen/validatie: `lib/billing/model.ts`, gedeelde `tests/billing/vectors.json`, unit RED→GREEN. Interfaces: `calculate`, `formatEuro`, `parseQuantity`, `parseMoney`, `renderMail`, saldo/labels en kalenderregels.
+- [x] 2. Database: additieve migratie, SQL-contract en parallelle tests. Interfaces: stringveilige `sp_billing_read`, bestaande `sp_command`, outbox/token-RPC's. Dek auth, triggers, credits, teller, cache, herstel en verstuurbewijs.
+- [x] 3. Server/PDF: getypeerde billingclient en runtimevalidatie, render/storage/download/token/export. Test onderbrekingen, bytes/hash, credits/multipage en manifest. Geen mailimports.
+- [x] 4. UI: werkende lijst/editor/detail/klanten/instellingen, bestaande navigatie/PersonPicker, `bw-bill-*` CSS. Vier breedtes, toetsenbord, fout/conflict/dubbelklik, volledige synthetische flow en publieke regressie.
+- [x] 5. Docs, Jarvis-contractsimulatie, designchecks, onafhankelijke eindreview, `npm run verify` + typecheck en lokale commits. Gmail-keten, preview en productie apart gerapporteerd in `docs/facturatie.md`.
 
 ## Reviewfocus
 

@@ -14,7 +14,9 @@ Er is geen facturatiemailkoppeling. De app maakt een SQL-outbox en werkactie; Ja
 
 Basis `origin/main` **0ef4dd1**, geverifieerde opvolger van opgegeven `codex/setpiece-beheer` **6f0537d**. Daarmee blijven latere rechtenmigraties, formulierherstel en Next **16.4.3** / React **19.3.1** behouden. Supabase SSR **0.12.0**, JS **2.110.0**. Branch `codex/facturatie`, aparte werkboom `Documents/ChatGPT/Setpiece/app`; oorspronkelijke checkout behouden.
 
-Lokale commits en definitieve controles worden hieronder aan het eind geregistreerd. Hoofdbestanden: `supabase/migrations/20261031134510_setpiece_billing.sql`, `lib/billing/`, `components/beheer/billing/`, facturatieroutes onder `app/beheer/`, tokenroute `app/api/factuur-pdf/`, uitbreiding `app/styles/beheer.css` en navigatie, tests/scripts en deze documentatie. Bestaande workspace/CMS-commandfuncties blijven via delegatie intact.
+Lokale commits en definitieve controles staan hieronder. Hoofdbestanden: `supabase/migrations/20261031134510_setpiece_billing.sql`, `lib/billing/`, `components/beheer/billing/`, facturatieroutes onder `app/beheer/`, tokenroute `app/api/factuur-pdf/`, uitbreiding `app/styles/beheer.css` en navigatie, tests/scripts en deze documentatie. Bestaande workspace/CMS-commandfuncties blijven via delegatie intact.
+
+Lokale commits: `96363a5` plan/scope, `3597318` transactiemodel/migratie, `bb6c378` schermen/PDF/outbox en `d128aca` reviewcorrecties, herstel- en toegankelijkheidsverificatie. Het afsluitende documentatiecommit bevat dit verslag en de definitieve acceptatieartefacten. Er is geen remote upstream ingesteld voor `codex/facturatie`; niets gepusht.
 
 ## Omgeving en migratie
 
@@ -24,9 +26,9 @@ De migratie is uitsluitend uitgevoerd op Docker-project **setpiece-billing-local
 
 `supabase/config.toml` is lokale testconfiguratie: automatische migraties en seed uit. Start met `supabase start -x studio,realtime,edge-runtime,imgproxy,logflare,vector,mailpit,postgres-meta,supavisor`, voer eenmalig `node scripts/billing/local-setup.mjs` uit. De bootstrap controleert exact loopbackpoort 55322 en weigert een bestaande billinginstallatie te resetten. Hij maakt uitsluitend minimale historische testafhankelijkheden, synthetische Auth en benodigde oude leesgrants buiten productiemigraties. Secrets komen alleen in genegeerde `.env.local`. App: `npm run dev -- --port 3017 --hostname 127.0.0.1`. Testlogin staat uitsluitend als herkenbare lokale fixture in het bootstrap-script.
 
-Er is geen `db reset`, `db push`, repair of herschrijving van bestaande migraties gebruikt. Tijdens ontwikkeling zijn nieuwe functies gericht op de geïsoleerde database vervangen. Definitieve migratie, nieuwe objectgrants en een volledige installatiecontrole worden in het eindverslag vermeld. Productie vereist afzonderlijk akkoord; pas daarna de gecontroleerde migratie toepassen en de door Supabase toegekende versie registreren volgens AGENTS.md. Niet blind de lokale omgeving aan productie koppelen.
+Er is geen `db reset`, `db push`, repair of herschrijving van bestaande migraties gebruikt. Tijdens ontwikkeling zijn nieuwe functies gericht op de geïsoleerde database vervangen. De volledige migratie is daarnaast op een nieuw lege tweede Docker-instantie toegepast; alle historische migraties, nieuwe objectgrants, private bucket en authenticated read zijn daar gecontroleerd. Zie `acceptatie/facturatie/schone-installatie.json`. Productie vereist afzonderlijk akkoord; pas daarna de gecontroleerde migratie toepassen en de door Supabase toegekende versie registreren volgens AGENTS.md. Niet blind de lokale omgeving aan productie koppelen.
 
-De vertrouwde `private.sp_billing_deployment` moet per deployment één gevalideerde basis-URL bevatten. Lokaal `http://localhost:3017`; voor productie pas na akkoord de bevestigde HTTPS-host. Geen host uit requestheaders. `BILLING_BASE_URL` in lokale omgevingsconfiguratie documenteert dezelfde waarde; SQL gebruikt de private deploymentconfiguratie. Preview krijgt een eigen database/storage én eigen URL.
+De vertrouwde `private.sp_billing_deployment` moet per deployment één gevalideerde basis-URL bevatten. Lokaal `http://127.0.0.1:3017`; voor productie pas na akkoord de bevestigde HTTPS-host. Geen host uit requestheaders. `BILLING_BASE_URL` in lokale omgevingsconfiguratie documenteert dezelfde waarde; SQL gebruikt de private deploymentconfiguratie. Preview krijgt een eigen database/storage én eigen URL.
 
 ## Rekenen, veiligheid en herstel
 
@@ -54,12 +56,44 @@ Open: echte Setpiece-bedrijfsnaam/eigenaar, feitelijk adres, btw-id/KVK, IBAN/re
 
 ## Verificatie en design
 
-Zie `docs/acceptatie/facturatie/` voor uitsluitend synthetische voorbeelden, vier breedtes, standaard-/credit-/meerpagina-PDF en ZIP/hashmanifest. `browser-resultaat.json` registreert de volledige ingelogde browserflow en labelt verzendbewijs expliciet als simulatie. Definitieve aantallen, reviewers, mogelijke beperkingen en checks volgen in het afsluitende log hieronder.
+Zie `docs/acceptatie/facturatie/` voor uitsluitend synthetische voorbeelden, vier breedtes, standaard-/credit-/meerpagina-PDF en ZIP/hashmanifest. `browser-resultaat.json` registreert de volledige ingelogde browserflow en labelt verzendbewijs expliciet als simulatie. Aantallen, reviewers en beperkingen staan in het afsluitende verslag hieronder.
 
 Gebruikte skills: Impeccable **4.1.1** (Operate), Taste **v2**, UI UX Pro Max bestaande installatie. SKILL.md SHA-256 respectievelijk `9d124382509eb15da0862f145bca0e53be00aaddb05272e4efc9a0832de048a9`, `d955dae4ba8ab2d994f4bb06b4bf412a1d9875433a8597939c391f4bae91dd7a`, `ea087c341bfb5b23195c7302027268ede86da802554c18a5c4896a6017b439f9`. Geen installatie/hooks/telemetrie met besloten inhoud. UI UX-zoekopdracht leverde drie passende regels voor foutsummary/focus/veldfeedback. Taste-draw seed 1836403440 gaf een pastelconsumerstijl; die is afgewezen wegens expliciet Werkspoor, 2px controls en geen tegels. Huisstijl is behouden. [Surfacebrief](../.impeccable/surfaces/beheer-facturen.md).
 
-Mechanische detector: vijf advisories, alle in bestaande CSS vóór de facturatie-uitbreiding; nul in nieuwe componenten/CSS. Taste-lint: 0 FAIL, 1 WARN over vijf Nederlandse em-dash-streepjes (inhoudelijke gedachtestreep/typografie; geen structureel patroon). Harden/clarify/audit/polish worden op de complete flow gecontroleerd. Een automatische score is geen WCAG 2.2 AA-certificering. Bestaande DESIGN.md-sidecar is ouder dan het brondocument; geen ongevraagde globale designreparatie.
+Mechanische detector: vijf advisories, alle in bestaande CSS vóór de facturatie-uitbreiding; nul in nieuwe componenten/CSS. Taste-lint: 0 FAIL, 1 WARN over vijf Nederlandse em-dash-streepjes (inhoudelijke gedachtestreep/typografie; geen structureel patroon). Harden/clarify/audit/polish zijn toegepast op fout- en herstelgedrag, veldnamen, bedragen, responsive schermen en de onafhankelijke finish review; concrete uitkomsten staan hieronder. Een automatische score is geen WCAG 2.2 AA-certificering. Bestaande DESIGN.md-sidecar is ouder dan het brondocument; geen ongevraagde globale designreparatie.
 
-## Vervolg na afzonderlijk akkoord
+## Definitief lokaal verificatieverslag
 
-Review de lokale commits en deze resultaten. Daarna kan Nathan afzonderlijk toestemming geven voor push/PR, een echte geïsoleerde cloudpreview en vervolgens productiemigratie/deploy. De Gmail-ketentest heeft nog een eigen akkoord plus bevestigd testadres nodig. Lokale appacceptatie, Jarvis-beschikbaarheid, Gmail-keten en live productie zijn afzonderlijke resultaten.
+Uitgevoerd op 31 oktober 2026, Node **24.15.0**, op de hierboven beschreven geïsoleerde stack. De app is voor de laatste browsercontrole als productiebuild op `127.0.0.1:3017` gestart; dit is geen productiedeployment.
+
+| Controle | Werkelijke uitkomst |
+| --- | --- |
+| `npm run verify` | Lint, **34/34** tests en volledige Next-productiebuild geslaagd. Twee ongebruikte testimports daarna verwijderd; afzonderlijke laatste lint zonder waarschuwingen. |
+| `npm run typecheck` | Geslaagd. |
+| `npm run test:billing:sql` | **44/44** op geïsoleerde Postgres, inclusief zeven tests met parallelle sessies en aparte nummeringstests. |
+| `npm run test:billing:pdf` | **9/9**, inclusief zes onderbrekings-/hersteltests en drie renderer-/inhoudstests. |
+| Ingelogde browserflow | Klant, instellingen, conceptbewaring/bewerking, concept-PDF, bevestiging, definitief, opgeslagen PDF, betaling vóór verzending, handmatige gesimuleerde verzending, reverse/overbetaling, deelcredit, correctie, nieuw concept en export. Vier exportdocumenten; hashes gelijk; **0 page errors**. |
+| Browserstates | **10** controles: To/Cc-herstel, veldfout/focus, PT409/invoerbehoud, dubbele submit, verloren respons plus latere wijziging, leeg filter, skiplink, 720 CSS-pixelreflow, private token-HTTP en echte lege start met aparte synthetische eigenaar. |
+| Toegankelijkheid | **10 axe-scans**, lijst/editor/detail/klanten/instellingen op 390 en 1440; **0 gevonden overtredingen**. Twee mobiele scans hebben incomplete contrastcontroles. Geen schermlezersessie of native browserzoom uitgevoerd; geen WCAG-certificering. |
+| Schone installatie | Alle migraties op een tweede nieuw lege Docker-Supabase; anon execute 0, authenticated DML geweigerd, private bucket en echte authenticated read bevestigd. Daarna tweede stack gestopt. |
+| Connector-HTTP | HEAD 404 zonder consumptie, zes parallelle GET's geven exact drie PDF's en drie 404's; bytes/hash, no-store/no-referrer en private bucket gecontroleerd. |
+| Regressie | Bestaande projecten-, acties-, CMS- en publieke routes bereikbaar met kop; geen volledige hertest van oude CMS-publicatie/contactmail. Facturatiecode bevat geen daadwerkelijke mailverzendimports of SMTP-/sendMail-aanroepen. |
+| Dependencies | `npm audit --omit=dev`: **0 gemelde kwetsbaarheden** op deze controle; geen algemene securitygarantie. |
+
+Samen **87 geautomatiseerde tests** (34 + 44 + 9), naast de browserasserties en scans. De aanvullende scripts staan onder `scripts/billing/`; zij weigeren een andere databasehost/poort. De uitkomsten en screenshots staan in [acceptatie/facturatie](acceptatie/facturatie/README.md).
+
+Een laatste concurrency-testrun vond een precisieprobleem in de testfixture: JavaScript Date kapte de microseconden van een direct voorafgaande dispatch af, waardoor het synthetische verzendmoment net vóór de dispatch kon vallen. De test gebruikt nu de daadwerkelijke, later opgevraagde Postgres-tijd inclusief microseconden; de zakelijke tijdgrens is behouden. Daarna opnieuw 44/44 geslaagd.
+
+De onafhankelijke codereview van de eerste implementatie vond vier belangrijke punten: laat PDF-attach na volledige credit, onjuist getypeerde betaaltermijn, btw-herberekening van een correctieconcept na een deelcredit en een verloren save-respons die een nieuwere versie kon overnemen. Alle vier zijn met gerichte regressies hersteld. De browser reproduceert het verloren-responsscenario met een echte latere wijziging. Dit is geen nieuwe volledige onafhankelijke securityaudit van iedere latere regel.
+
+De aparte Impeccable finish review beoordeelde de twaalf vereiste screenshots en componentstates. Eén material fix: actuele ontvangersfouten afzonderlijk aan To/Cc koppelen. Na herstel beoordeelde dezelfde reviewer dit punt als **resolved**, disposition **ship voor die gescoorde fix**; het verdict is geen herhaalde volledige audit. Het [reviewdocument](acceptatie/facturatie/impeccable-review.md) bewaart die afbakening. De documenter registreert de werkelijk gebouwde surface zonder de globale DESIGN-sidecar te herschrijven.
+
+Taste `inspect --app` is uitgevoerd op een zelfvoorzienende, geladen DOM-snapshot van de synthetische ingelogde lijst, op vier breedtes: **0 FAIL, 2 WARN**. De waarschuwingen betreffen het vastgepinde Paper-palet en de bestaande kopgrootte; deze zijn bewust behouden. Deze snapshotcontrole test geen interacties; dat doet de echte browsersessie. De eerste onvolledig geladen snapshot is verworpen; alleen de laatste geldige uitkomst is opgeslagen in [taste-resultaat.json](acceptatie/facturatie/taste-resultaat.json). De eenmalige Impeccable detector gaf vijf bestaande CSS-advisories; de hook controleerde de laatste CustomerForm-fix zonder deterministische bevindingen. Geen willekeurige stijlwijzigingen om een toolscore groen te maken.
+
+De PDF-visuele controle vond een door de renderer afgeronde rijhoogte waardoor een complete tekstregel wegviel. De vaste rijhoogte heeft nu baseline-ruimte. Tests controleren zichtbare omschrijving/aantal/tarief op de standaardfactuur én de laatste tekstmarker van alle 100 lange regels. De stresstest telt **41 A4-pagina's**; standaard, credit en vervolgpagina zijn visueel geopend. Alleen bytes in deze vastgelegde lokale runtime zijn op gelijke rendering getest; opgeslagen archiefbytes blijven de autoriteit.
+
+Gecontroleerde migratie: `20261031134510_setpiece_billing.sql`, SHA-256 `5003a9bdddb98bc18ffa962d715eab4b8b52b96563fd23d03c5deafe5eeb7b3c`. Alleen deze nieuwe migratie verschilt van de basis; historische migraties zijn ongewijzigd. Productie-uitvoerstatus: **niet toegepast**. De lokale app en teststack zijn na verificatie gestopt, met testvolumes behouden. De bestaande andere Docker-app is ongemoeid gelaten.
+
+## Nog goed te keuren vervolgstap
+
+Review de lokale commits en deze resultaten. Eerst een expliciet geïsoleerde cloud-database/storage en previewconfiguratie inrichten; verifieer dat automatisch gemaakte previews geen gedeelde productieomgeving gebruiken. Daarna pas push van `codex/facturatie` en een PR, zonder merge. Dat is de concrete volgende fase waarvoor akkoord nodig is. Productiemigratie/deploy volgt pas na aparte previewacceptatie en apart productieakkoord. De Gmail-ketentest heeft nog een eigen akkoord plus bevestigd testadres nodig. Lokale appacceptatie, Jarvis-beschikbaarheid, Gmail-keten en live productie zijn afzonderlijke resultaten.

@@ -1,5 +1,9 @@
 # Setpiece beheer — technische koppeling en herstel
 
+## Facturatie: lokale fase 1, 31 oktober 2026
+
+De facturatie-uitbreiding is lokaal gebouwd op `codex/facturatie`. Deze is nog niet naar productie gemigreerd of gedeployed. [Facturatie](facturatie.md) bevat de migratie, geïsoleerde testomgeving, rechten, private PDF-opslag, herstelroutes en resultaten. [Jarvis-instructie](jarvis-instructie.md) beschrijft de outbox, afzonderlijke PDF-Authorization-header, annuleren en werkelijk verzendbewijs. De bestaande werk-/CMS-koppeling blijft via `sp_command` beschikbaar; billing gebruikt server-side storage voor zijn private bucket. De werkelijke Gmail-ketentest staat apart open.
+
 ## Omgeving en contract
 
 Repository: Setpiece. Supabase `rgtpeugwsxfqlyugfrbq` (eu-west-2), Vercel-project `prj_QSGIkNoHnne5CZM1cfiQlnbCGMTC`, team `team_XtDmGi2QFreHXEQrgvnSncXG`. Bestaande productie: https://www.setpiece.nl. Geen DNS of Nankaro-code/data gewijzigd.

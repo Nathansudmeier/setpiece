@@ -1,5 +1,9 @@
 # Setpiece beheer — voortgang
 
+## Facturatie, 31 oktober 2026
+
+Fase 1 is lokaal gebouwd in een aparte werkboom op `codex/facturatie`, met geïsoleerde Docker-Supabase en synthetische browseracceptatie. Geen push, PR, productiemigratie, deployment of echte Gmail-actie. Het actuele verslag en de grenzen staan in [facturatie.md](facturatie.md); de onderstaande historie betreft het bestaande beheer en is geen productieclaim over facturatie.
+
 Plan: docs/superpowers/plans/2026-10-20-beheer.md
 Spec: docs/superpowers/specs/2026-10-20-beheer-design.md
 Branch: codex/setpiece-beheer. Basis: 606db21 (spec/plan).
