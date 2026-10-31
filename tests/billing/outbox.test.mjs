@@ -211,3 +211,35 @@ test("keyset pagination makes all 105 additional outbox entries reachable", asyn
   assert.equal(seen.size, baseline + 105);
   assert.equal(pages, Math.ceil((baseline + 105) / 100));
 });
+test("missing sent_via and requeue confirmation are rejected", async () => {
+  let i = await attached(db, await final(db, customer, "100"));
+  let d = await dispatch(db, i.id);
+  await fails(
+    db,
+    () =>
+      cmd(
+        db,
+        "invoice.mark_sent",
+        {
+          id: d.id,
+          recipients: buyer.recipients,
+          cc: buyer.cc,
+          sent_at: new Date().toISOString(),
+          sent_via: null,
+        },
+        d.version,
+      ),
+    "P0001",
+  );
+  d = await cmd(
+    db,
+    "dispatch.cancel",
+    { id: d.id, reason: "Synthetische controle" },
+    d.version,
+  );
+  await fails(
+    db,
+    () => cmd(db, "dispatch.requeue", { id: d.id }, d.version),
+    "P0001",
+  );
+});

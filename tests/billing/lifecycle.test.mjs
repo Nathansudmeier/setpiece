@@ -433,3 +433,41 @@ test("large quantity invoice can be fully credited and corrected without price o
   ).rows[0].result;
   assert.equal(replacement.total_cents, "12100000000");
 });
+test("null PDF metadata cannot create a dispatch without a verified PDF preparation", async () => {
+  const i = await final("100");
+  await fails(
+    () =>
+      cmd(
+        "invoice.prepare_pdf",
+        {
+          id: i.id,
+          hash: null,
+          bytes: null,
+          template_version: "setpiece-invoice-v1",
+        },
+        i.version,
+      ),
+    "P0001",
+  );
+  await fails(
+    () =>
+      cmd(
+        "invoice.attach_pdf",
+        {
+          id: i.id,
+          hash: null,
+          bytes: null,
+          path: `${owner}/${today.slice(0, 4)}/${i.number}-${i.id}.pdf`,
+        },
+        i.version,
+      ),
+    "P0001",
+  );
+});
+test("null recipients cannot pass normalization or finalization", async () => {
+  await fails(
+    () =>
+      db.query("select private.sp_bill_emails($1)", [JSON.stringify([null])]),
+    "P0001",
+  );
+});

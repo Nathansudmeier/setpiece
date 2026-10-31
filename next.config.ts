@@ -18,6 +18,8 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  logging: {serverFunctions: false},
+  outputFileTracingIncludes: {"/*": ["./lib/billing/assets/**/*"]},
   images: {
     formats: ["image/avif", "image/webp"],
   },

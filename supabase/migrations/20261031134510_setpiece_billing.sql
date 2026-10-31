@@ -134,7 +134,7 @@ create function private.sp_bill_text(v text) returns boolean language sql immuta
 create function private.sp_bill_iban(v text) returns boolean language plpgsql immutable set search_path='' as $$
 declare s text:=upper(replace(v,' ',''));digits text:='';c text;r integer:=0;i integer;
 begin
- if s !~ '^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$' then return false;end if;
+ if s is null or s !~ '^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$' then return false;end if;
  s:=substring(s,5)||left(s,4);
  for i in 1..length(s) loop c:=substr(s,i,1);digits:=digits||case when c~'[A-Z]' then (ascii(c)-55)::text else c end;end loop;
  for i in 1..length(digits) loop r:=(r*10+substr(digits,i,1)::integer)%97;end loop;
@@ -145,7 +145,7 @@ declare v text;answer jsonb:='[]';begin
  if p is null or jsonb_typeof(p)<>'array' or jsonb_array_length(p)>10 then raise exception 'Ongeldige ontvangers';end if;
  for v in select value#>>'{}' from jsonb_array_elements(p) loop
   v:=lower(trim(v));
-  if length(v)>254 or v ~ '[\r\n]' or v !~ '^[a-z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$' then raise exception 'Ongeldig e-mailadres';end if;
+  if v is null or length(v)>254 or v ~ '[\r\n]' or v !~ '^[a-z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$' then raise exception 'Ongeldig e-mailadres';end if;
   if not answer @> jsonb_build_array(v) then answer:=answer||jsonb_build_array(v);end if;
  end loop;
  return (select coalesce(jsonb_agg(value order by value),'[]') from jsonb_array_elements(answer));
@@ -391,11 +391,11 @@ begin
     if d.status<>'geannuleerd' or not private.sp_bill_text(p->>'note') then raise exception 'Bevestig de afhandeling van het geannuleerde Gmail-concept';end if;
     update public.sp_invoice_dispatches set cancel_ack_at=now() where id=d.id returning * into d;
    elsif p_operation='dispatch.requeue' then
-    if d.status<>'geannuleerd' or p->>'confirmed'<>'true' or i.status='verstuurd' or exists(select 1 from public.sp_invoice_dispatches where invoice_id=i.id and status<>'geannuleerd') or (select coalesce(-sum(total_cents),0) from public.sp_invoices where original_id=i.id and status not in ('concept','vervallen'))>=i.total_cents and i.kind='invoice' then raise exception 'Controleer ontvangers en inhoud; deze opdracht kan niet opnieuw klaar';end if;
+    if d.status<>'geannuleerd' or p->>'confirmed' is distinct from 'true' or i.status='verstuurd' or exists(select 1 from public.sp_invoice_dispatches where invoice_id=i.id and status<>'geannuleerd') or (select coalesce(-sum(total_cents),0) from public.sp_invoices where original_id=i.id and status not in ('concept','vervallen'))>=i.total_cents and i.kind='invoice' then raise exception 'Controleer ontvangers en inhoud; deze opdracht kan niet opnieuw klaar';end if;
     delete from private.sp_invoice_tokens where invoice_id=i.id;d:=private.sp_bill_dispatch(i);
    elsif p_operation='invoice.mark_sent' then
     sent:=(p->>'sent_at')::timestamptz;
-    if d.status not in ('wacht_op_concept','concept_klaar') or i.status<>'klaar_voor_verzending' or i.pdf_hash is null or p->>'sent_via' not in ('gmail','manual') or sent is null or sent>now()+interval '5 minutes' or sent<i.finalized_at or sent<d.created_at or d.recipients<>private.sp_bill_emails(p->'recipients') or d.cc<>private.sp_bill_emails(p->'cc') then raise exception 'Controleer opdracht, ontvangers en werkelijk verzendmoment';end if;
+    if d.status not in ('wacht_op_concept','concept_klaar') or i.status<>'klaar_voor_verzending' or i.pdf_hash is null or not coalesce(p->>'sent_via' in ('gmail','manual'),false) or sent is null or sent>now()+interval '5 minutes' or sent<i.finalized_at or sent<d.created_at or d.recipients<>private.sp_bill_emails(p->'recipients') or d.cc<>private.sp_bill_emails(p->'cc') then raise exception 'Controleer opdracht, ontvangers en werkelijk verzendmoment';end if;
     if p->>'sent_via'='gmail' and (not private.sp_bill_text(p->>'gmail_message_id') or length(p->>'gmail_message_id')>200) then raise exception 'Gmail-verzending vereist een werkelijk message-ID';end if;
     if p->>'sent_via'='manual' and not private.sp_bill_text(p->>'note') then raise exception 'Beschrijf hoe de factuur daadwerkelijk is verstuurd';end if;
     update public.sp_invoice_dispatches set status='verstuurd',sent_at=sent,sent_via=p->>'sent_via',gmail_message_id=nullif(p->>'gmail_message_id',''),gmail_thread_id=nullif(p->>'gmail_thread_id',''),sent_note=coalesce(p->>'note','') where id=d.id returning * into d;
@@ -424,10 +424,10 @@ begin
     if i.status<>'concept' then raise exception 'Alleen concepten kunnen vervallen';end if;update public.sp_invoices set status='vervallen' where id=i.id returning * into i;
    elsif p_operation='invoice.finalize' then i:=private.sp_bill_finalize(i.id,own);
    elsif p_operation='invoice.prepare_pdf' then
-    if i.status<>'definitief' or i.pdf_prepared_hash is not null or p->>'hash' !~ '^[a-f0-9]{64}$' or (p->>'bytes')::integer not between 1 and 5242880 or p->>'template_version' is distinct from i.template_version then raise exception 'Ongeldige PDF-voorbereiding';end if;
+    if i.status<>'definitief' or i.pdf_prepared_hash is not null or p->>'hash' is null or p->>'bytes' is null or p->>'hash' !~ '^[a-f0-9]{64}$' or (p->>'bytes')::integer not between 1 and 5242880 or p->>'template_version' is distinct from i.template_version then raise exception 'Ongeldige PDF-voorbereiding';end if;
     update public.sp_invoices set pdf_prepared_hash=p->>'hash',pdf_prepared_bytes=(p->>'bytes')::integer where id=i.id returning * into i;
    elsif p_operation='invoice.attach_pdf' then
-    if i.status<>'definitief' or i.pdf_hash is not null or p->>'hash' is distinct from i.pdf_prepared_hash or (p->>'bytes')::integer is distinct from i.pdf_prepared_bytes or p->>'path' is distinct from own||'/'||i.sequence_year||'/'||i.number||'-'||i.id||'.pdf' then raise exception 'PDF-metadata komt niet overeen met de factuur';end if;
+    if i.status<>'definitief' or i.pdf_hash is not null or i.pdf_prepared_hash is null or i.pdf_prepared_bytes is null or p->>'hash' is distinct from i.pdf_prepared_hash or (p->>'bytes')::integer is distinct from i.pdf_prepared_bytes or p->>'path' is distinct from own||'/'||i.sequence_year||'/'||i.number||'-'||i.id||'.pdf' then raise exception 'PDF-metadata komt niet overeen met de factuur';end if;
     update public.sp_invoices set pdf_path=p->>'path',pdf_hash=p->>'hash',pdf_bytes=(p->>'bytes')::integer,status='klaar_voor_verzending' where id=i.id returning * into i;
     d:=private.sp_bill_dispatch(i);
    elsif p_operation in ('invoice.credit','invoice.correct') then

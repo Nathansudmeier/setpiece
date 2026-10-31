@@ -10,6 +10,7 @@ const links = [
   ["/beheer/beslissingen", "Beslissingen"],
   ["/beheer/activiteit", "Activiteit"],
   ["/beheer/website", "Website"],
+  ["/beheer/facturen", "Facturen"],
 ];
 export default function Navigation() {
   const path = usePathname();
