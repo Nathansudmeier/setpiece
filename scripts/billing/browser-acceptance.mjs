@@ -30,11 +30,30 @@ async function post(click) {
     .catch(() => {});
 }
 async function shot(label) {
+  await page
+    .getByText("Facturatie laden…", { exact: true })
+    .waitFor({ state: "hidden" });
+  if (label === "lijst")
+    await page
+      .getByRole("link", { name: "Nieuwe factuur", exact: true })
+      .waitFor();
+  await page.evaluate(() => {
+    if (document.activeElement instanceof HTMLElement)
+      document.activeElement.blur();
+    window.scrollTo({ top: 0, behavior: "instant" });
+  });
+  await page.evaluate(() => document.fonts.ready);
   for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
+    await page.evaluate(() => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      return new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      );
+    });
     await page.screenshot({
       path: `${dir}/${label}-${width}.png`,
-      fullPage: true,
+      fullPage: false,
     });
     assert.equal(
       await page.evaluate(

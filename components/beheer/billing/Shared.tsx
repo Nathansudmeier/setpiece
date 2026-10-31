@@ -52,7 +52,7 @@ export function Feedback({
     <>
       {error && (
         <div className="bw-bill-error" ref={ref} tabIndex={-1} role="alert">
-          <strong>De wijziging is niet opgeslagen</strong>
+          <strong>De wijziging is niet bevestigd</strong>
           <p>{error}</p>
           {target && <a href={"#" + target}>Controleer de invoer</a>}{" "}
           <Link href="/beheer/facturen/instellingen">
@@ -157,10 +157,11 @@ export function Field({
 }) {
   return (
     <label htmlFor={name}>
-      {label}
+      <span id={name + "-label"}>{label}</span>
       <input
         id={name}
         name={name}
+        aria-labelledby={name + "-label"}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         type={type}

@@ -252,7 +252,9 @@ export async function renderInvoicePdf(
     for (let n = 0; n < description.length; n += 8) {
       const first = n === 0,
         part = description.slice(n, n + 8),
-        height = Math.max(part.length, first ? quantity.length : 0) * LINE + 16;
+        // Keep a small baseline allowance: Yoga's rounded inner height otherwise
+        // clips a complete 9pt text line inside a fixed-height padded row.
+        height = Math.max(part.length, first ? quantity.length : 0) * LINE + 20;
       add(
         h(
           View,

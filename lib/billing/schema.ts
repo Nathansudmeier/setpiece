@@ -199,6 +199,7 @@ export const auditSchema = z.object({
   created_at: z.string(),
 });
 export const readSchema = z.object({
+  predicted_number: z.string(),
   settings: settingsSchema.nullable(),
   customers: z.array(customerSchema),
   projects: z.array(z.object({ id, title: z.string() })),

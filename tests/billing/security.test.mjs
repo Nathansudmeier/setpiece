@@ -6,8 +6,6 @@ import {
   cmd,
   setup,
   final,
-  attached,
-  dispatch,
   fails,
   owner,
   buyer,

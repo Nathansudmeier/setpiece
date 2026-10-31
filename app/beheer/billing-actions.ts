@@ -1,6 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { assertSavedVersion } from "@/lib/billing/model";
 import { requireAdmin } from "@/lib/beheer/auth";
 import { billingCommand, readBilling } from "@/lib/billing/data";
 import { ensureInvoicePdf } from "@/lib/billing/storage";
@@ -47,16 +48,29 @@ export async function mutateBilling(
       })
       .passthrough()
       .parse(data);
+    const invoiceSave = ["invoice.create", "invoice.update"].includes(
+      operation,
+    );
+    const customerSave = ["customer.create", "customer.update"].includes(
+      operation,
+    );
     const reread =
-      result.id && ["invoice.create", "invoice.update"].includes(operation)
-        ? await readBilling(result.id)
+      result.id && (invoiceSave || customerSave)
+        ? await readBilling(invoiceSave ? result.id : null)
         : null;
+    if (reread)
+      assertSavedVersion(
+        result.version,
+        invoiceSave
+          ? reread.invoices[0]?.version
+          : reread.customers.find((c) => c.id === result.id)?.version,
+      );
     revalidatePath("/beheer", "layout");
     return {
       ok: true,
       id: result.id,
       replacement_id: result.replacement_id ?? undefined,
-      version: reread?.invoices[0]?.version ?? result.version,
+      version: result.version,
     };
   } catch (error) {
     return {

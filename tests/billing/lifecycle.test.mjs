@@ -471,3 +471,121 @@ test("null recipients cannot pass normalization or finalization", async () => {
     "P0001",
   );
 });
+test("late PDF attach archives a fully credited original without dispatch or Jarvis task", async () => {
+  let i = await final("100");
+  await cmd("invoice.credit", { id: i.id, confirmed: true }, i.version);
+  i = (
+    await db.query(
+      "select private.sp_bill_invoice_json(i) result from public.sp_invoices i where id=$1",
+      [i.id],
+    )
+  ).rows[0].result;
+  const saved = await attach(i);
+  assert.ok(saved.pdf_hash);
+  assert.equal(
+    (
+      await db.query(
+        "select count(*) n from public.sp_invoice_dispatches where invoice_id=$1 and status in ('wacht_op_concept','concept_klaar')",
+        [i.id],
+      )
+    ).rows[0].n,
+    "0",
+  );
+  assert.equal(
+    (
+      await db.query(
+        "select count(*) n from public.sp_items where source_ref=$1",
+        ["invoice:" + i.id],
+      )
+    ).rows[0].n,
+    "0",
+  );
+});
+test("settings and customers require actual integer JSON payment_days", async () => {
+  for (const value of [null, "14", true, 14.5]) {
+    const version = (
+      await db.query(
+        "select version from public.sp_billing_settings where owner_id=$1",
+        [owner],
+      )
+    ).rows[0].version;
+    await fails(
+      () => cmd("settings.update", { data: { payment_days: value } }, version),
+      "P0001",
+    );
+    await fails(
+      () => cmd("customer.create", { data: { payment_days: value } }),
+      "P0001",
+    );
+  }
+});
+test("replacement after partial credit recalculates independent ordinary invoice VAT", async () => {
+  let i = await final("6");
+  i = await attach(i);
+  await sent(i);
+  i = (
+    await db.query(
+      "select private.sp_bill_invoice_json(i) result from public.sp_invoices i where id=$1",
+      [i.id],
+    )
+  ).rows[0].result;
+  const l = (
+    await db.query(
+      "select id from public.sp_invoice_lines where invoice_id=$1",
+      [i.id],
+    )
+  ).rows[0];
+  await cmd(
+    "invoice.credit",
+    {
+      id: i.id,
+      confirmed: true,
+      lines: [{ original_line_id: l.id, net_cents: "3" }],
+    },
+    i.version,
+  );
+  i = (
+    await db.query(
+      "select private.sp_bill_invoice_json(i) result from public.sp_invoices i where id=$1",
+      [i.id],
+    )
+  ).rows[0].result;
+  const c = await cmd(
+    "invoice.correct",
+    { id: i.id, confirmed: true },
+    i.version,
+  );
+  let replacement = (
+    await db.query(
+      "select private.sp_bill_invoice_json(i) result from public.sp_invoices i where id=$1",
+      [c.replacement_id],
+    )
+  ).rows[0].result;
+  assert.equal(replacement.net_cents, "3");
+  assert.equal(replacement.vat_cents, "1");
+  const f = await cmd(
+    "invoice.finalize",
+    { id: replacement.id },
+    replacement.version,
+  );
+  assert.equal(f.vat_cents, "1");
+  assert.equal(f.total_cents, "4");
+});
+test("unfilled optional document fields and recipient placeholders block finalization", async () => {
+  const i = await cmd("invoice.create", {
+    customer_id: customer.id,
+    invoice_on: today,
+    service_from: today,
+    service_until: today,
+    intro: "{{INTRO}}",
+    lines: [line("100")],
+  });
+  await fails(() => cmd("invoice.finalize", { id: i.id }, i.version), "P0001");
+  await fails(
+    () =>
+      db.query("select private.sp_bill_emails($1)", [
+        JSON.stringify(["{{EMAIL}}@example.test"]),
+      ]),
+    "P0001",
+  );
+});

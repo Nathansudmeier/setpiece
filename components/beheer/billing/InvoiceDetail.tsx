@@ -9,6 +9,7 @@ import {
   formatEuro,
   invoiceBalance,
   DOCUMENT_LABELS,
+  documentLabel,
   parseMoney,
   parseEmails,
   amsterdamDateTime,
@@ -106,7 +107,7 @@ export default function InvoiceDetail({ data }: { data: BillingData }) {
             {i.kind === "credit" ? "Creditfactuur" : "Factuur"} {i.number}
           </h1>
           <p>
-            {f.customer.name} · {DOCUMENT_LABELS[i.status]}
+            {f.customer.name} · {documentLabel(i)}
           </p>
           <p>
             {i.kind === "invoice"
@@ -136,7 +137,7 @@ export default function InvoiceDetail({ data }: { data: BillingData }) {
       <Feedback
         error={intent.error || pdfError}
         success={intent.success}
-        target="payment-amount"
+        target={i.kind === "invoice" ? "payment-amount" : undefined}
       />
       {warning && (
         <p className="bw-bill-notice">

@@ -40,7 +40,10 @@ test("geldformat en parse zonder verlies of gewone spatie", () => {
   assert.equal(model.formatEuro("-238310"), "-€\u00a02.383,10");
   assert.equal(model.parseMoney("1.969,50"), "196950");
   assert.throws(() => model.parseMoney("1,999"));
-  assert.throws(() => model.formatEuro("9007199254740992"));
+  assert.equal(
+    model.formatEuro("9007199254740992"),
+    "€\u00a090.071.992.547.409,92",
+  );
 });
 test("mail alleen bekende velden en geen open placeholders", () => {
   assert.equal(
@@ -125,4 +128,15 @@ test("wacht op Jarvis-filter omvat ook creditdocumenten", () => {
     model.filterInvoices(rows, [], { state: "jarvis" }, "2026-10-31").length,
     1,
   );
+});
+test("lost save response cannot adopt a later unrelated version", () => {
+  assert.throws(() => model.assertSavedVersion(2, 3), /intussen gewijzigd/);
+  assert.throws(
+    () => model.assertSavedVersion(2, undefined),
+    /intussen gewijzigd/,
+  );
+  assert.doesNotThrow(() => model.assertSavedVersion(2, 2));
+});
+test("formatting supports aggregate totals beyond a single document limit exactly", () => {
+  assert.equal(model.formatEuro("20000000000000"), "€\u00a0200.000.000.000,00");
 });

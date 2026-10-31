@@ -9,6 +9,8 @@ import {
   formatEuro,
   moneyInput,
   parseMoney,
+  parseCents,
+  parseQuantity,
   TAX,
 } from "@/lib/billing/model";
 import {
@@ -110,6 +112,16 @@ export default function InvoiceEditor({
   }, [lines]);
   const buyer =
     data.customers.find((c) => c.id === customer)?.data ?? DEFAULT_CUSTOMER;
+  function inputError(value: string, quantity = false) {
+    if (!intent.error) return undefined;
+    try {
+      if (quantity) parseQuantity(value.replace(",", "."));
+      else parseCents(parseMoney(value));
+      return undefined;
+    } catch (error) {
+      return error instanceof Error ? error.message : "Controleer de waarde.";
+    }
+  }
   function patch(index: number, patch: Partial<EditorLine>) {
     setLines(lines.map((l, n) => (n === index ? { ...l, ...patch } : l)));
     setConfirm(false);
@@ -307,6 +319,7 @@ export default function InvoiceEditor({
                   Omschrijving
                   <textarea
                     id={"line-" + l.id}
+                    aria-label="Omschrijving"
                     rows={2}
                     maxLength={2000}
                     value={l.description}
@@ -320,6 +333,7 @@ export default function InvoiceEditor({
                     name={"quantity-" + l.id}
                     label="Aantal"
                     value={l.quantity}
+                    error={inputError(l.quantity, true)}
                     onChange={(v) => patch(index, { quantity: v })}
                   />
                   <Field
@@ -333,6 +347,7 @@ export default function InvoiceEditor({
                     name={"price-" + l.id}
                     label="Prijs excl. btw (€)"
                     value={l.price}
+                    error={inputError(l.price)}
                     onChange={(v) => patch(index, { price: v })}
                   />
                   <label>
@@ -410,6 +425,7 @@ export default function InvoiceEditor({
                 {label}
                 <textarea
                   id={key}
+                  aria-label={label}
                   value={value}
                   rows={3}
                   maxLength={key === "notes" ? 10000 : 5000}
@@ -485,10 +501,9 @@ export default function InvoiceEditor({
           <div className="bw-bill-confirm">
             <h3>Dit wordt de definitieve factuur</h3>
             <p>
-              Datum: {invoiceOn}. Nummer: eerstvolgend nummer uit{" "}
-              {settings.prefix}
-              {invoiceOn.slice(0, 4)}-reeks (voorspelling, bij bevestiging
-              toegekend). Totaal: {calc ? formatEuro(calc.total_cents) : "—"}.
+              Datum: {invoiceOn}. Verwacht nummer: {data.predicted_number}{" "}
+              (voorspelling; bij bevestiging toegekend). Totaal:{" "}
+              {calc ? formatEuro(calc.total_cents) : "—"}.
             </p>
             <p>
               Aan: {buyer.recipients.join(", ") || "Nog niet ingevuld"}. Cc:{" "}

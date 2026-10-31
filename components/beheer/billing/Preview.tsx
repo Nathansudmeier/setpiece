@@ -79,9 +79,11 @@ export default function Preview({
         <table className="bw-bill-table">
           <thead>
             <tr>
-              <th>Omschrijving</th>
-              <th>Aantal</th>
-              <th className="bw-bill-money">Netto</th>
+              <th scope="col">Omschrijving</th>
+              <th scope="col">Aantal</th>
+              <th scope="col" className="bw-bill-money">
+                Netto
+              </th>
             </tr>
           </thead>
           <tbody>

@@ -1,21 +1,206 @@
-import Link from 'next/link';
-import {allBilling} from '@/lib/billing/data';
-import {formatEuro,filterInvoices,invoiceBalance,DOCUMENT_LABELS} from '@/lib/billing/model';
-import {amsterdamDate,dateLabel} from '@/lib/beheer/model';
-const filters={concept:'Concept',pdf:'PDF ontbreekt',jarvis:'Wacht op Jarvis',open:'Open',late:'Te laat',paid:'Betaald / verrekend',credited:'Gecrediteerd',void:'Vervallen'};
-export default async function InvoicesPage({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){
- const data=await allBilling(),params=await searchParams;
- const filter={q:typeof params.q==='string'?params.q.slice(0,120):'',year:typeof params.year==='string'?params.year:'',state:typeof params.state==='string'?params.state:''};
- const today=amsterdamDate(),rows=filterInvoices(data.invoices,data.customers,filter,today).sort((a,b)=>b.created_at.localeCompare(a.created_at));
- const finalized=rows.filter(i=>!['concept','vervallen'].includes(i.status)),open=finalized.reduce((n,i)=>n+BigInt(invoiceBalance(i,i.credited_cents,i.received_cents,today).balance_cents),0n),received=finalized.reduce((n,i)=>n+BigInt(i.received_cents),0n),credited=finalized.filter(i=>i.kind==='credit').reduce((n,i)=>n-BigInt(i.total_cents),0n);
- const query=new URLSearchParams(filter).toString();
- return <><div className="bw-heading"><div><h1>Facturen</h1><p>Controleer je concepten, volg de verzending en leg ontvangsten vast.</p></div><Link className="bw-primary" href="/beheer/facturen/nieuw">Nieuwe factuur</Link></div>
- {!data.settings&&<p className="bw-bill-notice">Begin met je <Link href="/beheer/facturen/instellingen">bedrijfsgegevens</Link>. Je kunt al een incompleet concept bewaren.</p>}
- <form className="bw-filters" action="/beheer/facturen"><label>Zoeken<input name="q" defaultValue={filter.q} placeholder="Nummer of klant" maxLength={120}/></label><label>Jaar<select aria-label="Jaar" name="year" defaultValue={filter.year}><option value="">Alle jaren</option>{[...new Set([today.slice(0,4),...data.invoices.map(i=>i.invoice_on?.slice(0,4)).filter((v):v is string=>!!v)])].sort().reverse().map(y=><option key={y}>{y}</option>)}</select></label><label>Toestand<select aria-label="Toestand" name="state" defaultValue={filter.state}><option value="">Alle facturen</option>{Object.entries(filters).map(([v,label])=><option key={v} value={v}>{label}</option>)}</select></label><button className="bw-secondary">Toon selectie</button></form>
- <div className="bw-bill-summary"><p><strong>{rows.length}</strong> documenten in deze selectie</p><p>Saldo incl. klanttegoed <strong>{formatEuro(open.toString())}</strong></p><p>Ontvangen <strong>{formatEuro(received.toString())}</strong></p><p>Creditdocumenten <strong>{formatEuro(credited.toString())}</strong></p></div>
- {rows.length===0?<section className="bw-bill-empty"><h2>{data.invoices.length?'Geen facturen in deze selectie':'Je eerste factuur begint als concept'}</h2><p>{data.invoices.length?'Pas je zoekterm of filters aan om andere facturen te zien.':'Voeg een klant en factuurregels toe. Pas na jouw controle krijgt de factuur een nummer.'}</p>{data.invoices.length>0&&<Link href="/beheer/facturen">Wis de filters</Link>}</section>:<div className="bw-bill-table-wrap" role="region" aria-label="Facturen in de selectie" tabIndex={0}><table className="bw-bill-table"><thead><tr><th scope="col">Nummer</th><th scope="col">Klant</th><th scope="col">Factuur / verval</th><th scope="col" className="bw-bill-money">Totaal</th><th scope="col" className="bw-bill-money">Open / tegoed</th><th scope="col">Toestand</th></tr></thead><tbody>{rows.map(i=>{
- const b=invoiceBalance(i,i.credited_cents,i.received_cents,today),name=i.frozen?.customer.name??data.customers.find(c=>c.id===i.customer_id)?.data.name??'Klant nog niet gekozen';
- return <tr key={i.id}><td><Link href={'/beheer/facturen/'+i.id}>{i.number??'Concept'}</Link>{i.kind==='credit'&&<small>Creditfactuur</small>}</td><td>{name}</td><td>{i.invoice_on?dateLabel(i.invoice_on):'—'}<small>{i.due_on?dateLabel(i.due_on):'—'}</small></td><td className="bw-bill-money">{formatEuro(i.total_cents)}</td><td className="bw-bill-money">{i.kind==='credit'||['concept','vervallen'].includes(i.status)?'—':formatEuro(b.balance_cents)}{BigInt(b.balance_cents)<0n&&<small>Klanttegoed</small>}</td><td>{DOCUMENT_LABELS[i.status]}{i.kind==='invoice'&&!['concept','vervallen'].includes(i.status)&&<small>{[b.payment_label,b.credit_label,b.overdue?'Te laat':''].filter(Boolean).join(' · ')}</small>}</td></tr>;
- })}</tbody></table></div>}
- <p className="bw-bill-export"><Link href={'/beheer/facturen/export?'+query}>Download archief van deze selectie</Link><small>JSON, opgeslagen PDF’s en hashmanifest. Maximaal 200 documenten / 64 MB; ontbrekende PDF’s staan expliciet in het manifest.</small></p></>;
+import ListFilters from "@/components/beheer/billing/ListFilters";
+import Link from "next/link";
+import { allBilling } from "@/lib/billing/data";
+import {
+  formatEuro,
+  filterInvoices,
+  invoiceBalance,
+  documentLabel,
+} from "@/lib/billing/model";
+import { amsterdamDate, dateLabel } from "@/lib/beheer/model";
+export default async function InvoicesPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const data = await allBilling(),
+    params = await searchParams;
+  const filter = {
+    q: typeof params.q === "string" ? params.q.slice(0, 120) : "",
+    year: typeof params.year === "string" ? params.year : "",
+    state: typeof params.state === "string" ? params.state : "",
+  };
+  const today = amsterdamDate(),
+    rows = filterInvoices(data.invoices, data.customers, filter, today).sort(
+      (a, b) => b.created_at.localeCompare(a.created_at),
+    );
+  const finalized = rows.filter(
+      (i) => !["concept", "vervallen"].includes(i.status),
+    ),
+    open = finalized.reduce(
+      (n, i) =>
+        n +
+        BigInt(
+          invoiceBalance(i, i.credited_cents, i.received_cents, today)
+            .balance_cents,
+        ),
+      0n,
+    ),
+    received = finalized.reduce((n, i) => n + BigInt(i.received_cents), 0n),
+    credited = finalized
+      .filter((i) => i.kind === "credit")
+      .reduce((n, i) => n - BigInt(i.total_cents), 0n);
+  const query = new URLSearchParams(filter).toString();
+  return (
+    <>
+      <div className="bw-heading">
+        <div>
+          <h1>Facturen</h1>
+          <p>
+            Controleer je concepten, volg de verzending en leg ontvangsten vast.
+          </p>
+        </div>
+        <Link className="bw-primary" href="/beheer/facturen/nieuw">
+          Nieuwe factuur
+        </Link>
+      </div>
+      {!data.settings && (
+        <p className="bw-bill-notice">
+          Begin met je{" "}
+          <Link href="/beheer/facturen/instellingen">bedrijfsgegevens</Link>. Je
+          kunt al een incompleet concept bewaren.
+        </p>
+      )}
+      <ListFilters
+        filter={filter}
+        years={[
+          ...new Set([
+            today.slice(0, 4),
+            ...data.invoices
+              .map((i) => i.invoice_on?.slice(0, 4))
+              .filter((v): v is string => !!v),
+          ]),
+        ]
+          .sort()
+          .reverse()}
+      />
+      <details className="bw-bill-list-totals">
+        <summary>
+          {rows.length} documenten · saldo {formatEuro(open.toString())}
+        </summary>
+        <div className="bw-bill-summary">
+          <p>
+            <strong>{rows.length}</strong> documenten in deze selectie
+          </p>
+          <p>
+            Saldo incl. klanttegoed{" "}
+            <strong>{formatEuro(open.toString())}</strong>
+          </p>
+          <p>
+            Ontvangen <strong>{formatEuro(received.toString())}</strong>
+          </p>
+          <p>
+            Creditdocumenten <strong>{formatEuro(credited.toString())}</strong>
+          </p>
+        </div>
+      </details>
+      {rows.length === 0 ? (
+        <section className="bw-bill-empty">
+          <h2>
+            {data.invoices.length
+              ? "Geen facturen in deze selectie"
+              : "Je eerste factuur begint als concept"}
+          </h2>
+          <p>
+            {data.invoices.length
+              ? "Pas je zoekterm of filters aan om andere facturen te zien."
+              : "Voeg een klant en factuurregels toe. Pas na jouw controle krijgt de factuur een nummer."}
+          </p>
+          {data.invoices.length > 0 && (
+            <Link href="/beheer/facturen">Wis de filters</Link>
+          )}
+        </section>
+      ) : (
+        <div
+          className="bw-bill-table-wrap"
+          role="region"
+          aria-label="Facturen in de selectie"
+          tabIndex={0}
+        >
+          <table className="bw-bill-table">
+            <thead>
+              <tr>
+                <th scope="col">Nummer</th>
+                <th scope="col">Klant</th>
+                <th scope="col">Factuur / verval</th>
+                <th scope="col" className="bw-bill-money">
+                  Totaal
+                </th>
+                <th scope="col" className="bw-bill-money">
+                  Open / tegoed
+                </th>
+                <th scope="col">Toestand</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((i) => {
+                const b = invoiceBalance(
+                    i,
+                    i.credited_cents,
+                    i.received_cents,
+                    today,
+                  ),
+                  name =
+                    i.frozen?.customer.name ??
+                    data.customers.find((c) => c.id === i.customer_id)?.data
+                      .name ??
+                    "Klant nog niet gekozen";
+                return (
+                  <tr key={i.id}>
+                    <td>
+                      <Link href={"/beheer/facturen/" + i.id}>
+                        {i.number ?? "Concept"}
+                      </Link>
+                      {i.kind === "credit" && <small>Creditfactuur</small>}
+                    </td>
+                    <td>{name}</td>
+                    <td>
+                      {i.invoice_on ? dateLabel(i.invoice_on) : "—"}
+                      <small>{i.due_on ? dateLabel(i.due_on) : "—"}</small>
+                    </td>
+                    <td className="bw-bill-money">
+                      {formatEuro(i.total_cents)}
+                    </td>
+                    <td className="bw-bill-money">
+                      {i.kind === "credit" ||
+                      ["concept", "vervallen"].includes(i.status)
+                        ? "—"
+                        : formatEuro(b.balance_cents)}
+                      {BigInt(b.balance_cents) < 0n && (
+                        <small>Klanttegoed</small>
+                      )}
+                    </td>
+                    <td>
+                      {documentLabel(i)}
+                      {i.kind === "invoice" &&
+                        !["concept", "vervallen"].includes(i.status) && (
+                          <small>
+                            {[
+                              b.payment_label,
+                              b.credit_label,
+                              b.overdue ? "Te laat" : "",
+                            ]
+                              .filter(Boolean)
+                              .join(" · ")}
+                          </small>
+                        )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <p className="bw-bill-export">
+        <Link href={"/beheer/facturen/export?" + query}>
+          Download archief van deze selectie
+        </Link>
+        <small>
+          JSON, opgeslagen PDF’s en hashmanifest. Maximaal 200 documenten / 64
+          MB; ontbrekende PDF’s staan expliciet in het manifest.
+        </small>
+      </p>
+    </>
+  );
 }

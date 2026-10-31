@@ -155,12 +155,22 @@ test("parallel mark_sent exact evidence finishes task only once", async () => {
       recipients: buyer.recipients,
       cc: buyer.cc,
       sent_via: "gmail",
-      sent_at: new Date().toISOString(),
+      // Preserve PostgreSQL microseconds. JS Date truncates to milliseconds and
+      // can otherwise predate an immediately preceding dispatch in this test.
+      sent_at: (await db.query("select clock_timestamp()::text sent")).rows[0]
+        .sent,
       gmail_message_id: crypto.randomUUID(),
       note: "",
     };
   const r = await parallel((c) => cmd(c, "invoice.mark_sent", p, d.version));
-  assert.equal(r.filter((x) => x.status === "fulfilled").length, 2);
+  assert.equal(
+    r.filter((x) => x.status === "fulfilled").length,
+    2,
+    r
+      .filter((x) => x.status === "rejected")
+      .map((x) => x.reason.message)
+      .join("; "),
+  );
   assert.equal(
     (
       await db.query(

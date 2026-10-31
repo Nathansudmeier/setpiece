@@ -1716,3 +1716,15 @@
     margin-bottom: 16px;
   }
 }
+.bw-bill-filter-toggle { display: none; }
+.bw-bill-list-totals { margin-block: 0 24px; }
+.bw-bill-list-totals summary { font-size: 16px; font-weight: 500; }
+.bw-bill-list-totals .bw-bill-summary { padding-top: 16px; }
+.bw-bill-table td:first-child a { white-space: nowrap; }
+.bw-bill-preview .bw-bill-table :is(th,td):nth-child(2) { min-width: 80px; white-space: nowrap; }
+@media (max-width:640px) {
+ .bw-bill-filter-toggle { display: inline-flex; margin-block: 0 12px; }
+ .bw-bill .bw-bill-filters-closed { display: none; }
+}
+.bw-bill-error:focus { outline: 3px solid var(--ws-ink); outline-offset: 3px; }
+.bw-bill-mail-example { background: var(--ws-mist); padding: 24px; margin-bottom: 24px; }

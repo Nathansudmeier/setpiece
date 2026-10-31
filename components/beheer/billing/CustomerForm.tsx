@@ -5,6 +5,17 @@ import { Field, Feedback, useBillingIntent } from "./Shared";
 import PersonPicker from "../PersonPicker";
 import { DEFAULT_CUSTOMER, type Customer } from "@/lib/billing/schema";
 import { parseEmails } from "@/lib/billing/model";
+const RECIPIENT_ERROR = "Controleer de factuurontvangers en Cc.";
+function addressError(value: string) {
+  try {
+    parseEmails(value);
+    return undefined;
+  } catch (error) {
+    return error instanceof Error
+      ? error.message
+      : "Controleer het e-mailadres.";
+  }
+}
 export default function CustomerForm({
   customer,
   projects,
@@ -15,15 +26,34 @@ export default function CustomerForm({
   person?: { id: string; naam: string };
 }) {
   const [data, setData] = useState(customer?.data ?? DEFAULT_CUSTOMER),
+    [version, setVersion] = useState<number | null>(customer?.version ?? null),
     [to, setTo] = useState(data.recipients.join(", ")),
     [cc, setCc] = useState(data.cc.join(", ")),
+    [validateAddresses, setValidateAddresses] = useState(false),
     intent = useBillingIntent(),
     router = useRouter();
+  const toError = validateAddresses ? addressError(to) : undefined,
+    ccError = validateAddresses ? addressError(cc) : undefined;
+  function changeAddress(field: "to" | "cc", value: string) {
+    if (field === "to") setTo(value);
+    else setCc(value);
+    if (
+      intent.error === RECIPIENT_ERROR &&
+      !addressError(field === "to" ? value : to) &&
+      !addressError(field === "cc" ? value : cc)
+    )
+      intent.setError("");
+  }
   return (
     <form
       className="bw-bill-section"
       onSubmit={async (e) => {
         e.preventDefault();
+        setValidateAddresses(true);
+        if (addressError(to) || addressError(cc)) {
+          intent.setError(RECIPIENT_ERROR);
+          return;
+        }
         const form = new FormData(e.currentTarget);
         try {
           const payload = {
@@ -36,9 +66,10 @@ export default function CustomerForm({
           const r = await intent.run(
             customer ? "customer.update" : "customer.create",
             payload,
-            customer?.version ?? null,
+            version,
           );
           if (r.ok) {
+            setVersion(r.version ?? version);
             router.push("/beheer/facturen/klanten?id=" + r.id);
             router.refresh();
           }
@@ -55,7 +86,7 @@ export default function CustomerForm({
       <Feedback
         error={intent.error}
         success={intent.success}
-        target="customer-to"
+        target={toError ? "customer-to" : ccError ? "customer-cc" : undefined}
       />
       <div className="bw-bill-fields">
         {(
@@ -81,15 +112,16 @@ export default function CustomerForm({
           name="customer-to"
           label="Factuurontvangers"
           value={to}
-          onChange={setTo}
-          error={intent.error?.includes("mail") ? intent.error : undefined}
+          onChange={(value) => changeAddress("to", value)}
+          error={toError}
           description="Losse e-mailadressen, gescheiden door komma’s."
         />
         <Field
           name="customer-cc"
           label="Cc (optioneel)"
           value={cc}
-          onChange={setCc}
+          onChange={(value) => changeAddress("cc", value)}
+          error={ccError}
         />
         <Field
           name="customer-days"

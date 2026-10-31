@@ -145,7 +145,7 @@ declare v text;answer jsonb:='[]';begin
  if p is null or jsonb_typeof(p)<>'array' or jsonb_array_length(p)>10 then raise exception 'Ongeldige ontvangers';end if;
  for v in select value#>>'{}' from jsonb_array_elements(p) loop
   v:=lower(trim(v));
-  if v is null or length(v)>254 or v ~ '[\r\n]' or v !~ '^[a-z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$' then raise exception 'Ongeldig e-mailadres';end if;
+  if v is null or v ~ '[{}]' or length(v)>254 or v ~ '[\r\n]' or v !~ '^[a-z0-9.!#$%&''*+/=?^_`{|}~-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$' then raise exception 'Ongeldig e-mailadres';end if;
   if not answer @> jsonb_build_array(v) then answer:=answer||jsonb_build_array(v);end if;
  end loop;
  return (select coalesce(jsonb_agg(value order by value),'[]') from jsonb_array_elements(answer));
@@ -196,12 +196,22 @@ declare seq bigint;label text;begin
  label:=prefix||yr||'-'||case when seq<10000 then lpad(seq::text,4,'0') else seq::text end;
  return jsonb_build_object('number',label,'value',seq::text);
 end $$;
+create function private.sp_bill_recalculate(p_id uuid,own uuid) returns public.sp_invoices language plpgsql set search_path='' as $$
+declare i public.sp_invoices;calc jsonb;begin
+ select * into i from public.sp_invoices where id=p_id and owner_id=own for update;
+ if i.id is null or i.kind<>'invoice' or i.status<>'concept' then raise exception 'Alleen gewone conceptfacturen herberekenen';end if;
+ update public.sp_invoice_lines set net_cents=round(quantity_milli::numeric*unit_price_cents/1000)::bigint,line_vat_cents=round(round(quantity_milli::numeric*unit_price_cents/1000)*vat_rate/100)::bigint where invoice_id=i.id and active and (net_cents<>round(quantity_milli::numeric*unit_price_cents/1000)::bigint or line_vat_cents<>round(round(quantity_milli::numeric*unit_price_cents/1000)*vat_rate/100)::bigint);
+ select private.sp_bill_calculate(coalesce(jsonb_agg(jsonb_build_object('quantity',private.sp_bill_line_json(l)->>'quantity','unit_price_cents',l.unit_price_cents::text,'vat_code',l.vat_code,'tax_treatment',l.tax_treatment)),'[]')) into calc from public.sp_invoice_lines l where invoice_id=i.id and active;
+ update public.sp_invoices set net_cents=(calc->>'net_cents')::bigint,vat_cents=(calc->>'vat_cents')::bigint,total_cents=(calc->>'total_cents')::bigint,tax_groups=calc->'tax_groups' where id=i.id returning * into i;
+ return i;
+end $$;
 create function private.sp_bill_finalize(p_id uuid,own uuid,p_credit boolean default false) returns public.sp_invoices language plpgsql set search_path='' as $$
 declare i public.sp_invoices;s jsonb;c jsonb;l public.sp_invoice_lines;k text;seq bigint;yr integer;vals jsonb;seed jsonb;dispatch_ref uuid:=gen_random_uuid();today date:=(now() at time zone 'Europe/Amsterdam')::date;
 begin
  select * into i from public.sp_invoices where id=p_id and owner_id=own for update;
  if i.status<>'concept' then raise exception 'Alleen concepten kunnen definitief worden';end if;
  if p_credit then s:=i.frozen->'seller';c:=i.frozen->'customer';else
+ i:=private.sp_bill_recalculate(i.id,own);
  select data into s from public.sp_billing_settings where owner_id=own;
  select data into c from public.sp_customers where id=i.customer_id and owner_id=own;
  end if;
@@ -212,6 +222,8 @@ begin
  if s->>'country'<>'NL' or c->>'country'<>'NL' or coalesce((c->>'tax_confirmed')::boolean,false) is not true then raise exception 'Bevestig Nederlandse klantgegevens en btw-behandeling; buitenland is nog niet ondersteund';end if;
  if s->>'street' ~* '(postbus|p\.?o\.? box)' or c->>'street' ~* '(postbus|p\.?o\.? box)' or s->>'postal_code' !~ '^[1-9][0-9]{3} ?[A-Za-z]{2}$' or c->>'postal_code' !~ '^[1-9][0-9]{3} ?[A-Za-z]{2}$' then raise exception 'Gebruik een feitelijk adres en geldige Nederlandse postcode';end if;
  if s->>'vat_id' !~ '^NL[0-9]{9}B[0-9]{2}$' or s->>'kvk' !~ '^[0-9]{8}$' or not private.sp_bill_iban(s->>'iban') or not private.sp_bill_text(s->>'account_holder') then raise exception 'Controleer btw-id, KVK, IBAN en rekeninghouder in Instellingen';end if;
+ if i.intro ~ '[{}]' or i.footer ~ '[{}]' or i.reference ~ '[{}]' then raise exception 'Verwijder oningevulde velden uit referentie, intro of factuurtekst';end if;
+ foreach k in array array['vat_id','kvk'] loop if coalesce(trim(c->>k),'')<>'' and not private.sp_bill_text(c->>k) then raise exception 'Vul bekende klantgegevens werkelijk in of laat onbekende waarden leeg';end if;end loop;
  if i.service_from is null or i.service_until is null then raise exception 'Vul de dienst- of vooruitbetalingsdatum/periode in';end if;
  if not exists(select 1 from public.sp_invoice_lines where invoice_id=i.id and active) then raise exception 'Voeg minimaal één factuurregel toe';end if;
  for l in select * from public.sp_invoice_lines where invoice_id=i.id and active loop
@@ -329,7 +341,7 @@ begin
   select * into s from public.sp_billing_settings where owner_id=own for update;perform private.sp_bill_version(s.version,p_expected_version);
   perform private.sp_bill_keys(p->'data',array['name','street','postal_code','city','country','vat_id','kvk','iban','account_holder','payment_days','prefix','mail_subject','mail_body']);
   merged:=s.data||(p->'data');
-  if merged->>'payment_days' !~ '^[0-9]{1,3}$' or (merged->>'payment_days')::integer>120 or merged->>'prefix' !~ '^[A-Z]{1,4}$' then raise exception 'Betaaltermijn 0–120 dagen; prefix 1–4 hoofdletters';end if;
+  if jsonb_typeof(merged->'payment_days') is distinct from 'number' or merged->>'payment_days' !~ '^[0-9]{1,3}$' or (merged->>'payment_days')::integer>120 or merged->>'prefix' !~ '^[A-Z]{1,4}$' then raise exception 'Betaaltermijn 0–120 dagen; prefix 1–4 hoofdletters';end if;
   for k in select key from jsonb_each(merged) where key<>'payment_days' loop if jsonb_typeof(merged->k)<>'string' or length(merged->>k)>10000 then raise exception 'Ongeldig instellingenveld';end if;end loop;
   update public.sp_billing_settings set data=merged where owner_id=own returning to_jsonb(sp_billing_settings.*) into answer;
  elsif p_operation in ('customer.create','customer.update') then
@@ -341,7 +353,7 @@ begin
   end if;
   perform private.sp_bill_keys(p->'data',array['name','street','postal_code','city','country','vat_id','kvk','recipients','cc','payment_days','tax_confirmed']);
   merged:=c.data||(p->'data');merged:=merged||jsonb_build_object('recipients',private.sp_bill_emails(merged->'recipients'),'cc',private.sp_bill_emails(merged->'cc'));
-  if merged->>'payment_days' !~ '^[0-9]{1,3}$' or (merged->>'payment_days')::integer>120 or jsonb_typeof(merged->'tax_confirmed')<>'boolean' then raise exception 'Controleer betaaltermijn en btw-bevestiging';end if;
+  if jsonb_typeof(merged->'payment_days') is distinct from 'number' or merged->>'payment_days' !~ '^[0-9]{1,3}$' or (merged->>'payment_days')::integer>120 or jsonb_typeof(merged->'tax_confirmed')<>'boolean' then raise exception 'Controleer betaaltermijn en btw-bevestiging';end if;
   for k in select key from jsonb_each(merged) where key not in ('payment_days','tax_confirmed','recipients','cc') loop if jsonb_typeof(merged->k)<>'string' or length(merged->>k)>500 then raise exception 'Ongeldig klantveld';end if;end loop;
   c.person_id:=case when p ? 'person_id' then nullif(p->>'person_id','')::uuid else c.person_id end;c.project_id:=case when p ? 'project_id' then nullif(p->>'project_id','')::uuid else c.project_id end;
   perform private.sp_bill_refs(own,c.project_id,c.person_id);
@@ -428,8 +440,8 @@ begin
     update public.sp_invoices set pdf_prepared_hash=p->>'hash',pdf_prepared_bytes=(p->>'bytes')::integer where id=i.id returning * into i;
    elsif p_operation='invoice.attach_pdf' then
     if i.status<>'definitief' or i.pdf_hash is not null or i.pdf_prepared_hash is null or i.pdf_prepared_bytes is null or p->>'hash' is distinct from i.pdf_prepared_hash or (p->>'bytes')::integer is distinct from i.pdf_prepared_bytes or p->>'path' is distinct from own||'/'||i.sequence_year||'/'||i.number||'-'||i.id||'.pdf' then raise exception 'PDF-metadata komt niet overeen met de factuur';end if;
-    update public.sp_invoices set pdf_path=p->>'path',pdf_hash=p->>'hash',pdf_bytes=(p->>'bytes')::integer,status='klaar_voor_verzending' where id=i.id returning * into i;
-    d:=private.sp_bill_dispatch(i);
+    update public.sp_invoices set pdf_path=p->>'path',pdf_hash=p->>'hash',pdf_bytes=(p->>'bytes')::integer,status=case when i.kind='invoice' and (select coalesce(-sum(total_cents),0) from public.sp_invoices where original_id=i.id and status not in ('concept','vervallen'))>=i.total_cents then i.status else 'klaar_voor_verzending' end where id=i.id returning * into i;
+    if i.kind='credit' or (select coalesce(-sum(total_cents),0) from public.sp_invoices where original_id=i.id and status not in ('concept','vervallen'))<i.total_cents then d:=private.sp_bill_dispatch(i);end if;
    elsif p_operation in ('invoice.credit','invoice.correct') then
     if p->>'confirmed' is distinct from 'true' then raise exception 'Bevestig de onomkeerbare credit';end if;
     credit:=private.sp_bill_credit(i,p);
@@ -438,6 +450,7 @@ begin
      values(own,i.customer_id,i.project_id,credit.id,today,i.service_from,i.service_until,i.service_kind,i.payment_days,i.reference,i.intro,i.footer,'Correctie na '||credit.number,-credit.net_cents,-credit.vat_cents,-credit.total_cents,(select jsonb_agg(value||jsonb_build_object('net_cents',(-(value->>'net_cents')::bigint)::text,'vat_cents',(-(value->>'vat_cents')::bigint)::text)) from jsonb_array_elements(credit.tax_groups))) returning * into replacement;
      insert into public.sp_invoice_lines(owner_id,invoice_id,position,description,quantity_milli,unit,unit_price_cents,vat_code,tax_treatment,vat_rate,service_from,service_until,net_cents,line_vat_cents)
      select own,replacement.id,position,description,quantity_milli,unit,unit_price_cents,vat_code,tax_treatment,vat_rate,service_from,service_until,-net_cents,-line_vat_cents from public.sp_invoice_lines where invoice_id=credit.id and active;
+     replacement:=private.sp_bill_recalculate(replacement.id,own);
     end if;
    elsif p_operation='payment.record' then
     if i.kind<>'invoice' or i.status in ('concept','vervallen') or p->>'amount_cents' !~ '^[1-9][0-9]{0,13}$' or (p->>'amount_cents')::numeric>10000000000000 or private.sp_bill_date(p->>'received_on')>today then raise exception 'Ontvangst vereist een gewone definitieve factuur, geldige datum en positief bedrag';end if;
@@ -461,6 +474,7 @@ declare own uuid:=private.sp_owner();ids uuid[];last_id uuid;answer jsonb;begin
  select array_agg(id order by id) into ids from (select id from public.sp_invoices where owner_id=own and (p_id is null or id=p_id) and (p_after is null or id>p_after) order by id limit p_limit) x;
  last_id:=ids[array_length(ids,1)];
  return jsonb_build_object('settings',(select to_jsonb(s) from public.sp_billing_settings s where owner_id=own),
+ 'predicted_number',(select coalesce((select data->>'prefix' from public.sp_billing_settings where owner_id=own),'F')||to_char(now() at time zone 'Europe/Amsterdam','YYYY')||'-'||lpad(seq::text,greatest(4,length(seq::text)),'0') from(select coalesce(max(sequence_value),0)+1 seq from public.sp_invoices where owner_id=own and sequence_year=extract(year from now() at time zone 'Europe/Amsterdam')::integer) n),
  'customers',coalesce((select jsonb_agg(to_jsonb(c) order by c.data->>'name',id) from public.sp_customers c where owner_id=own),'[]'),
  'projects',coalesce((select jsonb_agg(jsonb_build_object('id',id,'title',title)) from public.sp_items where owner_id=own and workspace='setpiece' and kind='project'),'[]'),
  'invoices',coalesce((select jsonb_agg(private.sp_bill_invoice_json(i) order by id) from public.sp_invoices i where owner_id=own and id=any(ids)),'[]'),

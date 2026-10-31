@@ -110,7 +110,6 @@ export function formatEuro(value: string): string {
   if (!/^-?(0|[1-9]\d*)$/.test(value)) throw new Error("Ongeldig centbedrag.");
   const n = BigInt(value),
     a = n < 0n ? -n : n;
-  if (a > MAX_CENTS) throw new Error("Bedrag buiten veilig bereik.");
   const parts = new Intl.NumberFormat("nl-NL", {
     style: "currency",
     currency: "EUR",
@@ -132,7 +131,7 @@ export function parseEmails(value: string | string[]): string[] {
   return [
     ...new Set(
       raw.map((s) => {
-        if (/[\r\n]/.test(s)) throw new Error("Ongeldig e-mailadres.");
+        if (/[{}\r\n]/.test(s)) throw new Error("Ongeldig e-mailadres.");
         const email = s.trim().toLowerCase();
         if (
           email.length > 254 ||
@@ -344,4 +343,36 @@ export function amsterdamDateTime(date = new Date()): string {
   })
     .format(date)
     .replace(" ", "T");
+}
+
+export function assertSavedVersion(
+  receiptVersion: unknown,
+  currentVersion: unknown,
+): void {
+  if (
+    typeof receiptVersion !== "number" ||
+    !Number.isInteger(receiptVersion) ||
+    receiptVersion !== currentVersion
+  )
+    throw new Error(
+      "Dit concept is intussen gewijzigd. Je invoer blijft staan. Open de actuele versie en vergelijk voordat je opnieuw opslaat of definitief maakt.",
+    );
+}
+
+export function documentLabel(invoice: {
+  status: string;
+  kind: string;
+  pdf_hash: string | null;
+  credited_cents: string;
+  total_cents: string;
+}): string {
+  if (invoice.status === "definitief")
+    return invoice.pdf_hash ? "Definitief" : "Definitief · PDF ontbreekt";
+  if (
+    invoice.status === "klaar_voor_verzending" &&
+    invoice.kind === "invoice" &&
+    BigInt(invoice.credited_cents) >= BigInt(invoice.total_cents)
+  )
+    return "Verzending gestopt";
+  return DOCUMENT_LABELS[invoice.status] ?? invoice.status;
 }

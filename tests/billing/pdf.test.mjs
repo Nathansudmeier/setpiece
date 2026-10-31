@@ -6,6 +6,8 @@ const pdfModule = await import("../../lib/billing/pdf.ts"),
   schemaModule = await import("../../lib/billing/schema.ts");
 const { renderInvoicePdf } = pdfModule.default ?? pdfModule,
   { frozenSchema } = schemaModule.default ?? schemaModule;
+import { execFileSync } from "node:child_process";
+import { calculate } from "../../lib/billing/model.ts";
 import { connect, setup, final, cmd } from "./helpers.mjs";
 const db = await connect();
 let invoice;
@@ -40,8 +42,23 @@ test("long names, accented characters, 100 lines and credit PDF render", async (
     position: n + 1,
     description:
       `Dienst ${n + 1}: résumé, € en geïsoleerde verificatie. ` +
-      "Een lange omschrijving voor meerdere pagina’s. ".repeat(9),
+      "Een lange omschrijving voor meerdere pagina’s. ".repeat(9) +
+      `Einde_${String(n + 1).padStart(3, "0")}`,
   }));
+  const calc = calculate(
+    f.lines.map((l) => ({
+      quantity: l.quantity,
+      unit_price_cents: l.unit_price_cents,
+      vat_code: l.vat_code,
+      tax_treatment: l.tax_treatment,
+    })),
+  );
+  Object.assign(f.invoice, {
+    net_cents: calc.net_cents,
+    vat_cents: calc.vat_cents,
+    total_cents: calc.total_cents,
+    tax_groups: calc.tax_groups,
+  });
   const bytes = await renderInvoicePdf(
     frozenSchema.parse(f),
     invoice.finalized_at,
@@ -60,4 +77,50 @@ test("long names, accented characters, 100 lines and credit PDF render", async (
   );
   writeFileSync("docs/acceptatie/facturatie/credit.pdf", c);
   assert.ok(c.length > 1000);
+});
+
+test("PDF pages are A4 with repeated headers and actual page numbering", () => {
+  const info = execFileSync(
+    "pdfinfo",
+    ["-f", "1", "-l", "3", "docs/acceptatie/facturatie/meerdere-paginas.pdf"],
+    { encoding: "utf8" },
+  );
+  assert.equal((info.match(/595.28 x 841.89 pts/g) ?? []).length, 3);
+  const normal = execFileSync(
+    "pdftotext",
+    ["-layout", "docs/acceptatie/facturatie/standaard.pdf", "-"],
+    { encoding: "utf8" },
+  );
+  assert.match(normal, /1 \/ 1/);
+  assert.ok(
+    normal.includes(invoice.frozen.lines[0].description),
+    "single-line description must be visible, not clipped by its row",
+  );
+  assert.match(normal, /1 dienst/);
+  assert.match(normal, /21%/);
+  const second = execFileSync(
+    "pdftotext",
+    [
+      "-f",
+      "2",
+      "-l",
+      "2",
+      "-layout",
+      "docs/acceptatie/facturatie/meerdere-paginas.pdf",
+      "-",
+    ],
+    { encoding: "utf8" },
+  );
+  assert.match(second, /Omschrijving/);
+  assert.match(second, /2 \/ \d+/);
+  const all = execFileSync(
+    "pdftotext",
+    ["docs/acceptatie/facturatie/meerdere-paginas.pdf", "-"],
+    { encoding: "utf8" },
+  );
+  for (let n = 1; n <= 100; n++)
+    assert.ok(
+      all.includes(`Einde_${String(n).padStart(3, "0")}`),
+      `line ${n} must include its final text`,
+    );
 });
