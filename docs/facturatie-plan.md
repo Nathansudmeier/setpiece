@@ -13,7 +13,7 @@ Doel: één controleerbare EUR-facturatieflow in de bestaande beheeromgeving, in
 
 Document: concept → definitief → klaar_voor_verzending → verstuurd; concept → vervallen. Credits worden direct definitief met oorspronkelijke snapshots. Betaling/credit/saldo zijn afzonderlijke afleidingen. Saldo kan negatief zijn. Volledige credit sluit open dispatch en taak. Deelcredit alleen na verzending. Correctie maakt resterende credit en nieuw ongenummerd concept atomair.
 
-Geld: bigint-centen, JSON-strings. Aantal schaal 1000, maximaal 1.000.000; prijs maximaal 100.000.000 cent; maximaal 100 regels en 10.000.000.000.000 cent per document. Symmetrisch half van nul af; btw eenmaal per groep. Alleen `nl_standard/nl_21/21` en `nl_reduced/nl_9/9`. Buitenland, nul, vrijstelling en verlegging zijn niet beschikbaar bij finalize. Templates: `{nummer}`, `{klant}`, `{totaal}`, `{vervaldatum}`, `{referentie}`. Onbekende/onopgeloste velden blokkeren finalize.
+Geld: bigint-centen, JSON-strings. Aantal schaal 1000, maximaal 1.000.000; prijs maximaal 10.000.000.000.000 cent; maximaal 100 regels en 10.000.000.000.000 cent per document. Symmetrisch half van nul af; btw eenmaal per groep. Alleen `nl_standard/nl_21/21` en `nl_reduced/nl_9/9`. Buitenland, nul, vrijstelling en verlegging zijn niet beschikbaar bij finalize. Templates: `{nummer}`, `{klant}`, `{totaal}`, `{vervaldatum}`, `{referentie}`. Onbekende/onopgeloste velden blokkeren finalize.
 
 Snapshots bevatten verkoper, afnemer, bank, regels, datums, betaaltermijn, totalen, originele creditverwijzing, documentversie en verzendseed. Alleen deze gegevens renderen de PDF. Nummerreeks vast `sales`, teller per jaar; wijzigbare prefix wijzigt de telleridentiteit niet. Minimaal vier cijfers.
 
@@ -53,3 +53,5 @@ Her-render na voorbereid maar ontbrekend object; cumulatieve btw-cent na meerder
 ## Besluiten tijdens uitvoering
 
 De opdracht is de ontwerpautorisatie. Uitvoering in deze chat met test-first businesslogica; geen nieuwe architectuurkeuze aan Nathan voorleggen zolang zijn specificatie die bepaalt.
+
+Rekenbesluit: prijs en documentgrens zijn beide 10^13 cent. Daarmee zijn resterende credits/correcties ook bij grote aantallen exact als een bedrag met aantal 1 uit te drukken. SQL gebruikt numeric voor de tussenproducten en controleert vóór conversie naar bigint.

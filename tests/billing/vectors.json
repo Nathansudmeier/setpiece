@@ -1,0 +1,8 @@
+[
+ {"name":"Nes Ammim scenario", "lines":[{"quantity":"1","unit_price_cents":"196950","vat_code":"nl_21","tax_treatment":"nl_standard"}],"net_cents":"196950","vat_cents":"41360","total_cents":"238310"},
+ {"name":"maand", "lines":[{"quantity":"1","unit_price_cents":"75000","vat_code":"nl_21","tax_treatment":"nl_standard"}],"net_cents":"75000","vat_cents":"15750","total_cents":"90750"},
+ {"name":"anderhalf", "lines":[{"quantity":"1.5","unit_price_cents":"12345","vat_code":"nl_21","tax_treatment":"nl_standard"}],"net_cents":"18518","vat_cents":"3889","total_cents":"22407"},
+ {"name":"groepsafronding", "lines":[{"quantity":"1","unit_price_cents":"2","vat_code":"nl_21","tax_treatment":"nl_standard"},{"quantity":"1","unit_price_cents":"2","vat_code":"nl_21","tax_treatment":"nl_standard"}],"net_cents":"4","vat_cents":"1","total_cents":"5"},
+ {"name":"gemengd", "lines":[{"quantity":"2","unit_price_cents":"100","vat_code":"nl_21","tax_treatment":"nl_standard"},{"quantity":"3","unit_price_cents":"100","vat_code":"nl_9","tax_treatment":"nl_reduced"}],"net_cents":"500","vat_cents":"69","total_cents":"569"},
+ {"name":"nul", "lines":[{"quantity":"0","unit_price_cents":"0","vat_code":"nl_21","tax_treatment":"nl_standard"}],"net_cents":"0","vat_cents":"0","total_cents":"0"}
+]
