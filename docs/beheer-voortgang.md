@@ -1,5 +1,9 @@
 # Setpiece beheer — voortgang
 
+## Finance live, 1 november 2026
+
+Op Nathans vervolginstructie is fase 1 aan de bestaande Setpiece-database en app toegevoegd, zonder nieuw abonnement/project. PR #6 gemerged; productie `a5b671f`, Vercel `dpl_FCFUwcwCvmzNMziS9ee4wViDPVV8` READY. De ingelogde lijst, instellingen, klanten, editor en lege archiefexport zijn gecontroleerd; nul financiële records aangemaakt. Zie [productieverslag](facturatie-productie.md) voor migratie, rechten en verdere acceptatiegrenzen. De eerdere lokale en kostenbesluiten hieronder zijn historie.
+
 ## Facturatie, 31 oktober 2026
 
 Fase 1 is lokaal gebouwd in een aparte werkboom op `codex/facturatie`, met geïsoleerde Docker-Supabase en synthetische browseracceptatie. Geen push, PR, productiemigratie, deployment of echte Gmail-actie. Het actuele verslag en de grenzen staan in [facturatie.md](facturatie.md); de onderstaande historie betreft het bestaande beheer en is geen productieclaim over facturatie.

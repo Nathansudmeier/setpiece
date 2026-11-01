@@ -1,6 +1,6 @@
 # Facturatie in Setpiece-beheer — fase 1
 
-Actuele stand op 1 november 2026: op Nathans vervolginstructie is de geteste facturatiemigratie toegepast op de bestaande Setpiece-database, inclusief private opslag en geverifieerde rechten. De appuitrol volgt in deze run. Er is geen nieuw abonnement of extra project aangemaakt. Zie [productie-uitrol](facturatie-productie.md). De onderstaande lokale acceptatie en eerdere kostenkeuze blijven als historie behouden.
+Actuele stand op 1 november 2026: op Nathans vervolginstructie is de geteste facturatiemigratie toegepast op de bestaande Setpiece-database, inclusief private opslag en geverifieerde rechten. De bestaande app is bijgewerkt en de schermen zijn met een echte eigenaarsessie gecontroleerd op https://www.setpiece.nl/beheer/facturen. Er is geen nieuw abonnement of extra project aangemaakt. Zie [productie-uitrol](facturatie-productie.md). De onderstaande lokale acceptatie en eerdere kostenkeuze blijven als historie behouden.
 
 Status op 31 oktober 2026: lokaal geïmplementeerd en in geïsoleerde Supabase/browser getest. Geen push, PR, productiemigratie of deployment uitgevoerd. De werkelijke Gmail-keten en externe acceptatie staan apart open.
 
@@ -96,8 +96,8 @@ Taste `inspect --app` is uitgevoerd op een zelfvoorzienende, geladen DOM-snapsho
 
 De PDF-visuele controle vond een door de renderer afgeronde rijhoogte waardoor een complete tekstregel wegviel. De vaste rijhoogte heeft nu baseline-ruimte. Tests controleren zichtbare omschrijving/aantal/tarief op de standaardfactuur én de laatste tekstmarker van alle 100 lange regels. De stresstest telt **41 A4-pagina's**; standaard, credit en vervolgpagina zijn visueel geopend. Alleen bytes in deze vastgelegde lokale runtime zijn op gelijke rendering getest; opgeslagen archiefbytes blijven de autoriteit.
 
-Gecontroleerde migratie: `20261031134510_setpiece_billing.sql`, SHA-256 `5003a9bdddb98bc18ffa962d715eab4b8b52b96563fd23d03c5deafe5eeb7b3c`. Alleen deze nieuwe migratie verschilt van de basis; historische migraties zijn ongewijzigd. Productie-uitvoerstatus: **niet toegepast**. De lokale app en teststack zijn na verificatie gestopt, met testvolumes behouden. De bestaande andere Docker-app is ongemoeid gelaten.
+Gecontroleerde migratie: `20261031134510_setpiece_billing.sql`, SHA-256 `5003a9bdddb98bc18ffa962d715eab4b8b52b96563fd23d03c5deafe5eeb7b3c`. Alleen deze nieuwe migratie verschilt van de basis; historische migraties zijn ongewijzigd. Dit was de lokale status op 31 oktober. Op 1 november is dezelfde inhoud toegepast als `20261101131406_setpiece_billing.sql`; zie het productieverslag. De lokale app en teststack zijn na verificatie gestopt, met testvolumes behouden. De bestaande andere Docker-app is ongemoeid gelaten.
 
-## Nog goed te keuren vervolgstap
+## Actuele vervolgstap
 
-Review de lokale commits en deze resultaten. Eerst een expliciet geïsoleerde cloud-database/storage en previewconfiguratie inrichten; verifieer dat automatisch gemaakte previews geen gedeelde productieomgeving gebruiken. Daarna pas push van `codex/facturatie` en een PR, zonder merge. Dat is de concrete volgende fase waarvoor akkoord nodig is. Productiemigratie/deploy volgt pas na aparte previewacceptatie en apart productieakkoord. De Gmail-ketentest heeft nog een eigen akkoord plus bevestigd testadres nodig. Lokale appacceptatie, Jarvis-beschikbaarheid, Gmail-keten en live productie zijn afzonderlijke resultaten.
+De module staat sinds 1 november 2026 in de bestaande Setpiece-database en app. Deze latere opdracht verving de eerder gestopte cloudpreviewroute. Voor het eerste echte gebruik moeten de bevestigde bedrijfsgegevens, bankgegevens, mailtekst en klantgegevens worden ingevuld. De Gmail-ketentest blijft afzonderlijk akkoord plus een bevestigd testadres vragen. Bankimport, abonnementen en btw-kwartaalrapportage blijven latere fasen. Zie [productie-uitrol](facturatie-productie.md) voor de daadwerkelijk uitgevoerde acceptatie en grenzen.
