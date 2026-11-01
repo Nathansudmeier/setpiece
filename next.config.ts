@@ -18,6 +18,8 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  logging: {serverFunctions: false},
+  outputFileTracingIncludes: {"/*": ["./lib/billing/assets/**/*"]},
   images: {
     formats: ["image/avif", "image/webp"],
   },
@@ -34,6 +36,14 @@ const nextConfig: NextConfig = {
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
         ],
+      },
+      {
+        source: "/api/factuur-pdf",
+        headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
+      },
+      {
+        source: "/beheer/facturen/:path*",
+        headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
       },
     ];
   },

@@ -1,0 +1,250 @@
+import { z } from "zod";
+const cents = z.string().regex(/^-?(0|[1-9]\d{0,13})$/);
+const id = z.string().uuid();
+export const customerData = z.object({
+  name: z.string(),
+  street: z.string(),
+  postal_code: z.string(),
+  city: z.string(),
+  country: z.string(),
+  vat_id: z.string(),
+  kvk: z.string(),
+  recipients: z.array(z.string()),
+  cc: z.array(z.string()),
+  payment_days: z.number().int(),
+  tax_confirmed: z.boolean(),
+});
+export const settingsData = z.object({
+  name: z.string(),
+  street: z.string(),
+  postal_code: z.string(),
+  city: z.string(),
+  country: z.string(),
+  vat_id: z.string(),
+  kvk: z.string(),
+  iban: z.string(),
+  account_holder: z.string(),
+  payment_days: z.number().int(),
+  prefix: z.string(),
+  mail_subject: z.string(),
+  mail_body: z.string(),
+});
+const versioned = {
+  version: z.number().int(),
+  created_at: z.string(),
+  updated_at: z.string(),
+};
+export const settingsSchema = z.object({
+  owner_id: id,
+  data: settingsData,
+  ...versioned,
+});
+export const customerSchema = z.object({
+  id,
+  owner_id: id,
+  person_id: id.nullable(),
+  project_id: id.nullable(),
+  data: customerData,
+  active: z.boolean(),
+  ...versioned,
+});
+export const groupSchema = z.object({
+  vat_code: z.string(),
+  tax_treatment: z.string(),
+  rate: z.number().int(),
+  net_cents: cents,
+  vat_cents: cents,
+});
+export const lineSchema = z.object({
+  id,
+  invoice_id: id,
+  owner_id: id,
+  position: z.number().int(),
+  active: z.boolean(),
+  description: z.string(),
+  quantity: z.string(),
+  quantity_milli: cents,
+  unit: z.string(),
+  unit_price_cents: cents,
+  vat_code: z.string(),
+  tax_treatment: z.string(),
+  vat_rate: z.number().int(),
+  service_from: z.string().nullable(),
+  service_until: z.string().nullable(),
+  net_cents: cents,
+  line_vat_cents: cents,
+  original_line_id: id.nullable(),
+  ...versioned,
+});
+const docFields = {
+  id,
+  kind: z.enum(["invoice", "credit"]),
+  number: z.string().nullable(),
+  invoice_on: z.string().nullable(),
+  due_on: z.string().nullable(),
+  service_from: z.string().nullable(),
+  service_until: z.string().nullable(),
+  service_kind: z.enum(["service", "advance"]),
+  payment_days: z.number().int(),
+  reference: z.string(),
+  intro: z.string(),
+  footer: z.string(),
+  net_cents: cents,
+  vat_cents: cents,
+  total_cents: cents,
+  tax_groups: z.array(groupSchema),
+};
+export const frozenSchema = z.object({
+  seller: settingsData,
+  customer: customerData,
+  invoice: z.object(docFields),
+  original: z
+    .object({ id, number: z.string(), invoice_on: z.string() })
+    .nullable(),
+  lines: z.array(lineSchema),
+  template_version: z.literal("setpiece-invoice-v1"),
+});
+export const seedSchema = z.object({
+  dispatch_id: id.optional(),
+  recipients: z.array(z.string()),
+  cc: z.array(z.string()),
+  subject: z.string(),
+  body: z.string(),
+  sender: z.string(),
+  attachment_name: z.string(),
+});
+export const invoiceSchema = z.object({
+  ...docFields,
+  owner_id: id,
+  customer_id: id.nullable(),
+  project_id: id.nullable(),
+  original_id: id.nullable(),
+  correction_of: id.nullable(),
+  status: z.enum([
+    "concept",
+    "definitief",
+    "klaar_voor_verzending",
+    "verstuurd",
+    "vervallen",
+  ]),
+  notes: z.string(),
+  frozen: frozenSchema.nullable(),
+  dispatch_seed: seedSchema.nullable(),
+  template_version: z.string().nullable(),
+  finalized_at: z.string().nullable(),
+  retain_until: z.string().nullable(),
+  sequence_year: z.number().nullable(),
+  sequence_value: cents.nullable(),
+  pdf_path: z.string().nullable(),
+  pdf_hash: z.string().nullable(),
+  pdf_bytes: z.number().nullable(),
+  pdf_prepared_hash: z.string().nullable(),
+  pdf_prepared_bytes: z.number().nullable(),
+  credited_cents: cents,
+  received_cents: cents,
+  ...versioned,
+});
+export const dispatchSchema = z.object({
+  id,
+  owner_id: id,
+  invoice_id: id,
+  kind: z.string(),
+  recipients: z.array(z.string()),
+  cc: z.array(z.string()),
+  subject: z.string(),
+  body: z.string(),
+  sender: z.string(),
+  attachment_name: z.string(),
+  status: z.enum([
+    "wacht_op_concept",
+    "concept_klaar",
+    "verstuurd",
+    "geannuleerd",
+  ]),
+  gmail_draft_id: z.string().nullable(),
+  gmail_message_id: z.string().nullable(),
+  gmail_thread_id: z.string().nullable(),
+  sent_at: z.string().nullable(),
+  sent_via: z.string().nullable(),
+  sent_note: z.string().nullable(),
+  cancel_reason: z.string().nullable(),
+  cancelled_at: z.string().nullable(),
+  cancel_ack_at: z.string().nullable(),
+  task_id: id.nullable(),
+  ...versioned,
+});
+export const paymentSchema = z.object({
+  id,
+  owner_id: id,
+  invoice_id: id,
+  received_on: z.string(),
+  amount_cents: cents,
+  method: z.string(),
+  note: z.string(),
+  status: z.enum(["valid", "reversed"]),
+  reversed_reason: z.string().nullable(),
+  reversed_at: z.string().nullable(),
+  reversed_by: z.string().nullable(),
+  actor: z.string(),
+  ...versioned,
+});
+export const auditSchema = z.object({
+  id: cents,
+  invoice_id: id.nullable(),
+  dispatch_id: id.nullable(),
+  payment_id: id.nullable(),
+  action: z.string(),
+  actor: z.string(),
+  summary: z.string(),
+  created_at: z.string(),
+});
+export const readSchema = z.object({
+  predicted_number: z.string(),
+  settings: settingsSchema.nullable(),
+  customers: z.array(customerSchema),
+  projects: z.array(z.object({ id, title: z.string() })),
+  invoices: z.array(invoiceSchema),
+  lines: z.array(lineSchema),
+  payments: z.array(paymentSchema),
+  dispatches: z.array(dispatchSchema),
+  audit: z.array(auditSchema),
+  related: z.array(invoiceSchema),
+  cursor: id.nullable(),
+  has_more: z.boolean(),
+});
+export type Invoice = z.infer<typeof invoiceSchema>;
+export type Customer = z.infer<typeof customerSchema>;
+export type Settings = z.infer<typeof settingsSchema>;
+export type BillingData = z.infer<typeof readSchema>;
+export type Frozen = z.infer<typeof frozenSchema>;
+export type Line = z.infer<typeof lineSchema>;
+export type Dispatch = z.infer<typeof dispatchSchema>;
+export type Payment = z.infer<typeof paymentSchema>;
+export const DEFAULT_SETTINGS: z.infer<typeof settingsData> = {
+  name: "",
+  street: "",
+  postal_code: "",
+  city: "",
+  country: "NL",
+  vat_id: "",
+  kvk: "",
+  iban: "",
+  account_holder: "",
+  payment_days: 14,
+  prefix: "F",
+  mail_subject: "",
+  mail_body: "",
+};
+export const DEFAULT_CUSTOMER: z.infer<typeof customerData> = {
+  name: "",
+  street: "",
+  postal_code: "",
+  city: "",
+  country: "",
+  vat_id: "",
+  kvk: "",
+  recipients: [],
+  cc: [],
+  payment_days: 14,
+  tax_confirmed: false,
+};

@@ -1,0 +1,42 @@
+{
+  "tool": "design-taste-frontend inspect --app",
+  "widths": [
+    1440,
+    1024,
+    768,
+    390
+  ],
+  "scope": "Self-contained read-only snapshot of the loaded synthetic authenticated list; functional checks use the live browser separately.",
+  "fail": 0,
+  "warn": 2,
+  "findings": [
+    {
+      "level": "WARN",
+      "id": "palette-cream",
+      "width": 1440,
+      "message": "Yellow-cream background (page background #f5f2ec).",
+      "fix": "Use the drawn palette. If you want warmth, take a low-chroma stone or bone, not a yellow cream.",
+      "alsoAt": [
+        1024,
+        768,
+        390
+      ]
+    },
+    {
+      "level": "WARN",
+      "id": "app-title-size",
+      "width": 1440,
+      "message": "The h1 is 37px (\"Facturen\").",
+      "fix": "An app screen is not a landing page: the title is 18-32px (20-24px on a phone).",
+      "alsoAt": [
+        1024,
+        768,
+        390
+      ]
+    }
+  ],
+  "decisions": {
+    "palette-cream": "Pinned Werkspoor Paper #f5f2ec; preserve explicit user/repo palette.",
+    "app-title-size": "Existing Werkspoor type scale retained; no independent redesign of beheer."
+  }
+}
