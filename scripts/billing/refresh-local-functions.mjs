@@ -6,7 +6,7 @@ const db = new pg.Client({
 });
 await db.connect();
 const source = readFileSync(
-  "supabase/migrations/20261031134510_setpiece_billing.sql",
+  "supabase/migrations/20261101131406_setpiece_billing.sql",
   "utf8",
 );
 const functions = [

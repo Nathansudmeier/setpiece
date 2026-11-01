@@ -1,5 +1,7 @@
 # Facturatie in Setpiece-beheer — fase 1
 
+Actuele stand op 1 november 2026: op Nathans vervolginstructie is de geteste facturatiemigratie toegepast op de bestaande Setpiece-database, inclusief private opslag en geverifieerde rechten. De appuitrol volgt in deze run. Er is geen nieuw abonnement of extra project aangemaakt. Zie [productie-uitrol](facturatie-productie.md). De onderstaande lokale acceptatie en eerdere kostenkeuze blijven als historie behouden.
+
 Status op 31 oktober 2026: lokaal geïmplementeerd en in geïsoleerde Supabase/browser getest. Geen push, PR, productiemigratie of deployment uitgevoerd. De werkelijke Gmail-keten en externe acceptatie staan apart open.
 
 Vervolg op 1 november 2026: Nathan gaf akkoord voor een geïsoleerde cloudpreview en daarna push/PR. Supabase weigert branches op het huidige Free-plan en weigert een derde gratis project: Setpiece en Nankaro bezetten de twee beschikbare plaatsen. Nathan koos daarop expliciet **geen nieuwe abonnementskosten; voorlopig lokaal houden**. Daarom zijn geen cloudomgeving, push of PR aangemaakt. De lokale implementatie en testresultaten blijven het opleverresultaat. Zie [previewonderzoek](facturatie-preview.md).
@@ -16,7 +18,7 @@ Er is geen facturatiemailkoppeling. De app maakt een SQL-outbox en werkactie; Ja
 
 Basis `origin/main` **0ef4dd1**, geverifieerde opvolger van opgegeven `codex/setpiece-beheer` **6f0537d**. Daarmee blijven latere rechtenmigraties, formulierherstel en Next **16.4.3** / React **19.3.1** behouden. Supabase SSR **0.12.0**, JS **2.110.0**. Branch `codex/facturatie`, aparte werkboom `Documents/ChatGPT/Setpiece/app`; oorspronkelijke checkout behouden.
 
-Lokale commits en definitieve controles staan hieronder. Hoofdbestanden: `supabase/migrations/20261031134510_setpiece_billing.sql`, `lib/billing/`, `components/beheer/billing/`, facturatieroutes onder `app/beheer/`, tokenroute `app/api/factuur-pdf/`, uitbreiding `app/styles/beheer.css` en navigatie, tests/scripts en deze documentatie. Bestaande workspace/CMS-commandfuncties blijven via delegatie intact.
+Lokale commits en definitieve controles staan hieronder. Hoofdbestanden: `supabase/migrations/20261101131406_setpiece_billing.sql`, `lib/billing/`, `components/beheer/billing/`, facturatieroutes onder `app/beheer/`, tokenroute `app/api/factuur-pdf/`, uitbreiding `app/styles/beheer.css` en navigatie, tests/scripts en deze documentatie. Bestaande workspace/CMS-commandfuncties blijven via delegatie intact.
 
 Lokale commits: `96363a5` plan/scope, `3597318` transactiemodel/migratie, `bb6c378` schermen/PDF/outbox en `d128aca` reviewcorrecties, herstel- en toegankelijkheidsverificatie. Het afsluitende documentatiecommit bevat dit verslag en de definitieve acceptatieartefacten. Er is geen remote upstream ingesteld voor `codex/facturatie`; niets gepusht.
 
