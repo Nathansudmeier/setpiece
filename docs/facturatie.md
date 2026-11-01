@@ -2,6 +2,8 @@
 
 Status op 31 oktober 2026: lokaal geïmplementeerd en in geïsoleerde Supabase/browser getest. Geen push, PR, productiemigratie of deployment uitgevoerd. De werkelijke Gmail-keten en externe acceptatie staan apart open.
 
+Vervolg op 1 november 2026: Nathan gaf akkoord voor een geïsoleerde cloudpreview en daarna push/PR. Supabase weigert branches op het huidige Free-plan en weigert een derde gratis project: Setpiece en Nankaro bezetten de twee beschikbare plaatsen. Nathan koos daarop expliciet **geen nieuwe abonnementskosten; voorlopig lokaal houden**. Daarom zijn geen cloudomgeving, push of PR aangemaakt. De lokale implementatie en testresultaten blijven het opleverresultaat. Zie [previewonderzoek](facturatie-preview.md).
+
 ## Wat is gebouwd
 
 Binnen `/beheer/facturen`: facturenlijst met URL-filters en gelijk gefilterde totalen, klanten met bestaande PersonPicker, sectiegewijze bedrijfsinstellingen, onvolledige concepten, stabiele/historische regels, expliciete definitiefbevestiging, bevroren document/mail, herstelbare private PDF-opslag, concept-PDF zonder archief, volledige/deelcredits, atomaire correctie plus nieuw concept, handmatige ontvangsten/terugdraaien, klanttegoed, handmatige verzendregistratie, annuleren/opnieuw klaarzetten en begrensde ZIP-export met hashmanifest.
