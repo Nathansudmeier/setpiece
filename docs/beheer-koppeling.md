@@ -1,8 +1,8 @@
 # Setpiece beheer — technische koppeling en herstel
 
-## Facturatie: lokale fase 1, 31 oktober 2026
+## Facturatie: bestaande database en app, 1 november 2026
 
-De facturatie-uitbreiding is lokaal gebouwd op `codex/facturatie`. Deze is nog niet naar productie gemigreerd of gedeployed. [Facturatie](facturatie.md) bevat de migratie, geïsoleerde testomgeving, rechten, private PDF-opslag, herstelroutes en resultaten. [Jarvis-instructie](jarvis-instructie.md) beschrijft de outbox, afzonderlijke PDF-Authorization-header, annuleren en werkelijk verzendbewijs. De bestaande werk-/CMS-koppeling blijft via `sp_command` beschikbaar; billing gebruikt server-side storage voor zijn private bucket. De werkelijke Gmail-ketentest staat apart open.
+De facturatie-uitbreiding is via PR #6 opgenomen in main en uitgerold op de bestaande Setpiece-app. Migratie `20261101131406_setpiece_billing` is op de bestaande database toegepast; private bucket `facturen` en rechten zijn gecontroleerd. [Productieverslag](facturatie-productie.md) beschrijft de werkelijke uitrol en acceptatie. [Facturatie](facturatie.md) bevat de migratie, geïsoleerde testomgeving, rechten, private PDF-opslag, herstelroutes en resultaten. [Jarvis-instructie](jarvis-instructie.md) beschrijft de outbox, afzonderlijke PDF-Authorization-header, annuleren en werkelijk verzendbewijs. De bestaande werk-/CMS-koppeling blijft via `sp_command` beschikbaar; billing gebruikt server-side storage voor zijn private bucket. De werkelijke Gmail-ketentest staat apart open.
 
 ## Omgeving en contract
 

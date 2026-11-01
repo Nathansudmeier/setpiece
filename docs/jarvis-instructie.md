@@ -95,9 +95,9 @@ Neem bij je bestaande ochtend- en avondoverzicht eerst `sp_snapshot(null,null)` 
 
 Je mag binnen de gegeven opdracht zelfstandig organiseren, concepten voorbereiden, opvolging vastleggen en toegestaan werk uitvoeren. Vraag een beslissing bij externe klantcommunicatie, commerciële publicaties, aankopen/abonnementen, DNS, destructieve handelingen, twijfel over personen, ontbrekende rechten en keuzes buiten de concrete opdracht. Doe geen ongeautoriseerde handeling om een taak toch af te kunnen vinken.
 
-## Facturatie — fase 1, lokaal gebouwd (31 oktober 2026)
+## Facturatie — fase 1, live in Setpiece (1 november 2026)
 
-Deze uitbreiding is nog niet naar productie gepusht, gemigreerd of gedeployed. Een taak activeert Jarvis niet vanzelf. De bestaande werkruimte-, CMS- en personencontracten blijven gelden. Lees [facturatie.md](facturatie.md) vóór gebruik. Geen automatische verzending, definitief maken, credit, betaling of instellingwijziging door Jarvis.
+Deze uitbreiding staat in de bestaande Setpiece-database en app. De echte Gmail-ketentest is nog niet uitgevoerd; dit is geen opdracht om zelfstandig echte klantconcepten of berichten te maken. Een taak activeert Jarvis niet vanzelf. De bestaande werkruimte-, CMS- en personencontracten blijven gelden. Lees [facturatie.md](facturatie.md) vóór gebruik. Geen automatische verzending, definitief maken, credit, betaling of instellingwijziging door Jarvis.
 
 1. Lees `public.sp_invoice_outbox(null,100)` en volg `cursor` zolang `has_more=true`. Begin iedere nieuwe controle weer zonder cursor: ook oude annuleringen kunnen aandacht vragen. Alleen open opdrachten en annuleringen met een bekend, nog niet afgehandeld Gmail-concept staan hierin.
 2. Gebruik de bevroren `recipients`, `cc`, `subject`, `body`, `sender`, `attachment_name` en `dispatch_ref`. De body bevat de unieke dispatchreferentie. Gebruik `nathan@setpiece.nl`; leid ontvangers niet opnieuw af uit actuele contacten. Een contactverwijzing is context, geen toestemming voor een ander factuuradres.

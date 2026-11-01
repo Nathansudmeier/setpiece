@@ -1,5 +1,7 @@
 # Cloudpreviewonderzoek — 1 november 2026
 
+Historisch kostenonderzoek. Nathan koos later op dezelfde dag voor uitbreiding van de bestaande Setpiece-database en backend. Die uitrol is uitgevoerd zonder extra abonnement of project; zie [productie-uitrol](facturatie-productie.md). De eerdere blokkade hieronder blijft als historie behouden.
+
 ## Besluit
 
 Nathan gaf akkoord voor de vervolgstap: eerst een geïsoleerde cloudpreview, daarna de branch pushen en een PR openen. Nadat bleek dat daarvoor een nieuwe abonnementskost nodig was, koos hij expliciet: **“Geen nieuwe abonnementskosten; voorlopig lokaal houden.”**

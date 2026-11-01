@@ -30,7 +30,22 @@ Security-advisors: dezelfde drie bestaande waarschuwingen over de bewust publiek
 
 De lokale releasecontrole op 1 november 2026: `npm run verify` (lint, 34 tests, productiebuild) en `npm run typecheck` geslaagd. De eerdere geïsoleerde 44 SQL- en 9 PDF/hersteltests blijven in [facturatie.md](facturatie.md) beschreven. De financiële mutatietests worden niet opnieuw op productie uitgevoerd, ook niet in rollback.
 
-Push/PR, deployment-ID, commit en werkelijke appacceptatie worden na uitvoering hieronder geregistreerd. Een geslaagde database-installatie is nog geen bewijs dat de nieuwe beheerschermen live staan.
+Uitgerold via [PR #6](https://github.com/Nathansudmeier/setpiece/pull/6), CI `verify` en Vercel-build geslaagd. PR gemerged als **a5b671f9036bd2ac244f5530b719a9fefc789dee**. Vercel-productiedeployment **dpl_FCFUwcwCvmzNMziS9ee4wViDPVV8**, READY, toegewezen aan `www.setpiece.nl`. De previewbuild was een gewone build op de bestaande configuratie; geen geïsoleerde cloudpreviewacceptatie geclaimd.
+
+Live gecontroleerd met de bestaande echte Chrome-eigenaarsessie:
+
+- Bestaand Vandaag-scherm bleef bruikbaar na de databasemigratie en kreeg na deployment de nieuwe navigatielink Facturen.
+- Facturenlijst geladen met nul documenten en beginactie voor bedrijfsgegevens.
+- Instellingen met afzonderlijke secties, klanten met de bestaande project-/personenkeuze en de nieuwe factuureditor geladen. Niets opgeslagen; ontbrekende echte gegevens blijven leeg.
+- Beveiligde archiefexport gedownload en als ZIP geopend; leeg manifest met nul documenten bevestigd.
+- Productievariabelen `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_SUPABASE_URL` en `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` zijn in de Vercel-interface op aanwezigheid en environment-scope gecontroleerd. Geen waarde onthuld of gewijzigd. Dit bevestigt configuratie-aanwezigheid, geen afzonderlijke live PDF-uploadtest.
+- Anonieme verzoeken naar lijst, klanten, instellingen en export worden naar login gestuurd. GET/HEAD zonder token op de PDF-route geven 404 en no-referrer.
+- Alle 18 sitemap-pagina's geven 200 en dezelfde publieke tekst als vóór de appuitrol; scripts, styles en HTML-markup zijn bij deze tekstvergelijking buiten beschouwing gelaten.
+- Geen error/fatal-resultaten in de opgevraagde runtime-logperiode van deze deployment. Dit is een beperkte controle, geen algemene foutvrijgarantie.
+
+Na deze controles nog steeds nul instellingen, klanten, facturen, betalingen, dispatches, auditregels, PDF-objecten en tellerregels. Geen nummer verbruikt. [Controle-uitkomsten](acceptatie/facturatie/productie-controles.json) en [live screenshot](acceptatie/facturatie/live-lijst.png).
+
+Niet op productie uitgevoerd: een financiële mutatie, definitief maken, volledige PDF-upload/herstelketen, credit/betaling of Gmail-actie. Die logica is geïsoleerd getest; het eerste echte gebruik vereist de bevestigde bedrijfs- en klantgegevens. De Gmail-ketentest vraagt apart akkoord en een bevestigd testadres.
 
 ## Herstel
 
