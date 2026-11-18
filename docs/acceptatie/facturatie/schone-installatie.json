@@ -1,0 +1,12 @@
+{
+  "project": "setpiece-billing-clean-4b828738",
+  "api": "http://127.0.0.1:56321",
+  "database": "127.0.0.1:56322",
+  "new_empty_instance": true,
+  "all_migrations_applied": true,
+  "anonymous_execute": 0,
+  "authenticated_insert": false,
+  "private_bucket": true,
+  "authenticated_read": true,
+  "functions": 28
+}

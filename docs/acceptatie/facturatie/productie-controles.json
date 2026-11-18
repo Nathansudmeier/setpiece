@@ -1,0 +1,45 @@
+{
+  "public_pages": 18,
+  "public_content_changes": [],
+  "anonymous": [
+    {
+      "path": "/beheer/facturen",
+      "status": 307,
+      "location": "/beheer/login"
+    },
+    {
+      "path": "/beheer/facturen/klanten",
+      "status": 307,
+      "location": "/beheer/login"
+    },
+    {
+      "path": "/beheer/facturen/instellingen",
+      "status": 307,
+      "location": "/beheer/login"
+    },
+    {
+      "path": "/beheer/facturen/export",
+      "status": 307,
+      "location": "/beheer/login"
+    },
+    {
+      "path": "/api/factuur-pdf",
+      "method": "GET",
+      "status": 404,
+      "referrer_policy": "no-referrer"
+    },
+    {
+      "path": "/api/factuur-pdf",
+      "method": "HEAD",
+      "status": 404,
+      "referrer_policy": "no-referrer"
+    }
+  ],
+  "authenticated_empty_export": {
+    "files": [
+      "facturen.json",
+      "manifest.json"
+    ],
+    "manifest_documents": 0
+  }
+}

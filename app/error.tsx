@@ -4,10 +4,10 @@ import { useEffect } from "react";
 
 export default function ErrorPage({
   error,
-  unstable_retry,
+  retry,
 }: {
   error: Error & { digest?: string };
-  unstable_retry: () => void;
+  retry: () => void;
 }) {
   useEffect(() => {
     console.error(error);
@@ -19,7 +19,7 @@ export default function ErrorPage({
         <p className="ws-context">Er ging iets mis</p>
         <h1>Het werkspoor stokte even.</h1>
         <p>Probeer de pagina opnieuw. Blijft dit gebeuren, mail dan naar hallo@setpiece.nl.</p>
-        <button className="ws-button" type="button" onClick={unstable_retry}>
+        <button className="ws-button" type="button" onClick={retry}>
           Probeer opnieuw
         </button>
       </div>

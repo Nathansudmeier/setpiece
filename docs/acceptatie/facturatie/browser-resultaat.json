@@ -1,0 +1,22 @@
+{
+  "invoice_id": "dc9650b9-4fa6-4cd0-b432-b1c88c9c2855",
+  "invoice_number": "F2026-0043",
+  "screenshots": [
+    "editor-390.png",
+    "editor-768.png",
+    "editor-1024.png",
+    "editor-1440.png",
+    "detail-390.png",
+    "detail-768.png",
+    "detail-1024.png",
+    "detail-1440.png",
+    "lijst-390.png",
+    "lijst-768.png",
+    "lijst-1024.png",
+    "lijst-1440.png"
+  ],
+  "manifest_documents": 4,
+  "pdf_hash_verified": true,
+  "manual_send": "SIMULATED synthetic evidence; no Gmail action",
+  "page_errors": []
+}

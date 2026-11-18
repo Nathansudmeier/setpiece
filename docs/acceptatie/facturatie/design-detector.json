@@ -1,0 +1,57 @@
+[
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/nathansudmeier/Documents/ChatGPT/Setpiece/app/app/styles/beheer.css",
+    "line": 104,
+    "snippet": "Undocumented color rgba(232, 160, 32, 0.4) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(232, 160, 32, 0.4)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/nathansudmeier/Documents/ChatGPT/Setpiece/app/app/styles/beheer.css",
+    "line": 137,
+    "snippet": "Undocumented color rgba(245, 242, 236, 0.08) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(245, 242, 236, 0.08)"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/nathansudmeier/Documents/ChatGPT/Setpiece/app/app/styles/beheer.css",
+    "line": 138,
+    "snippet": "Undocumented color rgba(245, 242, 236, 0.36) is outside DESIGN.md colors",
+    "ignoreValue": "rgba(245, 242, 236, 0.36)"
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/nathansudmeier/Documents/ChatGPT/Setpiece/app/app/styles/beheer.css",
+    "line": 196,
+    "snippet": "font-size: 0.6875rem is off the DESIGN.md type ramp",
+    "ignoreValue": "0.6875rem"
+  },
+  {
+    "antipattern": "design-system-color",
+    "name": "Color outside DESIGN.md",
+    "description": "A literal color is outside the DESIGN.md palette and sidecar tonal ramps. This may be legitimate, but it should be an intentional design-system addition rather than drift.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "/Users/nathansudmeier/Documents/ChatGPT/Setpiece/app/app/styles/beheer.css",
+    "line": 459,
+    "snippet": "Undocumented color #b3261e is outside DESIGN.md colors",
+    "ignoreValue": "#b3261e"
+  }
+]

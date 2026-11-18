@@ -1,0 +1,83 @@
+{
+  "checks": [
+    "To and Cc errors belong to the correct field and clear as input becomes valid",
+    "field error, error summary focus and recovery",
+    "PT409 keeps local input and focuses recovery",
+    "rapid double submit produces one POST",
+    "lost response plus later edit cannot adopt new version or overwrite",
+    "empty filter has recovery",
+    "keyboard skiplink works",
+    "720 CSS pixel layout (1440 physical pixels at 200 percent) has no page overflow",
+    "HTTP token HEAD, six concurrent GETs, hash, private headers and private bucket",
+    "true first-use empty state with a separate synthetic owner at all four widths"
+  ],
+  "axe_scans": 10,
+  "axe_violations": 0,
+  "axe": [
+    {
+      "route": "/beheer/facturen",
+      "width": 390,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "route": "/beheer/facturen/dcc5f58e-8a84-473a-b17e-488835efc363",
+      "width": 390,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "route": "/beheer/facturen/dc9650b9-4fa6-4cd0-b432-b1c88c9c2855",
+      "width": 390,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "route": "/beheer/facturen/klanten",
+      "width": 390,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "route": "/beheer/facturen/instellingen",
+      "width": 390,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "route": "/beheer/facturen",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "route": "/beheer/facturen/dcc5f58e-8a84-473a-b17e-488835efc363",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "route": "/beheer/facturen/dc9650b9-4fa6-4cd0-b432-b1c88c9c2855",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "route": "/beheer/facturen/klanten",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "route": "/beheer/facturen/instellingen",
+      "width": 1440,
+      "violations": [],
+      "incomplete": []
+    }
+  ],
+  "manual_limit": "No screen-reader session or native browser zoom automation; 720 CSS pixel reflow checked. Axe incomplete checks still require judgment."
+}
