@@ -35,7 +35,24 @@ const nextConfig: NextConfig = {
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
         ],
       },
+      // Nes Ammim-preview: statische export in public/nesammim, niet indexeren.
+      {
+        source: "/nesammim",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/nesammim/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
+  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: "/nesammim", destination: "/nesammim/index.html" },
+        { source: "/nesammim/", destination: "/nesammim/index.html" },
+      ],
+    };
   },
   async redirects() {
     return [

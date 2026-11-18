@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Gebouwde statische export (Nes Ammim-preview), geen eigen broncode.
+    "public/nesammim/**",
   ]),
 ]);
 
